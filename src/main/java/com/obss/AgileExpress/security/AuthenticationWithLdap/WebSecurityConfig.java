@@ -26,6 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         .passwordAttribute("userPassword");
     }
 
+    /*
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -34,6 +35,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .fullyAuthenticated()
                 .and()
                 .formLogin();
+    }
+     */
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .oauth2Login();
     }
 
 

@@ -27,14 +27,28 @@
       <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
     </ul>
+    <div class="social-login">
+      <a class="btn btn-block social-btn google" :href="uri" target="_blank">
+        <img src={googleLogo} alt="Google" /> Log in with Google
+      </a>
+    </div>
   </div>
 </template>
 
 <script>
+//import DOMPurify from 'dompurify';
+
+import {GOOGLE_AUTH_URL} from "@/constants";
+
 export default {
   name: 'HelloWorld',
   props: {
-    msg: String
+    msg: String,
+  },
+  computed: {
+    uri() {
+      return GOOGLE_AUTH_URL
+    }
   }
 }
 </script>
