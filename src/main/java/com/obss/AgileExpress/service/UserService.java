@@ -5,12 +5,16 @@ import com.obss.AgileExpress.enums.UserRoles;
 import com.obss.AgileExpress.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.ldap.search.FilterBasedLdapUserSearch;
+import org.springframework.security.ldap.userdetails.LdapUserDetailsMapper;
+import org.springframework.security.ldap.userdetails.LdapUserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,11 +29,14 @@ import java.util.List;
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final AuthService authService;
+
+
 
     public User saveUser(User user) {
         log.info("Saving new user {} to database",user.getUsername());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(List.of(UserRoles.TeamMember.name(),UserRoles.TeamLeader.name()));
+        user.setRoles(List.of(UserRoles.TeamMember.name()));
         return userRepository.insert(user);
     }
 
@@ -61,6 +68,17 @@ public class UserService implements UserDetailsService {
         user.getRoles().forEach(role -> {
             authorities.add(new SimpleGrantedAuthority(role));
         });
+        authService.create(user.getUsername(),user.getEmail(),user.getPassword());
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
     }
+
+    /*
+    @Bean
+    public LdapUserDetailsService ldapUserDetailsService() {
+        FilterBasedLdapUserSearch userSearch = new FilterBasedLdapUserSearch(ldapSearchBase, ldapSearchFilter, kerberosLdapContextSource());
+        LdapUserDetailsService service = new LdapUserDetailsService(userSearch);
+        service.setUserDetailsMapper(new LdapUserDetailsMapper());
+        return service;
+    }
+    */
 }

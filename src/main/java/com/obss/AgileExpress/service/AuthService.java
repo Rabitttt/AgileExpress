@@ -29,10 +29,10 @@ public class AuthService {
     }
 
     // DEMO
-    public LdapUser getUser(String email) {
+    public LdapUser getUser(String username) {
         //LdapUser requestedUser = ldapUserRepository.findLdapUserByUsername(username) != null ? new LdapUser() : ldapUserRepository.findLdapUserByUsername(username);
         try {
-            LdapUser requestedUser = ldapUserRepository.findLdapUserByEmail(email);
+            LdapUser requestedUser = ldapUserRepository.findLdapUserByUsername(username);
             System.out.println(requestedUser);
             return requestedUser;
         }
