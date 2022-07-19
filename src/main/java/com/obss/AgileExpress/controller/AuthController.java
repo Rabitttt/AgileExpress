@@ -9,14 +9,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/")
 @RequiredArgsConstructor
 public class AuthController {
+
+    @GetMapping("hiGoogle")
+    public Map<String,Object> currentUser(OAuth2AuthenticationToken oAuth2AuthenticationToken) {
+        Map<String,Object>  attr= oAuth2AuthenticationToken.getPrincipal().getAttributes();
+        return attr;
+    }
+
 
     private final AuthService authService;
 

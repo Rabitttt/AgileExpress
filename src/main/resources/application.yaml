@@ -6,11 +6,11 @@ spring:
           google:
             client-id: 948966529463-6ev96fqpnno97ekn4mc3i44f8jl4rr4q.apps.googleusercontent.com
             client-secret: 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
-            redirect-uri: "http://localhost:9000/oauth2/redirect/oauth2/authorize/google"
-            client-name: "AgileExpress Google Client"
-            scope:
-              - email
-              - profile
+            #redirect-uri: http:/localhost:9000/login/oauth2/code/{registrationId}
+            #client-name: "AgileExpress Google Client"
+            #scope:
+            #  - email
+            #  - profile
 
   data:
     mongodb:
