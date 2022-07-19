@@ -43,6 +43,7 @@ cn: Ben Alex
 sn: Alex
 uid: ben
 userPassword: $2a$10$c6bSeWPhg06xB1lvmaWNNe4NROmZiSpYhlocU/98HNr2MhIOiSt36
+mail: burakkaragol60@gmail.com
 
 dn: uid=bob,ou=people,dc=springframework,dc=org
 objectclass: top
@@ -53,6 +54,7 @@ cn: Bob Hamilton
 sn: Hamilton
 uid: bob
 userPassword: bobspassword
+mail: burakkaragol61@gmail.com
 
 dn: uid=joe,ou=otherpeople,dc=springframework,dc=org
 objectclass: top
@@ -63,6 +65,7 @@ cn: Joe Smeth
 sn: Smeth
 uid: joe
 userPassword: joespassword
+mail: burakkaragol62@gmail.com
 
 dn: cn=mouse\, jerry,ou=people,dc=springframework,dc=org
 objectclass: top
@@ -73,6 +76,8 @@ cn: Mouse, Jerry
 sn: Mouse
 uid: jerry
 userPassword: jerryspassword
+mail: burakkaragol63@gmail.com
+
 
 dn: cn=slash/guy,ou=people,dc=springframework,dc=org
 objectclass: top
@@ -83,6 +88,8 @@ cn: slash/guy
 sn: Slash
 uid: slashguy
 userPassword: slashguyspassword
+mail: burakkaragol62@gmail.com
+
 
 dn: cn=quote\"guy,ou=\"quoted people\",dc=springframework,dc=org
 objectclass: top
@@ -93,6 +100,8 @@ cn: quote\"guy
 sn: Quote
 uid: quoteguy
 userPassword: quoteguyspassword
+mail: burakkaragol62@gmail.com
+
 
 dn: uid=space cadet,ou=space cadets,dc=springframework,dc=org
 objectclass: top
@@ -103,6 +112,8 @@ cn: Space Cadet
 sn: Cadet
 uid: space cadet
 userPassword: spacecadetspassword
+mail: burakkaragol62@gmail.com
+
 
 
 
