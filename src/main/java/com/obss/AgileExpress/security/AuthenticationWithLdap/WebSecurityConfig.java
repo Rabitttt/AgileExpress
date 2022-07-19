@@ -1,5 +1,6 @@
 package com.obss.AgileExpress.security.AuthenticationWithLdap;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,7 +12,8 @@ import org.springframework.security.crypto.password.LdapShaPasswordEncoder;
 
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
+    //@Autowired
+    //CustomAuthoritiesPopulator authoritiespopulator;
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
@@ -24,29 +26,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .passwordCompare()
                         .passwordEncoder(new BCryptPasswordEncoder())
                         .passwordAttribute("userPassword");
+                    //    .and()
+                    //.ldapAuthoritiesPopulator(authoritiespopulator);
     }
 
-    /*
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                .anyRequest()
-                .fullyAuthenticated()
-                .and()
-                .formLogin();
-    }
-     */
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
+                .csrf()
+                .disable()
                 .authorizeRequests()
                 .anyRequest()
                 .authenticated()
-                .and()
-                .formLogin()
-                .and()
-                .oauth2Login();
+                    .and()
+                        .formLogin()
+                        //.defaultSuccessUrl("http://localhost:3000", true)
+                    .and()
+                        .oauth2Login();
 
     }
 

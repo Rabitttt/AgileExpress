@@ -23,7 +23,7 @@ public class LdapUser {
 
     private @Attribute(name = "cn") String username;
     private @Attribute(name = "mail") String email;
-    private @Attribute(name = "sn") String password;
+    private @Attribute(name = "userPassword") String password;
 
     // standard getters/setters
 }

@@ -8,6 +8,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.support.LdapUtils;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,11 +23,12 @@ public class AuthService {
     private final LdapUserRepository ldapUserRepository;
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-
+    //DEMO
     public Boolean authenticate(String e, String p) {
         return ldapUserRepository.findLdapUserByEmailAndPassword(e, p) != null;
     }
 
+    // DEMO
     public LdapUser getUser(String email) {
         //LdapUser requestedUser = ldapUserRepository.findLdapUserByUsername(username) != null ? new LdapUser() : ldapUserRepository.findLdapUserByUsername(username);
         try {
@@ -43,5 +48,29 @@ public class AuthService {
         LdapUser newUser = new LdapUser(LdapUtils.emptyLdapName(),username,email,passwordEncoder.encode(password));
         ldapUserRepository.save(newUser);
     }
+
+/*
+// Get user from mongo database and load it to ldap server
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        //User yükle spring security için
+        LdapUser user = ldapUserRepository.findLdapUserByEmail(email);
+
+        if (getUser("Ben Alex") != null)
+        {
+            UserDetails userDetails = (UserDetails) getUser("Ben Alex");
+
+            //Add user to ldap
+            create(user.getUsername(), user.getEmail(), user.getPassword());
+
+            return userDetails;
+        }
+        else {
+            return null;
+        }
+
+    }
+
+ */
 
 }
