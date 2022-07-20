@@ -56,97 +56,36 @@ uid: john
 userPassword: $2a$10$c6bSeWPhg06xB1lvmaWNNe4NROmZiSpYhlocU/98HNr2MhIOiSt36
 mail: john@gmail.com
 
-dn: uid=bob,ou=people,dc=springframework,dc=org
+dn: uid=Will Smith,ou=people,dc=springframework,dc=org
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-cn: Bob Hamilton
-sn: Hamilton
-uid: bob
-userPassword: bobspassword
-mail: burakkaragol61@gmail.com
+cn: Will Smith
+sn: Smith
+uid: Will Smith
+userPassword: $2a$10$c6bSeWPhg06xB1lvmaWNNe4NROmZiSpYhlocU/98HNr2MhIOiSt36
+mail: will@gmail.com
 
-dn: uid=joe,ou=otherpeople,dc=springframework,dc=org
+dn: uid=Jim Carry,ou=people,dc=springframework,dc=org
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-cn: Joe Smeth
-sn: Smeth
-uid: joe
-userPassword: joespassword
-mail: burakkaragol62@gmail.com
+cn: Jim Carry
+uid: Jim Carry
+sn: Carry
+userPassword: $2a$10$c6bSeWPhg06xB1lvmaWNNe4NROmZiSpYhlocU/98HNr2MhIOiSt36
+mail: jim@gmail.com
 
-dn: cn=mouse\, jerry,ou=people,dc=springframework,dc=org
+
+dn: uid=Arnold Schwarzenegger,ou=people,dc=springframework,dc=org
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-cn: Mouse, Jerry
-sn: Mouse
-uid: jerry
-userPassword: jerryspassword
-mail: burakkaragol63@gmail.com
-
-
-dn: cn=slash/guy,ou=people,dc=springframework,dc=org
-objectclass: top
-objectclass: person
-objectclass: organizationalPerson
-objectclass: inetOrgPerson
-cn: slash/guy
-sn: Slash
-uid: slashguy
-userPassword: slashguyspassword
-mail: burakkaragol62@gmail.com
-
-
-dn: cn=quote\"guy,ou=\"quoted people\",dc=springframework,dc=org
-objectclass: top
-objectclass: person
-objectclass: organizationalPerson
-objectclass: inetOrgPerson
-cn: quote\"guy
-sn: Quote
-uid: quoteguy
-userPassword: quoteguyspassword
-mail: burakkaragol62@gmail.com
-
-
-dn: uid=space cadet,ou=space cadets,dc=springframework,dc=org
-objectclass: top
-objectclass: person
-objectclass: organizationalPerson
-objectclass: inetOrgPerson
-cn: Space Cadet
-sn: Cadet
-uid: space cadet
-userPassword: spacecadetspassword
-mail: burakkaragol62@gmail.com
-
-
-
-
-dn: cn=developers,ou=groups,dc=springframework,dc=org
-objectclass: top
-objectclass: groupOfUniqueNames
-cn: developers
-ou: developer
-uniqueMember: uid=ben,ou=people,dc=springframework,dc=org
-uniqueMember: uid=bob,ou=people,dc=springframework,dc=org
-
-dn: cn=managers,ou=groups,dc=springframework,dc=org
-objectclass: top
-objectclass: groupOfUniqueNames
-cn: managers
-ou: manager
-uniqueMember: uid=ben,ou=people,dc=springframework,dc=org
-uniqueMember: cn=mouse\, jerry,ou=people,dc=springframework,dc=org
-
-dn: cn=submanagers,ou=subgroups,ou=groups,dc=springframework,dc=org
-objectclass: top
-objectclass: groupOfUniqueNames
-cn: submanagers
-ou: submanager
-uniqueMember: uid=ben,ou=people,dc=springframework,dc=org
+cn: Arnold Schwarzenegger
+sn: Schwarzenegger
+uid: Arnold Schwarzenegger
+userPassword: $2a$10$c6bSeWPhg06xB1lvmaWNNe4NROmZiSpYhlocU/98HNr2MhIOiSt36
+mail: arnold@gmail.com

@@ -25,4 +25,10 @@ public class ProjectService {
     public List<Project> getAllProjects() {
         return projectRepository.findAll();
     }
+
+    public void deleteProjectById(String projectId) {
+        //projectRepository.delete(project);
+        projectRepository.deleteById(projectId);
+        log.info("Project deleted: {}", projectId);
+    }
 }
