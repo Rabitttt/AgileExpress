@@ -36,13 +36,16 @@ public class UserService implements UserDetailsService {
     public User saveUser(User user) {
         log.info("Saving new user {} to database",user.getUsername());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(List.of(UserRoles.TeamMember.name()));
-        return userRepository.insert(user);
+        return userRepository.save(user);
     }
 
     public User getUserByUsername(String username) {
         log.info("Fetching user {}",username);
         return userRepository.findByUsername(username);
+    }
+
+    public User getUserById(String userId) {
+        return  userRepository.findById(userId).orElse(null);
     }
 
     public List<User> getUsers() {

@@ -51,6 +51,9 @@ public class Project {
     private User teamLeader;
 
     @DocumentReference(lazy = true)
+    private User projectManager;
+
+    @DocumentReference(lazy = true)
     private List<User> members = new ArrayList<>();
 
     private List<String> tasks = new ArrayList<>();

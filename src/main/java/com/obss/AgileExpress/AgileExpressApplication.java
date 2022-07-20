@@ -26,12 +26,13 @@ public class AgileExpressApplication {
 		SpringApplication.run(AgileExpressApplication.class, args);
 	}
 
-	@Autowired
-	UserRepository userRepository;
 
 	@Bean
-	CommandLineRunner runner(ProjectService projectService) {
-		User user = userRepository.findUserByEmail("john@gmail.com");
+	CommandLineRunner runner(ProjectService projectService,UserRepository userRepository) {
+		User creator = userRepository.findUserByEmail("john@gmail.com");
+		User teamMember = userRepository.findUserByEmail("will@gmail.com");
+		User teamLeader = userRepository.findUserByEmail("jim@gmail.com");
+		User projectManager = userRepository.findUserByEmail("arnold@gmail.com");
 		return args -> {
 			projectService.createProject(
 					new Project(
@@ -40,9 +41,10 @@ public class AgileExpressApplication {
 							"This is project 1",
 							null,
 							null,
-							user,
-							user,
-							List.of(user),
+							creator,
+							teamLeader,
+							projectManager,
+							List.of(teamMember),
 							List.of("deneme","heloloooo","task3"),
 							List.of("status 1","status 2","status 3")
 					));
@@ -50,15 +52,21 @@ public class AgileExpressApplication {
 	}
 
 
-	/*
+/*
 	@Bean
 	CommandLineRunner runner(UserService userService) {
 		return args -> {
 			userService.saveUser(new User(null,"John Travolta","john@gmail.com","Selman",new ArrayList<>(List.of(UserRoles.Admin.name()))));
-			userService.saveUser(new User(null,"Will Smith","will@gmail.com","1234",new ArrayList<>(List.of(UserRoles.TeamMember.name()))));
-			userService.saveUser(new User(null,"Jim Carry","jim@gmail.com","1234",new ArrayList<>(List.of(UserRoles.TeamLeader.name()))));
-			userService.saveUser(new User(null,"Arnold Schwarzenegger","arnold@gmail.com","1234",(List.of(UserRoles.ProjectManager.name()))));
+			userService.saveUser(new User(null,"Will Smith","will@gmail.com","benspassword",new ArrayList<>(List.of(UserRoles.TeamMember.name()))));
+			userService.saveUser(new User(null,"Great Gatsby","great@gmail.com","benspassword",(List.of(UserRoles.TeamMember.name()))));
+			userService.saveUser(new User(null,"Manga","manga@gmail.com","benspassword",(List.of(UserRoles.TeamMember.name()))));
+			userService.saveUser(new User(null,"Jim Carry","jim@gmail.com","benspassword",new ArrayList<>(List.of(UserRoles.TeamLeader.name()))));
+			userService.saveUser(new User(null,"Lionel Messi","lionel@gmail.com","benspassword",(List.of(UserRoles.TeamLeader.name()))));
+			userService.saveUser(new User(null,"Arnold Schwarzenegger","arnold@gmail.com","benspassword",(List.of(UserRoles.ProjectManager.name()))));
+			userService.saveUser(new User(null,"Vito Corleone","vito@gmail.com","benspassword",(List.of(UserRoles.ProjectManager.name()))));
+
 		};
 	}
-	 */
+ */
+
 }

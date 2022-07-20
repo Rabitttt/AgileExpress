@@ -89,3 +89,58 @@ sn: Schwarzenegger
 uid: Arnold Schwarzenegger
 userPassword: $2a$10$c6bSeWPhg06xB1lvmaWNNe4NROmZiSpYhlocU/98HNr2MhIOiSt36
 mail: arnold@gmail.com
+
+dn: uid=Lionel Messi,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Lionel Messi
+sn: Messi
+uid: Lionel Messi
+userPassword: $2a$10$c6bSeWPhg06xB1lvmaWNNe4NROmZiSpYhlocU/98HNr2MhIOiSt36
+mail: lionel@gmail.com
+
+dn: uid=Robert Downey,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Robert Downey
+sn: Downey
+uid: Robert Downey
+userPassword: $2a$10$c6bSeWPhg06xB1lvmaWNNe4NROmZiSpYhlocU/98HNr2MhIOiSt36
+mail: robert@gmail.com
+
+dn: uid=Great Gatsby,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Great Gatsby
+sn: Gatsby
+uid: Great Gatsby
+userPassword: $2a$10$c6bSeWPhg06xB1lvmaWNNe4NROmZiSpYhlocU/98HNr2MhIOiSt36
+mail: great@gmail.com
+
+dn: uid=Vito Corleone,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Vito Corleone
+sn: Corleone
+uid: Vito Corleone
+userPassword: $2a$10$c6bSeWPhg06xB1lvmaWNNe4NROmZiSpYhlocU/98HNr2MhIOiSt36
+mail: vito@gmail.com
+
+dn: uid=Manga,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Manga
+sn: Manga
+uid: Manga
+userPassword: $2a$10$c6bSeWPhg06xB1lvmaWNNe4NROmZiSpYhlocU/98HNr2MhIOiSt36
+mail: manga@gmail.com
