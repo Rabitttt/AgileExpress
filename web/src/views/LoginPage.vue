@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <h3>Token = {{this.token}}</h3>
     <form class="form-signin" method="post" action="/login">
       <h2 class="form-signin-heading">Please sign in</h2>
       <p>
@@ -23,6 +24,7 @@
 
 <script>
 import axios from "axios";
+import jwtService from "@/helpers/JwtService.ts";
 
 export default {
   name: "LoginPage",
@@ -30,20 +32,37 @@ export default {
     return {
       username: '',
       password: '',
+      token:"",
     }
   },
   methods: {
-    login() {
+    async login() {
+
+      // eslint-disable-next-line no-debugger
+      debugger
       // eslint-disable-next-line no-debugger
       //debugger
-      axios.post("http://localhost:9000/login?username=john&password=benspassword", {}, {
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept": "*/*",
-        "Connection": "keep-alive",
+      await axios.post("http://localhost:9000/login", {}, {
+        params: {
+          username: this.username,
+          password: this.password,
+        },
+        headers: {
+          "Accept-Encoding": "gzip, deflate, br",
+          "Accept": "*/*",
+          "Connection": "keep-alive",
+        }
       })
           .then( response => {
-              console.log(response)
-              }
+            // eslint-disable-next-line no-debugger
+            debugger;
+            jwtService.destroyToken();
+            console.log(response)
+            this.token = response.data.access_token;
+            jwtService.saveToken(this.token);
+            console.log("deneme");
+            this.$router.push({ path: '/' })
+                },
           )
           .catch(c => {
             console.log(c)

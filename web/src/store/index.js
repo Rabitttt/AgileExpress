@@ -5,7 +5,12 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    user: {},
+    token: "",
+    user: {
+      username: "",
+      role: "",
+
+    },
     allProjects: [
       {
         id: "62d87f48bba99a3092358c12",
@@ -122,7 +127,11 @@ export default new Vuex.Store({
     ]
   },
   mutations: {
-
+    setUserToken (state,token) {
+      // eslint-disable-next-line no-debugger
+      debugger;
+      state.token = token;
+    },
   },
   actions: {
   },
