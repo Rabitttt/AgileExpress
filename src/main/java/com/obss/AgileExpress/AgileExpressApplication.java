@@ -26,7 +26,7 @@ public class AgileExpressApplication {
 		SpringApplication.run(AgileExpressApplication.class, args);
 	}
 
-
+/*
 	@Bean
 	CommandLineRunner runner(ProjectService projectService,UserRepository userRepository) {
 		User creator = userRepository.findUserByEmail("john@gmail.com");
@@ -50,6 +50,8 @@ public class AgileExpressApplication {
 					));
 		};
 	}
+
+ */
 
 
 /*

@@ -1,13 +1,13 @@
 package com.obss.AgileExpress.security.AuthenticationWithLdap;
 
-import com.obss.AgileExpress.enums.UserRoles;
 import com.obss.AgileExpress.service.MyAuthoritiesPopulator;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
+
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,14 +15,17 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
+
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 
 @Configuration
@@ -60,6 +63,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         AuthenticationEntryPoint authenticationEntryPoint;
         http
                 .cors().and().csrf().disable()
+                .sessionManagement().sessionCreationPolicy(STATELESS)
+                .and()
                 .authorizeRequests()
                 .antMatchers("/", "/css/*", "/js/*").permitAll()
                 .antMatchers("/**", "src/main/resources/static/**").permitAll()
@@ -71,14 +76,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .and()
-                .oauth2Login()
-                .and();
-
+                .oauth2Login();
+       http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
+       http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
     }
 
-    private static final List<String> EXPOSED_HEADERS = Arrays.asList("Cache-Control", "Content-Language", "Content-Type", "Expires", "Last-Modified", "Pragma", "Authorization");
 
+    private static final List<String> EXPOSED_HEADERS = Arrays.asList("Cache-Control", "Content-Language", "Content-Type", "Expires", "Last-Modified", "Pragma", "Authorization");
 
     @Bean
     public CorsFilter corsFilter() {
@@ -93,4 +98,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new CorsFilter(source);
     }
 
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 }
