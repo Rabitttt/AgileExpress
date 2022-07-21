@@ -11,8 +11,9 @@
         <label for="password" class="sr-only">Password</label>
         <input type="password" v-model="password" id="password" name="password" class="form-control" placeholder="Password" required>
       </p>
-      <button class="btn btn-lg btn-primary btn-block" v-on:click="login">Sign in</button>
     </form>
+    <button class="btn btn-lg btn-primary btn-block" v-on:click="login">Sign in</button>
+
     <h2 class="form-signin-heading">Login with OAuth 2.0</h2>
     <table class="table table-striped">
       <tr>
