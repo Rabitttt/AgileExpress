@@ -5,13 +5,24 @@ import com.obss.AgileExpress.service.MyAuthoritiesPopulator;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+import java.util.Arrays;
+import java.util.List;
 
 
 @Configuration
@@ -46,9 +57,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        AuthenticationEntryPoint authenticationEntryPoint;
         http
-                .csrf().disable()
+                .cors().and().csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/", "/css/*", "/js/*").permitAll()
                 .antMatchers("/**", "src/main/resources/static/**").permitAll()
                 .antMatchers("/user/deneme").hasAuthority("ROLE_TeamMember")
                 .antMatchers("/user/deneme").hasAuthority("ROLE_Admin")
@@ -56,14 +69,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
                 .and()
-
                 .formLogin()
-                //.defaultSuccessUrl("http://localhost:3000", true)
                 .and()
-                .oauth2Login();
+                .oauth2Login()
+                .and();
+
 
     }
 
+    private static final List<String> EXPOSED_HEADERS = Arrays.asList("Cache-Control", "Content-Language", "Content-Type", "Expires", "Last-Modified", "Pragma", "Authorization");
 
+
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("/*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        config.setExposedHeaders(EXPOSED_HEADERS);
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
+    }
 
 }

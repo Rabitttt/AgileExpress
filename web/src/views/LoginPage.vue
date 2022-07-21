@@ -1,10 +1,56 @@
 <template>
-
+  <div class="container">
+    <form class="form-signin" method="post" action="/login">
+      <h2 class="form-signin-heading">Please sign in</h2>
+      <p>
+        <label for="username" class="sr-only">Username</label>
+        <input type="text" v-model="username" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+      </p>
+      <p>
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" v-model="password" id="password" name="password" class="form-control" placeholder="Password" required>
+      </p>
+      <button class="btn btn-lg btn-primary btn-block" v-on:click="login">Sign in</button>
+    </form>
+    <h2 class="form-signin-heading">Login with OAuth 2.0</h2>
+    <table class="table table-striped">
+      <tr>
+        <td><a href="/oauth2/authorization/google">AgileExpress Google Client</a></td>
+      </tr>
+    </table>
+  </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-  name: "LoginPage"
+  name: "LoginPage",
+  data() {
+    return {
+      username: '',
+      password: '',
+    }
+  },
+  methods: {
+    login() {
+      // eslint-disable-next-line no-debugger
+      //debugger
+      axios.post("http://localhost:9000/login?username=john&password=benspassword", {}, {
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept": "*/*",
+        "Connection": "keep-alive",
+      })
+          .then( response => {
+              console.log(response)
+              }
+          )
+          .catch(c => {
+            console.log(c)
+          });
+    }
+  },
+
 }
 </script>
 
