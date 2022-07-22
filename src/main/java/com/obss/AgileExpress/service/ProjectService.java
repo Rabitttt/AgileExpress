@@ -1,6 +1,7 @@
 package com.obss.AgileExpress.service;
 
 
+import com.obss.AgileExpress.domain.ProjectDao;
 import com.obss.AgileExpress.entity.Project;
 import com.obss.AgileExpress.entity.User;
 import com.obss.AgileExpress.enums.UserRoles;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.management.relation.InvalidRoleInfoException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,7 +24,24 @@ public class ProjectService {
     private final UserService userService;
 
     //TODO: add tasklist to project
-    public Project createProject(Project project) {
+    public Project createProject(ProjectDao projectDao) {
+        List<User> members = new ArrayList<>();
+        for (String string : projectDao.getMembers()) {
+            members.add(userService.getUserById(string));
+        }
+        Project project = Project.builder()
+                .id(null)
+                .name(projectDao.getName())
+                .description(projectDao.getDescription())
+                .createdDate(null)
+                .creator(userService.getUserById(projectDao.getCreator()))
+                .projectManager(userService.getUserById(projectDao.getProjectManager()))
+                .teamLeader(userService.getUserById(projectDao.getTeamLeader()))
+                .members(members)
+                .backlogTasks(null)
+                .taskStatus(projectDao.getTaskStatus())
+                .build();
+
         projectRepository.save(project);
         log.info("Project created: {}", project);
         return project;

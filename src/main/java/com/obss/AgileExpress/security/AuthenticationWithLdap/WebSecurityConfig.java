@@ -14,14 +14,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import org.springframework.web.cors.CorsConfiguration;
 
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -68,9 +66,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/css/*", "/js/*").permitAll()
                 .antMatchers("/**", "src/main/resources/static/**").permitAll()
-                .antMatchers("/user/deneme").hasAuthority("ROLE_TeamMember")
-                .antMatchers("/user/deneme").hasAuthority("ROLE_Admin")
-                .antMatchers("/user/deneme").hasAuthority("ROLE_TeamLeader")
+                //.antMatchers("/user/deneme").hasAuthority("ROLE_TeamMember")
+                //.antMatchers("/user/deneme").hasAuthority("ROLE_Admin")
+                //.antMatchers("/user/deneme").hasAuthority("ROLE_TeamLeader")
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -97,21 +95,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
-    /*
-    @Bean
-    public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost:3000");
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
-        config.setExposedHeaders(EXPOSED_HEADERS);
-        source.registerCorsConfiguration("/**", config);
-        return new CorsFilter(source);
-    }
-     */
 
     @Bean
     @Override

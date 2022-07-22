@@ -1,5 +1,6 @@
 package com.obss.AgileExpress.controller;
 
+import com.obss.AgileExpress.domain.ProjectDao;
 import com.obss.AgileExpress.entity.Project;
 import com.obss.AgileExpress.service.ProjectService;
 import com.obss.AgileExpress.service.UserService;
@@ -24,8 +25,8 @@ public class ProjectController {
 
     @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')")
     @PostMapping("/create")
-    public void createProject(@RequestBody Project project) {
-        projectService.createProject(project);
+    public void createProject(@RequestBody ProjectDao projectDao) {
+        projectService.createProject(projectDao);
     }
 
     @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')")

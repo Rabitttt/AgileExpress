@@ -9,51 +9,30 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
-
 import javax.persistence.Column;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
-
-@Document("project")
+@Document("sprint")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Project {
+public class Sprint {
     @Id
     private String id;
     private String name;
-    private String description;
 
-    /*
-    @Column(updatable = false)
-    @CreatedDate
-    private Date createdDate;
-     */
     @Column(updatable = false)
     @CreatedDate
     private Date createdDate;
 
-    @DocumentReference(lazy = true)
-    private User creator;
+    private Date expiryDate;
+
+    private String sprintState;
 
     @DocumentReference(lazy = true)
-    private User teamLeader;
-
-    @DocumentReference(lazy = true)
-    private User projectManager;
-
-    @DocumentReference(lazy = true)
-    private List<User> members = new ArrayList<>();
-
-    private List<String> backlogTasks = new ArrayList<>();
-
-    private List<String> taskStatus = new ArrayList<>();
-
-    @DocumentReference(lazy = true)
-    private List<Sprint> sprints = new ArrayList<>();
-
+    private List<Task> tasks = new ArrayList<>();
 }

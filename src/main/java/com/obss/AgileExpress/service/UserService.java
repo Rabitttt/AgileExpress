@@ -31,6 +31,9 @@ public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private final AuthService authService;
 
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 
 
     public User saveUser(User user) {

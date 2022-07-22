@@ -6,7 +6,7 @@
 
 <script>
 import axios from "axios"
-import jwtService from "@/helpers/JwtService.ts";
+import jwtService from "@/helpers/JwtService.js";
 
   export default {
     name: 'HelloWorld',
@@ -22,10 +22,9 @@ import jwtService from "@/helpers/JwtService.ts";
     methods: {
       //eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huIiwicm9sZXMiOlsiUk9MRV9BZG1pbiJdLCJpc3MiOiIvbG9naW4iLCJleHAiOjE2NTg1MjQyMTZ9.BEpuvpqBHLsbHbQx5Xnww2Gj039WK_W3DWQnVr5L8fw
       async getData() {
-        let token = jwtService.getToken();
         axios.get('http://localhost:9000/project/getAll',{
           headers: {
-            Authorization: "Bearer "+token,
+            Authorization: "Bearer "+ jwtService.getToken(),
           }
         }).then(response => {
           this.data = response.data;

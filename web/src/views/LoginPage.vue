@@ -25,7 +25,7 @@
 
 <script>
 import axios from "axios";
-import jwtService from "@/helpers/JwtService.ts";
+import jwtService from "@/helpers/JwtService.js";
 
 export default {
   name: "LoginPage",
