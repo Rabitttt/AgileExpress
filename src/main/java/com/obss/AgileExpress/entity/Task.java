@@ -17,6 +17,7 @@ import org.springframework.data.mongodb.core.mapping.DocumentReference;
 public class Task {
     @Id
     private String id;
+    private String taskName;
     private String description;
     private int storyPoint;
     private User assignee;

@@ -49,11 +49,11 @@ public class Project {
     @DocumentReference(lazy = true)
     private List<User> members = new ArrayList<>();
 
-    private List<String> backlogTasks = new ArrayList<>();
+    @DocumentReference
+    private List<Task> backlogTasks = new ArrayList<>();
 
-    private List<String> taskStatus = new ArrayList<>();
+    private List<TaskStatus> taskStatus = new ArrayList<>();
 
     @DocumentReference(lazy = true)
     private List<Sprint> sprints = new ArrayList<>();
-
 }

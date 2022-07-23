@@ -1,13 +1,30 @@
 <template>
   <div class="create-project container">
     <v-row>
+      <!--
       <v-col
           cols="3"
           class="create-backlog-tasks"
+          style="border-left:1px solid rgba(0, 0, 0, 0.1); border-right:1px solid rgba(0, 0, 0, 0.1);"
       >
         <h5>Create Backlog</h5>
-
+        <form>
+          <div class="form-element">
+            <label class="required fs-5 fw-bold mb-2">Task Name</label>
+            <TextField componentFormTitle="taskname"></TextField>
+          </div>
+          <div class="form-element">
+            <label class="required fs-5 fw-bold mb-2">Task Description</label>
+            <TextArea componentFormTitle="description"></TextArea>
+          </div>
+          <div class="form-element">
+            <label class="required fs-5 fw-bold mb-2">Story Point</label>
+            <ComboBoxChips componentFormTitle="storyPoint"></ComboBoxChips>
+          </div>
+        </form>
       </v-col>
+      -->
+      <v-col cols="2"></v-col>
       <v-col
           cols="6"
           class="create-project-form"
@@ -27,6 +44,25 @@
               <AdvancedCombobox @handleFormChange="onFormChanged" componentFormTitle="taskStatus"></AdvancedCombobox>
             </div>
 
+            <div class="form-element" v-if="this.projectManager !== null">
+              <label class="required fs-5 fw-bold mb-2">Project Manager</label>
+              <ShowUserInProject :user="this.projectManager"></ShowUserInProject>
+            </div>
+            <div class="form-element" v-if="this.teamLeader !== null">
+              <label class="required fs-5 fw-bold mb-2">Team Leader</label>
+              <ShowUserInProject :user="this.teamLeader"></ShowUserInProject>
+            </div>
+            <div class="form-element" v-if="this.teamMembers !== []">
+              <label class="required fs-5 fw-bold mb-2">Team Members</label>
+              <div class="d-flex">
+                <ShowUserInProject
+                    v-for="(user,index) in this.teamMembers"
+                    :key="index"
+                    :user="user"
+                    style="width: 110px;"
+                ></ShowUserInProject>
+              </div>
+            </div>
           </form>
         <button
             class="btn btn-lg btn-primary btn-block"
@@ -36,20 +72,51 @@
       <v-col
           cols="3"
           class="users"
+          style="border-left:1px solid rgba(0, 0, 0, 0.1); border-right:1px solid rgba(0, 0, 0, 0.1);"
       >
         <h5>Add User</h5>
-        {{this.form.description}}
-        <div v-for="(item,index) in this.users" v-bind:key="index">
-          <img alt="default_user_image" src="../assets/defaultUser.png" style="width:40px; height:40px;">
-          <p>{{item.username}}</p>
-          <button
-              class="btn btn-lg btn-block"
-              :class="isHoveringToUser ? 'btn-primary' : 'btn-danger'"
-              @mouseover="isHoveringToUser = true"
-              @mouseout="isHoveringToUser = false"
-              v-on:click="createProject">Add to Projec
-            t</button>
+        <div>
+          <AddUserToProject
+              v-for="(user,index) in this.users"
+              v-bind:key="index"
+              @handleClick="addUserToProject"
+              :user="user"
+              style="border-bottom:1px solid rgba(0, 0, 0, 0.1);"
+          >
+          </AddUserToProject>
         </div>
+        <!--
+        <div v-if="this.form.projectManager === ''">
+          <h6><strong>Project Managers</strong></h6>
+          <AddUserToProject
+              v-for="(user,index) in this.projectManagers"
+              v-bind:key="index"
+              @handleClick="addUserToProject"
+              :user="user"
+          >
+          </AddUserToProject>
+        </div>
+        <div v-if="this.form.teamLeader === ''">
+          <h6><strong>Team Leaders</strong></h6>
+          <AddUserToProject
+              v-for="(user,index) in this.users"
+              v-bind:key="index"
+              @handleClick="addUserToProject"
+              :user="user"
+          >
+          </AddUserToProject>
+        </div>
+        <div>
+          <h6><strong>Team Members</strong></h6>
+          <AddUserToProject
+              v-for="(user,index) in this.teamMembers"
+              v-bind:key="index"
+              @handleClick="addUserToProject"
+              :user="user"
+          >
+          </AddUserToProject>
+        </div>
+        -->
       </v-col>
     </v-row>
   </div>
@@ -61,33 +128,40 @@ import axios from "axios";
 import jwtService from "@/helpers/JwtService";
 import TextArea from "@/components/form/TextArea";
 import TextField from "@/components/form/TextField";
+import AddUserToProject from "@/components/AddUserToProject";
+import ShowUserInProject from "@/components/ShowUserInProject";
+//import ComboBoxChips from "@/components/form/ComboBoxChips";
+
 export default {
   name: "CreateProject",
-  components: {TextField, TextArea, AdvancedCombobox},
+  components: { ShowUserInProject, AddUserToProject, TextField, TextArea, AdvancedCombobox},
   data() {
     return {
+      //teamMembers: [],
+      //projectManagers: [],
+      //teamLeaders: [],
       isHoveringToUser: false,
-      users: {},
+      projectManager: null,
+      teamMembers: [],
+      teamLeader: null,
+      users: [],
       form: {
-        name: "Project 0",
-        description: "This is project 1",
-        expiryDate: null,
+        name: "",
+        description: "",
         creator: "62d87cc053d2624bcabdc07e",
-        teamLeader: "62d87cc053d2624bcabdc082",
-        projectManager: "62d87cc053d2624bcabdc084",
-        members: [
-          "62d87cc053d2624bcabdc07f"
-        ],
+        teamLeader: "",
+        projectManager: "",
+        members: [],
         backlogTasks: [],
         taskStatus: [
           "deneme",
           "status2",
           "status10"
         ]
-      }
+      },
     }
   },
-  mounted() {
+  created() {
     //TODO: Get All users and set user data
     axios.get("http://localhost:9000/user/getAll",{
       headers: {
@@ -98,6 +172,7 @@ export default {
       debugger
       this.users = response.data;
       console.log(this.users)
+      //this.seperateUsers();
     });
   },
   methods: {
@@ -106,16 +181,16 @@ export default {
     },
 
     async createProject() {
-      await axios.post("/project/create",
+      await axios.post("http://localhost:9000/project/create",
           {
             ...this.form
           },
           {
         headers: {
+          Authorization: "Bearer "+ jwtService.getToken(),
           "Accept-Encoding": "gzip, deflate, br",
           "Accept": "*/*",
           "Connection": "keep-alive",
-          Authorization: "Bearer "+jwtService.getToken(),
         }
       })
           .then( response => {
@@ -126,10 +201,60 @@ export default {
             console.log(c)
           });
     },
-    isUserAdded () {
-      // TODO: Check if user is added to project
+    addUserToProject (user) {
+      // eslint-disable-next-line no-debugger
+      debugger;
+      if(user.roles[0] === "ProjectManager") {
+        this.form.projectManager = user.id;
+        this.projectManager = user;
+      }
+      if(user.roles[0] === "TeamLeader") {
+        this.form.teamLeader = user.id;
+        this.teamLeader = user;
+      }
+      if(user.roles[0] === "TeamMember") {
+        this.form.members.push(user.id);
+        this.teamMembers.push(user);
+      }
+      this.users.splice(this.users.indexOf(user), 1);
+    },
+    /*
+    addUserToProject (user) {
+      // eslint-disable-next-line no-debugger
+      debugger;
+      if(user.roles[0] === "ProjectManager") {
+        this.form.projectManager = user.id;
+        this.projectManagers.splice(this.projectManagers.indexOf(user), 1);
+      }
+      if(user.roles[0] === "TeamLeader") {
+        this.form.TeamLeader = user.id;
+        this.teamLeaders.splice(this.teamLeaders.indexOf(user), 1);
+      }
+      if(user.roles[0] === "TeamMember") {
+        this.form.members.push(user.id);
+      }
+
+    },
+     */
+
+    /*
+    seperateUsers () {
+      // eslint-disable-next-line no-debugger
+      debugger;
+      this.users.forEach(user => {
+        if (user.roles[0] === "TeamLeader") {
+          this.teamLeaders.push(user);
+        }
+        if (user.roles[0] === "ProjectManager") {
+          this.projectManagers.push(user);
+        }
+        if (user.roles[0] === "TeamMember") {
+          this.teamMembers.push(user);
+        }
+      })
     }
-  }
+     */
+  },
 }
 
 </script>

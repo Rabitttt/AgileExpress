@@ -1,6 +1,5 @@
 <template>
-  <div class="container">
-    <h3>Token = {{this.token}}</h3>
+  <div class="container" style="max-width: 17vw">
     <form class="form-signin" method="post" action="/login">
       <h2 class="form-signin-heading">Please sign in</h2>
       <p>

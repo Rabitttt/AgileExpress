@@ -33,7 +33,7 @@
           small
       >
           <span class="pr-2">
-            {{ item.text }}
+            {{ item.status }}
           </span>
         <v-icon
             small
@@ -44,16 +44,16 @@
       </v-chip>
     </template>
     <template v-slot:item="{ index, item }">
-      <v-text-field
+      <v-status-field
           v-if="editing === item"
-          v-model="editing.text"
+          v-model="editing.status"
           autofocus
           flat
           background-color="transparent"
           hide-details
           solo
           @keyup.enter="edit(index, item)"
-      ></v-text-field>
+      ></v-status-field>
       <v-chip
           v-else
           :color="`${item.color} lighten-3`"
@@ -61,7 +61,7 @@
           label
           small
       >
-        {{ item.text }}
+        {{ item.status }}
       </v-chip>
       <v-spacer></v-spacer>
       <v-list-item-action @click.stop>
@@ -101,7 +101,7 @@ export default {
       this.model = val.map(v => {
         if (typeof v === 'string') {
           v = {
-            text: v,
+            status: v,
             color: this.colors[this.nonce - 1],
           }
 
@@ -112,6 +112,8 @@ export default {
 
         return v
       })
+      // eslint-disable-next-line no-debugger
+      debugger;
       this.$emit('handleFormChange',this.model,this.componentFormTitle)
     },
   },
@@ -126,15 +128,15 @@ export default {
         this.editingIndex = -1
       }
     },
-    filter (item, queryText, itemText) {
+    filter (item, querystatus, itemstatus) {
       if (item.header) return false
 
       const hasValue = val => val != null ? val : ''
 
-      const text = hasValue(itemText)
-      const query = hasValue(queryText)
+      const status = hasValue(itemstatus)
+      const query = hasValue(querystatus)
 
-      return text.toString()
+      return status.toString()
           .toLowerCase()
           .indexOf(query.toString().toLowerCase()) > -1
     },

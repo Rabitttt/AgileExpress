@@ -3,6 +3,8 @@ package com.obss.AgileExpress.service;
 
 import com.obss.AgileExpress.domain.ProjectDao;
 import com.obss.AgileExpress.entity.Project;
+import com.obss.AgileExpress.entity.Task;
+import com.obss.AgileExpress.entity.TaskStatus;
 import com.obss.AgileExpress.entity.User;
 import com.obss.AgileExpress.enums.UserRoles;
 import com.obss.AgileExpress.repository.ProjectRepository;
@@ -29,6 +31,7 @@ public class ProjectService {
         for (String string : projectDao.getMembers()) {
             members.add(userService.getUserById(string));
         }
+        List<TaskStatus> taskStatuses = new ArrayList<>(projectDao.getTaskStatus());
         Project project = Project.builder()
                 .id(null)
                 .name(projectDao.getName())
@@ -39,11 +42,18 @@ public class ProjectService {
                 .teamLeader(userService.getUserById(projectDao.getTeamLeader()))
                 .members(members)
                 .backlogTasks(null)
-                .taskStatus(projectDao.getTaskStatus())
+                .taskStatus(taskStatuses)
                 .build();
 
         projectRepository.save(project);
         log.info("Project created: {}", project);
+        return project;
+    }
+
+    public Project addBacklogTaskToProject(Task task,String projectId) {
+        Project project = projectRepository.findById(projectId).orElseThrow();
+        project.getBacklogTasks().add(task);
+        projectRepository.save(project);
         return project;
     }
 

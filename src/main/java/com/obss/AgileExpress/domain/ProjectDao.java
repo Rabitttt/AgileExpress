@@ -1,6 +1,7 @@
 package com.obss.AgileExpress.domain;
 
 
+import com.obss.AgileExpress.entity.TaskStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,7 +32,7 @@ public class ProjectDao {
     private List<String> members = new ArrayList<>();
 
     private List<String> backlogTasks = new ArrayList<>();
-    private List<String> taskStatus = new ArrayList<>();
+    private List<TaskStatus> taskStatus = new ArrayList<>();
 
     private List<String> sprints = new ArrayList<>();
 }
