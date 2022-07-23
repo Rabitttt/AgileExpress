@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <div id="app">
-      <Navbar></Navbar>
+      <Navbar v-if="this.$store.state.isAuthenticated"></Navbar>
       <router-view/>
     </div>
   </v-app>
@@ -35,6 +35,9 @@
 <script>
 import Navbar from "@/components/Navbar";
 export default {
-  components: {Navbar}
+  components: {Navbar},
+  methods: {
+
+  },
 }
 </script>

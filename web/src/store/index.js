@@ -5,12 +5,12 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    // User
     token: "",
-    user: {
-      username: "",
-      role: "",
+    isAuthenticated : false,
+    username: "",
+    userRole: "",
 
-    },
     allProjects: [
       {
         id: "62d87f48bba99a3092358c12",
@@ -132,6 +132,15 @@ export default new Vuex.Store({
       debugger;
       state.token = token;
     },
+    setAuthUserStatus (state,status) {
+      state.isAuthenticated = status;
+    },
+    setPayload (state,payload) {
+      // eslint-disable-next-line no-debugger
+      debugger;
+      state.username = payload.sub;
+      state.userRole = payload.roles[0];
+    }
   },
   actions: {
   },

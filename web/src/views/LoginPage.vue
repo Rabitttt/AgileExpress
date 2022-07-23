@@ -1,5 +1,6 @@
 <template>
   <div class="container" style="max-width: 17vw">
+    <img alt="App_Logo" src="../assets/logo.png" style="width:250px; height:250px;">
     <form class="form-signin" method="post" action="/login">
       <h2 class="form-signin-heading">Please sign in</h2>
       <p>
@@ -25,6 +26,7 @@
 <script>
 import axios from "axios";
 import jwtService from "@/helpers/JwtService.js";
+import jwt_decode from "jwt-decode";
 
 export default {
   name: "LoginPage",
@@ -53,20 +55,22 @@ export default {
           "Connection": "keep-alive",
         }
       })
-          .then( response => {
+      .then( response => {
             // eslint-disable-next-line no-debugger
             debugger;
             jwtService.destroyToken();
-            console.log(response)
             this.token = response.data.access_token;
             jwtService.saveToken(this.token);
-            console.log("deneme");
+
+            this.$store.commit("setPayload",jwt_decode(this.token));
+            this.$store.commit("setAuthUserStatus",true);
             this.$router.push({ path: '/' })
-                },
-          )
-          .catch(c => {
-            console.log(c)
-          });
+          },
+      )
+      .catch(c => {
+        console.log(c)
+      });
+
     }
   },
 
