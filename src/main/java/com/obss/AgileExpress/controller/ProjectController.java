@@ -23,6 +23,12 @@ public class ProjectController {
          return projectService.getAllProjects();
     }
 
+    @GetMapping("/getProject/{projectId}")
+    public Project getProject(@PathVariable(value = "projectId") String projectId) {
+        return projectService.getProjectById(projectId);
+    }
+
+
     @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')")
     @PostMapping("/create")
     public void createProject(@RequestBody ProjectDao projectDao) {

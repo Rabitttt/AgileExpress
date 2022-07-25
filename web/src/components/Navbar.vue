@@ -13,9 +13,11 @@
             class="text-center">
           <span class="nav-item" v-on:click="changeRoute('/')">Projects</span>
           <span class="nav-item" v-on:click="changeRoute('/user/profile/')">Profile</span>
+          <span class="nav-item" v-on:click="changeRoute('/project/create')">Create Project</span>
 
-          <span v-if="isLoggedIn" class="nav-item" v-on:click="logout()">Logout</span>
-          <span v-if="!isLoggedIn" class="nav-item" v-on:click="changeRoute('/.login')">Login</span>
+
+          <span v-if="this.$store.state.isAuthenticated" class="nav-item" v-on:click="logout()">Logout</span>
+          <span v-if="!this.$store.state.isAuthenticated" class="nav-item" v-on:click="changeRoute('/.login')">Login</span>
 
         </v-col>
     </v-container>
@@ -36,9 +38,6 @@ export default {
       this.$store.commit("setAuthUserStatus", false);
       this.$router.push({path: "/login"})
     },
-    isLoggedIn() {
-      return !!jwtService.getToken();
-    }
   }
 
 }

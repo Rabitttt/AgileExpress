@@ -2,6 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-8">
+        <h5><strong>Projects</strong></h5>
         <project-card
             v-for="(project,index) in data"
             v-bind:key="index"
@@ -10,7 +11,7 @@
         ></project-card>
       </div>
       <div class="col-4">
-        <h5>Users</h5>
+        <h5><strong>Users</strong></h5>
         <div>{{this.projectManager.username}}</div>
         <div>{{this.projectTeamLeader.username}}</div>
         <div v-for="(user,index) in projectMembers" v-bind:key="index">{{user.username}}</div>
