@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from "axios";
+import jwtService from "@/helpers/JwtService";
 
 Vue.use(Vuex)
 
@@ -10,6 +12,10 @@ export default new Vuex.Store({
     isAuthenticated : false,
     username: "",
     userRole: "",
+
+
+    // Projects
+    selectedProject:  {},
 
     allProjects: [
       {
@@ -126,6 +132,7 @@ export default new Vuex.Store({
       }
     ]
   },
+
   mutations: {
     setUserToken (state,token) {
       // eslint-disable-next-line no-debugger
@@ -140,9 +147,61 @@ export default new Vuex.Store({
       debugger;
       state.username = payload.sub;
       state.userRole = payload.roles[0];
+    },
+    setSelectedProject (state,project) {
+      // eslint-disable-next-line no-debugger
+      debugger;
+      state.selectedProject = project;
+    },
+    setCreatedTask (state,task) {
+      // eslint-disable-next-line no-debugger
+      debugger;
+      state.selectedProject.backlogTasks.push(task);
     }
+
   },
   actions: {
+    async setSelectedProject (context,id) {
+      // eslint-disable-next-line no-debugger
+      debugger;
+       await axios.get("http://localhost:9000/project/getProject/" + id,{
+        headers: {
+          Authorization: "Bearer "+ jwtService.getToken(),
+        }
+      }).then(response => {
+        // eslint-disable-next-line no-debugger
+        debugger;
+        context.commit("setSelectedProject",response.data);
+      });
+    },
+    async createTask(context,form) {
+      // eslint-disable-next-line no-debugger
+      debugger;
+      await axios.post("http://localhost:9000/task/create",
+          {
+            ...form,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${jwtService.getToken()}`,
+              "Accept-Encoding": "gzip, deflate, br",
+              "Accept": "*/*",
+              "Connection": "keep-alive",},
+          },
+      )
+          .then( response => {
+                // eslint-disable-next-line no-debugger
+                debugger;
+                let newTask = response.data;
+                console.log(newTask)
+                context.commit("setCreatedTask",newTask);
+              },
+          )
+          .catch(c => {
+            console.log(c)
+          });
+      this.dialog = false
+    },
   },
   modules: {
   }

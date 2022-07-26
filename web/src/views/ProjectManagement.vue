@@ -5,20 +5,22 @@
         class="col-3">
         <h5><strong>Backlogs</strong></h5>
         <div
-            v-for="(item,index) in this.data.backlogTasks"
+            v-for="(item,index) in selectedProject.backlogTasks"
             v-bind:key="index"
+            style="border:1px solid black"
         >
           {{item}}
         </div>
         <CreateBacklog
-          :members="this.memberUsernames">
+          :members="memberUsernames"
+        >
         </CreateBacklog>
       </v-col>
       <v-col
         class="col-6 d-flex flex-row">
         <div
             style="width: 350px; height:70vh; border: 1px solid lightgrey"
-            v-for="(item,index) in this.data.taskStatus"
+            v-for="(item,index) in selectedProject.taskStatus"
             v-bind:key="index"
         >
           <h3>{{item.status}}</h3>
@@ -28,48 +30,33 @@
         class="col-3">
         <h5><strong>Sprints</strong></h5>
         <div
-            v-for="(item,index) in this.data.sprints"
+            v-for="(item,index) in selectedProject.sprints"
             v-bind:key="index"
         >
           {{item}}
         </div>
-        <button class="btn btn-sm btn-primary btn-block"
-                v-on:click="createSprint">
-            Create Sprint
-
-        </button>
+        <CreateSprint>
+        </CreateSprint>
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
-import axios from "axios";
-import jwtService from "@/helpers/JwtService";
 import CreateBacklog from "@/components/modal/CreateBacklog";
+import CreateSprint from "@/components/modal/CreateSprint";
 
 export default {
   name: "ProjectManagement",
-  components: {CreateBacklog},
+  components: {CreateBacklog,CreateSprint},
   data () {
     return {
-      data: {},
-      memberUsernames: [],
+      //memberUsernames: [],
     }
   },
   created() {
-    let id = this.$route.params.id
-    axios.get("http://localhost:9000/project/getProject/" + id,{
-      headers: {
-        Authorization: "Bearer "+ jwtService.getToken(),
-      }
-    }).then(response => {
-      // eslint-disable-next-line no-debugger
-      debugger;
-      this.data = response.data;
-      console.log(this.data)
-      this.setUsernameArray()
-    });
+    this.$store.dispatch("setSelectedProject",this.$route.params.id)
+    this.setUsernameArray();
   },
   methods: {
     createSprint() {
@@ -78,12 +65,15 @@ export default {
     createBacklog() {
       console.log("Create Backlog");
     },
-    setUsernameArray() {
+  },
+  computed: {
+    selectedProject() {
+        return this.$store.state.selectedProject;
+    },
+    memberUsernames() {
       // eslint-disable-next-line no-debugger
       debugger
-      this.data.members.forEach(member => {
-        this.memberUsernames.push(member.username)
-      })
+      return this.$store.state.selectedProject.members.map(member  => member.username);
     }
   }
 }

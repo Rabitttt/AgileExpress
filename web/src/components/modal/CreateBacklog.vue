@@ -54,7 +54,7 @@
           <v-btn
               color="blue darken-1"
               text
-              @click="createTask"
+              @click="createTaskHandler"
           >
             Save
           </v-btn>
@@ -68,8 +68,6 @@ import TextField from "@/components/form/TextField";
 import TextArea from "@/components/form/TextArea";
 import AppendPrependField from "@/components/form/AppendPrependField";
 import SelectBox from "@/components/form/SelectBox";
-import axios from "axios";
-import jwtService from "@/helpers/JwtService";
 
 export default {
   name: "CreateBacklog",
@@ -91,32 +89,9 @@ export default {
     onFormChanged(model, componentFormTitle) {
       this.form[componentFormTitle] = model
     },
-    async createTask() {
-      // eslint-disable-next-line no-debugger
-      debugger;
-      await axios.post("http://localhost:9000/task/create",
-          {
-            ...this.form,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${jwtService.getToken()}`,
-              "Accept-Encoding": "gzip, deflate, br",
-              "Accept": "*/*",
-              "Connection": "keep-alive",},
-          },
-          )
-          .then( response => {
-                // eslint-disable-next-line no-debugger
-                debugger;
-                console.log(response.data)
-              },
-          )
-          .catch(c => {
-            console.log(c)
-          });
-      this.dialog = false
-    },
+    createTaskHandler() {
+      this.$store.dispatch("createTask", this.form)
+    }
   },
 }
 </script>
