@@ -7,7 +7,7 @@
         <div
             v-for="(item,index) in selectedProject.backlogTasks"
             v-bind:key="index"
-            style="border:1px solid black"
+            style="border-bottom:1px solid black"
         >
           {{item}}
         </div>
@@ -32,6 +32,7 @@
         <div
             v-for="(item,index) in selectedProject.sprints"
             v-bind:key="index"
+            style="border-bottom:1px solid black"
         >
           {{item}}
         </div>

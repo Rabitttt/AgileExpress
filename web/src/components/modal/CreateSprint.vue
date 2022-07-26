@@ -11,34 +11,23 @@
             v-bind="attrs"
             v-on="on"
         >
-          Open Dialog
+          Add Sprint
         </v-btn>
       </template>
       <v-card>
-        <v-card-title>
-          <span class="text-h5">Create New Task</span>
+        <v-card-title class="justify-center">
+          <h4 class="text-h5">Create New Sprint</h4>
         </v-card-title>
         <v-card-text>
           {{this.form}}
           <form>
             <div class="form-element">
               <label class="required fs-5 fw-bold mb-2">Project Name</label>
-              <TextField @handleFormChange="onFormChanged" componentFormTitle="taskName"></TextField>
+              <TextField @handleFormChange="onFormChanged" componentFormTitle="name"></TextField>
             </div>
             <div class="form-element">
               <label class="required fs-5 fw-bold mb-2">Description</label>
               <TextArea @handleFormChange="onFormChanged" componentFormTitle="description"></TextArea>
-            </div>
-            <div class="form-element">
-              <label class="required fs-5 fw-bold mb-2">Description</label>
-              <AppendPrependField @handleFormChange="onFormChanged" componentFormTitle="storyPoint"></AppendPrependField>
-            </div>
-            <div class="form-element">
-              <label class="required fs-5 fw-bold mb-2">Select Assignee</label>
-              <SelectBox @handleFormChange="onFormChanged"
-                         :comboboxItems="members"
-                         componentFormTitle="assignee"
-              ></SelectBox>
             </div>
           </form>
         </v-card-text>
@@ -65,11 +54,35 @@
 </template>
 
 <script>
+import TextField from "@/components/form/TextField";
+import TextArea from "@/components/form/TextArea";
+
 export default {
-  name: "CreateSprint"
+  name: "CreateSprint",
+  components: {TextField, TextArea},
+  data: () => ({
+    dialog: false,
+    form: {
+      name: "",
+      description: "",
+    },
+  }),
+  methods: {
+    onFormChanged(model, componentFormTitle) {
+      this.form[componentFormTitle] = model
+    },
+    createTaskHandler() {
+      this.$store.dispatch("createSprint", this.form)
+    }
+  },
 }
 </script>
 
 <style scoped>
-
+.col {
+  min-height: 100%;
+}
+.form-element {
+  text-align: start;
+}
 </style>

@@ -10,7 +10,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import javax.persistence.Column;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,12 +23,10 @@ public class Sprint {
     @Id
     private String id;
     private String name;
+    private String description;
+    private Date startDate;
 
-    @Column(updatable = false)
-    @CreatedDate
-    private Date createdDate;
-
-    private Date expiryDate;
+    private Date endDate;
 
     private String sprintState;
 

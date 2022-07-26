@@ -11,7 +11,7 @@
             v-bind="attrs"
             v-on="on"
         >
-          Open Dialog
+          Add Task
         </v-btn>
       </template>
       <v-card>
@@ -97,10 +97,5 @@ export default {
 </script>
 
 <style scoped>
-.col {
-  min-height: 100%;
-}
-.form-element {
-  text-align: start;
-}
+
 </style>

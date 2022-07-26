@@ -2,10 +2,7 @@ package com.obss.AgileExpress.service;
 
 
 import com.obss.AgileExpress.domain.ProjectDao;
-import com.obss.AgileExpress.entity.Project;
-import com.obss.AgileExpress.entity.Task;
-import com.obss.AgileExpress.entity.TaskStatus;
-import com.obss.AgileExpress.entity.User;
+import com.obss.AgileExpress.entity.*;
 import com.obss.AgileExpress.enums.UserRoles;
 import com.obss.AgileExpress.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +22,6 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final UserService userService;
 
-    //TODO: add tasklist to project
     public Project createProject(ProjectDao projectDao) {
         List<User> members = new ArrayList<>();
         for (String string : projectDao.getMembers()) {
@@ -47,13 +43,6 @@ public class ProjectService {
 
         projectRepository.save(project);
         log.info("Project created: {}", project);
-        return project;
-    }
-
-    public Project addBacklogTaskToProject(Task task,String projectId) {
-        Project project = projectRepository.findById(projectId).orElseThrow();
-        project.getBacklogTasks().add(task);
-        projectRepository.save(project);
         return project;
     }
 
@@ -169,5 +158,15 @@ public class ProjectService {
         }
     }
 
+    public void addBacklogTaskToProject(Task task, String projectId) {
+        Project project = getProjectById(projectId);
+        project.getBacklogTasks().add(task);
+        projectRepository.save(project);
+    }
+    public void addSprintToProject(Sprint sprint, String projectId) {
+        Project project = getProjectById(projectId);
+        project.getSprints().add(sprint);
+        projectRepository.save(project);
+    }
 
 }

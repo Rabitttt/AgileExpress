@@ -54,7 +54,6 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     });
 
                     /*
-                    //TODO: Get user from userService (not directly repository)
                     User user = userRepository.findUserByEmail(username);
 
                     Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();

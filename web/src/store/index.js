@@ -157,6 +157,11 @@ export default new Vuex.Store({
       // eslint-disable-next-line no-debugger
       debugger;
       state.selectedProject.backlogTasks.push(task);
+    },
+    setCreatedSprint (state,sprint) {
+      // eslint-disable-next-line no-debugger
+      debugger;
+      state.selectedProject.sprints.push(sprint);
     }
 
   },
@@ -195,6 +200,34 @@ export default new Vuex.Store({
                 let newTask = response.data;
                 console.log(newTask)
                 context.commit("setCreatedTask",newTask);
+              },
+          )
+          .catch(c => {
+            console.log(c)
+          });
+      this.dialog = false
+    },
+    async createSprint(context,form) {
+      // eslint-disable-next-line no-debugger
+      debugger;
+      await axios.post("http://localhost:9000/sprint/create",
+          {
+            ...form,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${jwtService.getToken()}`,
+              "Accept-Encoding": "gzip, deflate, br",
+              "Accept": "*/*",
+              "Connection": "keep-alive",},
+          },
+      )
+          .then( response => {
+                // eslint-disable-next-line no-debugger
+                debugger;
+                let newTask = response.data;
+                console.log(newTask)
+                context.commit("setCreatedSprint",newTask);
               },
           )
           .catch(c => {
