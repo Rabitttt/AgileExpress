@@ -1,18 +1,20 @@
 <template>
-    <v-textarea
-        solo
-        label="Solo textarea"
-        v-model="model"
-    ></v-textarea>
+  <v-select
+      :items="comboboxItems"
+      v-model="model"
+      label="Solo field"
+      solo
+  ></v-select>
 </template>
 
 <script>
 export default {
-  name: "TextArea",
+  name: "SelectBox",
   props: {
+    comboboxItems: Array,
     componentFormTitle: String,
   },
-  data() {
+  data(){
     return {
       model: "",
     }

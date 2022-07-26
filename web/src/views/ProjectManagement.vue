@@ -10,7 +10,8 @@
         >
           {{item}}
         </div>
-        <CreateBacklog>
+        <CreateBacklog
+          :members="this.memberUsernames">
         </CreateBacklog>
       </v-col>
       <v-col
@@ -53,6 +54,7 @@ export default {
   data () {
     return {
       data: {},
+      memberUsernames: [],
     }
   },
   created() {
@@ -66,6 +68,7 @@ export default {
       debugger;
       this.data = response.data;
       console.log(this.data)
+      this.setUsernameArray()
     });
   },
   methods: {
@@ -75,6 +78,13 @@ export default {
     createBacklog() {
       console.log("Create Backlog");
     },
+    setUsernameArray() {
+      // eslint-disable-next-line no-debugger
+      debugger
+      this.data.members.forEach(member => {
+        this.memberUsernames.push(member.username)
+      })
+    }
   }
 }
 </script>

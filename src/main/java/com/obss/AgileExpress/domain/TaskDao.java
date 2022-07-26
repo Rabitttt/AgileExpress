@@ -1,5 +1,7 @@
-package com.obss.AgileExpress.entity;
+package com.obss.AgileExpress.domain;
 
+import com.obss.AgileExpress.entity.TaskLog;
+import com.obss.AgileExpress.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,26 +10,18 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
-import java.time.LocalDateTime;
-import java.util.Date;
-
-@Document("taskLog")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TaskLog {
-    @Id
+public class TaskDao {
     private String id;
-
+    private String taskName;
     private String description;
-
+    private int storyPoint;
+    private String assignee;
+    private String status;
     @DocumentReference(lazy = true)
-    private User creator;
+    private TaskLog taskLog;
 
-    //TODO: spend time from user
-
-    private Date date;
-    private LocalDateTime startClock;
-    private LocalDateTime endClock;
 }
