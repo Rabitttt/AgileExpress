@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -22,5 +24,21 @@ public class SprintService {
         Sprint createdSprint = sprintRepository.save(sprint);
         projectService.addSprintToProject(createdSprint, "62db079402d1390f0b58f513");
         return createdSprint;
+    }
+
+    public List<Task> getSprintTasks(String sprintId) {
+        return sprintRepository.findById(sprintId).get().getTasks();
+    }
+
+    public void addTaskToSprint(Task task, String sprintId) {
+        Sprint sprint = sprintRepository.findById(sprintId).get();
+        sprint.getTasks().add(task);
+        sprintRepository.save(sprint);
+    }
+
+    public void deleteTask(Task task, String sprintId) {
+        Sprint sprint = sprintRepository.findById(sprintId).get();
+        sprint.getTasks().remove(task);
+        sprintRepository.save(sprint);
     }
 }

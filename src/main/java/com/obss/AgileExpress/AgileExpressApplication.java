@@ -1,8 +1,12 @@
 package com.obss.AgileExpress;
 
 import com.obss.AgileExpress.entity.Project;
+import com.obss.AgileExpress.entity.Sprint;
+import com.obss.AgileExpress.entity.Task;
 import com.obss.AgileExpress.entity.User;
 import com.obss.AgileExpress.enums.UserRoles;
+import com.obss.AgileExpress.repository.SprintRepository;
+import com.obss.AgileExpress.repository.TaskRepository;
 import com.obss.AgileExpress.repository.UserRepository;
 import com.obss.AgileExpress.service.ProjectService;
 import com.obss.AgileExpress.service.UserService;
@@ -25,6 +29,21 @@ public class AgileExpressApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AgileExpressApplication.class, args);
 	}
+
+/*
+	@Bean
+	CommandLineRunner runner(SprintRepository sprintRepository, TaskRepository taskRepository) {
+		Sprint sprint = sprintRepository.findById("62e04f554f8c800eadc78914").orElseThrow();
+		Task task = taskRepository.findById("62dfea410dd3cb665a023726").orElseThrow();
+		task.setStatus("sdfgsdfg");
+		sprint.getTasks().add(task);
+		return args -> {
+			taskRepository.save(task);
+			sprintRepository.save(sprint);
+		};
+	}
+ */
+
 
 /*
 	@Bean

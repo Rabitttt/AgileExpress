@@ -9,9 +9,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.util.ArrayUtils;
 
 import javax.management.relation.InvalidRoleInfoException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -166,6 +168,12 @@ public class ProjectService {
     public void addSprintToProject(Sprint sprint, String projectId) {
         Project project = getProjectById(projectId);
         project.getSprints().add(sprint);
+        projectRepository.save(project);
+    }
+
+    public void deleteBacklog (Task task,String projectId) {
+        Project project = getProjectById(projectId);
+        project.getBacklogTasks().remove(task);
         projectRepository.save(project);
     }
 
