@@ -5,6 +5,7 @@ import com.obss.AgileExpress.domain.ProjectDao;
 import com.obss.AgileExpress.entity.*;
 import com.obss.AgileExpress.enums.UserRoles;
 import com.obss.AgileExpress.repository.ProjectRepository;
+import com.obss.AgileExpress.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,6 +23,7 @@ import java.util.List;
 public class ProjectService {
 
     private final ProjectRepository projectRepository;
+    private final TaskRepository taskRepository;
     private final UserService userService;
 
     public Project createProject(ProjectDao projectDao) {
@@ -173,7 +175,12 @@ public class ProjectService {
 
     public void deleteBacklog (Task task,String projectId) {
         Project project = getProjectById(projectId);
-        project.getBacklogTasks().remove(task);
+
+        project.getBacklogTasks().stream().findFirst().ifPresent(t->{
+            if(t.getId().equals(task.getId())) {
+                project.getBacklogTasks().remove(t);
+            }
+        });
         projectRepository.save(project);
     }
 

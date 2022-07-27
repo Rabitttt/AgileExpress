@@ -46,18 +46,18 @@ public class TaskService {
 
     public Project backlogToSprint(String id, String sprintId, String newStatus, String projectId) {
         Task task = taskRepository.findById(id).get();
+        projectService.deleteBacklog(task,projectId);
         task.setStatus(newStatus);
         taskRepository.save(task);
-        projectService.deleteBacklog(task,projectId);
         sprintService.addTaskToSprint(task, sprintId);
         return projectService.getProjectById(projectId);
     }
     public Project sprintToBacklog(String id, String sprintId, String projectId) {
         Task task = taskRepository.findById(id).get();
+        sprintService.deleteTask(task, sprintId);
         task.setStatus("backlog");
         taskRepository.save(task);
         projectService.addBacklogTaskToProject(task,projectId);
-        sprintService.deleteTask(task, sprintId);
         return projectService.getProjectById(projectId);
     }
 

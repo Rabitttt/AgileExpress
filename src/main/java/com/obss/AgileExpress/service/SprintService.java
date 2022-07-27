@@ -42,7 +42,11 @@ public class SprintService {
 
     public void deleteTask(Task task, String sprintId) {
         Sprint sprint = sprintRepository.findById(sprintId).get();
-        sprint.getTasks().remove(task);
+        sprint.getTasks().stream().findAny().ifPresent(t -> {
+            if (t.getId().equals(task.getId())) {
+                sprint.getTasks().remove(t);
+            }
+        });
         sprintRepository.save(sprint);
     }
 }
