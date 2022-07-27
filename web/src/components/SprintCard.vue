@@ -14,7 +14,8 @@ export default {
     handleClick() {
       // eslint-disable-next-line no-debugger
       debugger;
-      this.$store.commit("setSelectedSprintId", this.sprint.id);
+      //this.$store.commit("setSelectedSprintId", this.sprint.id);
+      this.$emit("handleClick",this.sprint.id)
     },
   },
 }

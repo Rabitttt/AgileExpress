@@ -181,7 +181,7 @@ export default {
     },
 
     async createProject() {
-      await axios.post("http://localhost:9000/project/create",
+      await axios.post("http://localhost:9000/project/create/"+this.$store.state.selectedProject.id,
           {
             ...this.form
           },

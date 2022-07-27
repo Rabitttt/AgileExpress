@@ -20,14 +20,18 @@ public class SprintService {
     private final SprintRepository sprintRepository;
 
     //TODO : Get projectId from request (client)
-    public Sprint createSprint(Sprint sprint) {
+    public Sprint createSprint(Sprint sprint,String projectId) {
         Sprint createdSprint = sprintRepository.save(sprint);
-        projectService.addSprintToProject(createdSprint, "62db079402d1390f0b58f513");
+        projectService.addSprintToProject(createdSprint, projectId);
         return createdSprint;
     }
 
     public List<Task> getSprintTasks(String sprintId) {
         return sprintRepository.findById(sprintId).get().getTasks();
+    }
+
+    public Sprint getSprint(String sprintId) {
+        return sprintRepository.findById(sprintId).get();
     }
 
     public void addTaskToSprint(Task task, String sprintId) {
