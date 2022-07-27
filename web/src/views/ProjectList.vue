@@ -40,7 +40,6 @@ import ProjectCard from "@/components/ProjectCard";
     },
 
     methods: {
-      //eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huIiwicm9sZXMiOlsiUk9MRV9BZG1pbiJdLCJpc3MiOiIvbG9naW4iLCJleHAiOjE2NTg1MjQyMTZ9.BEpuvpqBHLsbHbQx5Xnww2Gj039WK_W3DWQnVr5L8fw
       async getData() {
         axios.get('http://localhost:9000/project/getAll',{
           headers: {
@@ -48,6 +47,7 @@ import ProjectCard from "@/components/ProjectCard";
           }
         }).then(response => {
           this.data = response.data;
+          //set first project data to initial data for users
           this.projectManager = this.data[0].projectManager;
           this.projectTeamLeader = this.data[0].teamLeader;
           this.projectMembers = this.data[0].members;

@@ -3,6 +3,7 @@
     <v-row>
       <v-col
         class="col-3">
+        {{this.selectedSprint.id}}
         <h5><strong>Backlogs</strong></h5>
 
         <div class="drop-zone"
@@ -23,8 +24,6 @@
             </div>
           </div>
         </div>
-
-
 
         <CreateBacklog
           :members="memberUsernames"
@@ -47,7 +46,7 @@
           >
             <!-- iterate over task component -->
             <div
-                v-for="(task,index) in selectedProject.sprints[0].tasks"
+                v-for="(task,index) in selectedSprint.tasks"
                 v-bind:key="index"
                 class="drag-el"
                 draggable
@@ -68,10 +67,10 @@
             v-bind:key="index"
             style="border-bottom:1px solid black"
         >
-          {{item}}
+          <SprintCard :sprint="item"></SprintCard>
         </div>
-        <CreateSprint>
-        </CreateSprint>
+
+        <CreateSprint/>
       </v-col>
     </v-row>
   </div>
@@ -82,10 +81,11 @@ import CreateBacklog from "@/components/modal/CreateBacklog";
 import CreateSprint from "@/components/modal/CreateSprint";
 import axios from "axios";
 import jwtService from "@/helpers/JwtService";
+import SprintCard from "@/components/SprintCard";
 
 export default {
   name: "ProjectManagement",
-  components: {CreateBacklog,CreateSprint},
+  components: {SprintCard, CreateBacklog,CreateSprint},
   data () {
     return {
       //memberUsernames: [],
@@ -96,32 +96,25 @@ export default {
     this.setUsernameArray();
   },
   methods: {
-    createSprint() {
-      console.log("Create Sprint");
-    },
-    createBacklog() {
-      console.log("Create Backlog");
-    },
     startDrag(evt, item,itemFrom) {
-      // eslint-disable-next-line no-debugger
-      debugger;
       evt.dataTransfer.dropEffect = 'move'
       evt.dataTransfer.effectAllowed = 'move'
       evt.dataTransfer.setData('itemID', item.id)
       evt.dataTransfer.setData('itemFrom', itemFrom)
     },
     async onDrop(evt, taskStatus) {
+
+      // eslint-disable-next-line no-debugger
+      debugger;
       const itemID = evt.dataTransfer.getData('itemID')
       const itemFrom = evt.dataTransfer.getData('itemFrom')
-// eslint-disable-next-line no-debugger
-      debugger;
 
       console.log(itemID, itemFrom,taskStatus);
       if (itemFrom === 'sprints' && taskStatus !== 'backlog') {
           await axios.post("http://localhost:9000/task/changeStatus", {}, {
             params: {
               id: itemID,
-              sprintId: "62e04f554f8c800eadc78914",
+              sprintId: this.$store.state.selectedSprintId,
               newStatus: taskStatus,
             },
             headers: {
@@ -134,7 +127,7 @@ export default {
           .then( response => {
                 // eslint-disable-next-line no-debugger
                 debugger;
-                this.$store.state.selectedProject.sprints[0].tasks = response.data;
+                this.selectedSprint.tasks = response.data;
               },
           )
           .catch(c => {
@@ -145,7 +138,7 @@ export default {
         await axios.post("http://localhost:9000/task/backlogToSprint", {}, {
           params: {
             id: itemID,
-            sprintId: "62e04f554f8c800eadc78914",
+            sprintId: this.$store.state.selectedSprintId,
             newStatus: taskStatus,
             projectId: this.selectedProject.id,
           },
@@ -170,7 +163,7 @@ export default {
         await axios.post("http://localhost:9000/task/sprintToBacklog", {}, {
           params: {
             id: itemID,
-            sprintId: "62e04f554f8c800eadc78914",
+            sprintId: this.$store.state.selectedSprintId,
             projectId: this.selectedProject.id,
           },
           headers: {
@@ -191,48 +184,20 @@ export default {
             });
       }
 
-      /*
-      if(itemFrom === 'sprints') {
-        let selectedTask = this.selectedProject.sprints[0].tasks.find((item) => item.id === itemID)
-        delete this.selectedProject.sprints[0].tasks[selectedTask.id];
-
-        if(taskStatus === 'backlog') {
-          selectedTask.status = 'backlog'
-          this.selectedProject.backlogTasks.push(selectedTask);
-        }
-        else {
-          selectedTask.status = taskStatus.status;
-          this.selectedProject.sprints[0].tasks.push(selectedTask);
-        }
-      }
-      if(itemFrom === 'backlog') {
-        let selectedBacklog = this.selectedProject.backlogTasks.find((item) => item.id === itemID)
-        delete this.selectedProject.backlogTasks[selectedBacklog];
-        selectedBacklog.status = taskStatus.status;
-        this.selectedProject.sprints[0].tasks.push(selectedBacklog);
-      }
-       */
     },
-    /*
-    onDropFromBacklog(evt,taskStatus) {
-      // eslint-disable-next-line no-debugger
-      debugger;
-      const itemID = evt.dataTransfer.getData('itemID')
-      let selectedBacklog = this.selectedProject.backlogTasks.find((item) => item.id === itemID);
-      selectedBacklog.status = taskStatus.status;
-      this.selectedProject.sprints[0].tasks.push(selectedBacklog);
-    }
-     */
   },
   computed: {
     selectedProject() {
         return this.$store.state.selectedProject;
     },
+    selectedSprint() {
+      return this.$store.state.selectedProject.sprints.find(sprint => sprint.id === this.$store.state.selectedSprintId);
+    },
     memberUsernames() {
       // eslint-disable-next-line no-debugger
       debugger
       return this.$store.state.selectedProject.members.map(member  => member.username);
-    }
+    },
   }
 }
 </script>

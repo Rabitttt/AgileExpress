@@ -16,6 +16,9 @@ export default new Vuex.Store({
 
     // Projects
     selectedProject:  {},
+    //sprints
+    selectedSprintId: "",
+
 
     allProjects: [
       {
@@ -162,6 +165,9 @@ export default new Vuex.Store({
       // eslint-disable-next-line no-debugger
       debugger;
       state.selectedProject.sprints.push(sprint);
+    },
+    setSelectedSprintId (state,sprintId) {
+        state.selectedSprintId = sprintId;
     }
 
   },
@@ -177,6 +183,7 @@ export default new Vuex.Store({
         // eslint-disable-next-line no-debugger
         debugger;
         context.commit("setSelectedProject",response.data);
+        context.commit("setSelectedSprintId",response.data.sprints[0].id);
       });
     },
     async createTask(context,form) {
