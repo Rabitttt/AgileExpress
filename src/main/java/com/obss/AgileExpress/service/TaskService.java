@@ -61,4 +61,7 @@ public class TaskService {
         return projectService.getProjectById(projectId);
     }
 
+    public Task getTaskById(String id) {
+        return taskRepository.findById(id).get();
+    }
 }

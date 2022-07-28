@@ -19,13 +19,11 @@
               draggable
               @dragstart="startDrag($event, item,'backlog')"
           >
-            <div v-if="item.status === 'backlog'">
-              {{item}}
-            </div>
+            <span v-if="item.status === 'backlog'">
+              <TaskCard :task="item"></TaskCard>
+            </span>
           </div>
         </div>
-
-
 
         <CreateBacklog
             :members="memberUsernames"
@@ -54,9 +52,9 @@
                 draggable
                 @dragstart="startDrag($event, task,'sprints')"
             >
-              <div v-if="taskStatus.status === task.status" >
-                {{task}}
-              </div>
+              <span v-if="taskStatus.status === task.status" >
+                <TaskCard :task="task"></TaskCard>
+              </span>
             </div>
           </div>
         </div>
@@ -84,10 +82,11 @@ import CreateSprint from "@/components/modal/CreateSprint";
 import axios from "axios";
 import jwtService from "@/helpers/JwtService";
 import SprintCard from "@/components/SprintCard";
+import TaskCard from "@/components/TaskCard";
 
 export default {
   name: "ProjectManagement",
-  components: {SprintCard, CreateBacklog,CreateSprint},
+  components: {TaskCard, SprintCard, CreateBacklog,CreateSprint},
   data () {
     return {
       //memberUsernames: [],

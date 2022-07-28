@@ -10,6 +10,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,6 +24,6 @@ public class TaskDao {
     private String assignee;
     private String status;
     @DocumentReference(lazy = true)
-    private TaskLog taskLog;
+    private List<TaskLog> taskLogs;
 
 }

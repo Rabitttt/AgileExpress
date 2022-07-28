@@ -9,6 +9,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
+import java.util.List;
+
 @Document("task")
 @Data
 @NoArgsConstructor
@@ -23,5 +25,5 @@ public class Task {
     private User assignee;
     private String status;
     @DocumentReference(lazy = true)
-    private TaskLog taskLog;
+    private List<TaskLog> taskLogs;
 }

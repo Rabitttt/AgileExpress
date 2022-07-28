@@ -16,6 +16,12 @@ import java.util.List;
 public class TaskController {
 
     private final TaskService taskService;
+    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')")
+    @GetMapping("/getTask/{taskId}")
+    public Task getTask(@PathVariable(value = "taskId") String taskId) {
+        return taskService.getTaskById(taskId);
+    }
+
 
     @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')")
     @PostMapping("/create")
