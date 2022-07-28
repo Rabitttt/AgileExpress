@@ -27,7 +27,6 @@ public class TaskLog {
 
     //TODO: spend time from user
 
-    private Date date;
-    private LocalDateTime startClock;
-    private LocalDateTime endClock;
+    private String startClock;
+    private String endClock;
 }

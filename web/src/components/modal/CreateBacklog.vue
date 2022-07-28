@@ -30,7 +30,7 @@
               <TextArea @handleFormChange="onFormChanged" componentFormTitle="description"></TextArea>
             </div>
             <div class="form-element">
-              <label class="required fs-5 fw-bold mb-2">Description</label>
+              <label class="required fs-5 fw-bold mb-2">Story Point</label>
               <AppendPrependField @handleFormChange="onFormChanged" componentFormTitle="storyPoint"></AppendPrependField>
             </div>
             <div class="form-element">

@@ -4,13 +4,16 @@
     Hellooooo {{this.$route.params.id}}
     <p>{{task}}</p>
     </v-row>
+    <v-row class="justify-content-between">
+      <v-col class="col-3">
+        <h4>Logs</h4>
+      </v-col>
+      <v-col class="col-2">
+        <AddLogToTask :task-id="this.task.id"></AddLogToTask>
+      </v-col>
+    </v-row>
     <v-row>
-      <h4>Logs</h4>
-      <button
-          class="btn btn-lg btn-primary btn-block"
-          v-on:click="projectDetails"
-      >Project Details</button>
-       {{task.taskLogs}}
+      {{task.taskLogs}}
     </v-row>
   </div>
 </template>
@@ -18,9 +21,11 @@
 <script>
 import axios from "axios";
 import jwtService from "@/helpers/JwtService";
+import AddLogToTask from "@/components/modal/AddLogToTask";
 
 export default {
   name: "TaskDetails",
+  components: {AddLogToTask},
   data () {
     return {
       task: {},
@@ -40,7 +45,7 @@ export default {
         debugger;
         this.task = response.data;
       });
-    }
+    },
   }
 }
 </script>

@@ -3,6 +3,7 @@ package com.obss.AgileExpress.service;
 import com.obss.AgileExpress.domain.TaskDao;
 import com.obss.AgileExpress.entity.Project;
 import com.obss.AgileExpress.entity.Task;
+import com.obss.AgileExpress.entity.TaskLog;
 import com.obss.AgileExpress.entity.User;
 import com.obss.AgileExpress.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
@@ -63,5 +64,12 @@ public class TaskService {
 
     public Task getTaskById(String id) {
         return taskRepository.findById(id).get();
+    }
+
+    public Task  addTaskLogToTask(String taskId, TaskLog taskLog) {
+        Task task = taskRepository.findById(taskId).get();
+        task.getTaskLogs().add(taskLog);
+        taskRepository.save(task);
+        return task;
     }
 }
