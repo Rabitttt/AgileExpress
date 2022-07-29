@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.util.Date;
+
 @RestController
 @RequestMapping("sprint")
 @RequiredArgsConstructor
@@ -24,5 +27,12 @@ public class SprintController {
     @GetMapping("/getSprint/{sprintId}")
     public Sprint getSprint(@PathVariable(value = "sprintId") String sprintId) {
         return sprintService.getSprint(sprintId);
+    }
+
+    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')")
+    @PostMapping("/makeActiveSprint")
+    public Sprint changeActiveSprint(@RequestParam String sprintId,
+                                     @RequestParam String endDate) throws ParseException {
+        return sprintService.makeActiveSprint(sprintId,endDate);
     }
 }

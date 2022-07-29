@@ -9,11 +9,13 @@
         <h4>Logs</h4>
       </v-col>
       <v-col class="col-2">
-        <AddLogToTask :task-id="this.task.id"></AddLogToTask>
+        <AddLogToTask :task-id="this.task.id" @taskLogCreateHandler="taskLogAdded"></AddLogToTask>
       </v-col>
     </v-row>
     <v-row>
-      {{task.taskLogs}}
+      <div v-for="(item,index) in task.taskLogs" v-bind:key="index">
+        {{item}}
+      </div>
     </v-row>
   </div>
 </template>
@@ -46,6 +48,9 @@ export default {
         this.task = response.data;
       });
     },
+    taskLogAdded(task) {
+      this.task = task;
+    }
   }
 }
 </script>

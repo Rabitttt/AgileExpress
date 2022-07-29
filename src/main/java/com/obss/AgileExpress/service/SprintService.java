@@ -9,6 +9,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -48,5 +53,22 @@ public class SprintService {
             }
         });
         sprintRepository.save(sprint);
+    }
+
+
+    public Sprint changeState(String sprintId,String state) {
+        Sprint sprint = sprintRepository.findById(sprintId).get();
+        sprint.setSprintState(state);
+        sprintRepository.save(sprint);
+        return sprint;
+    }
+    public Sprint makeActiveSprint(String sprintId, String endDate) throws ParseException {
+        Sprint sprint = sprintRepository.findById(sprintId).get();
+        sprint.setSprintState("active");
+        Date formattedEndDate = new SimpleDateFormat("yyyy-MM-dd").parse(endDate);
+        sprint.setEndDate(formattedEndDate);
+        sprint.setStartDate(new Date());
+        sprintRepository.save(sprint);
+        return sprint;
     }
 }

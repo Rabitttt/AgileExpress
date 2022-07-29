@@ -1,8 +1,10 @@
 <template>
-  <v-date-picker
-      v-model="model"
-      elevation="1"
-  ></v-date-picker>
+  <v-col>
+    <v-date-picker
+        v-model="model"
+        elevation="1"
+    ></v-date-picker>
+  </v-col>
 </template>
 
 <script>

@@ -11,7 +11,7 @@
             v-bind="attrs"
             v-on="on"
         >
-          Add Task Log
+          Make Active Sprint
         </v-btn>
       </template>
       <v-card>
@@ -22,13 +22,8 @@
           {{this.form}}
           <form>
             <div class="form-element">
-              <label class="required fs-5 fw-bold mb-2">Description</label>
-              <TextArea @handleFormChange="onFormChanged" componentFormTitle="description"></TextArea>
-            </div>
-
-            <div class="form-element">
-              <label class="required fs-5 fw-bold mb-2">Select Work Time</label>
-              <TimeRangePicker  @handleFormChange="onFormChanged"></TimeRangePicker>
+              <label class="required fs-5 fw-bold mb-2">Select End Date</label>
+              <DateRangePicker @handleFormChange="onFormChanged" componentFormTitle="endDate"></DateRangePicker>
             </div>
           </form>
         </v-card-text>
@@ -54,27 +49,21 @@
   </v-row>
 </template>
 
-
 <script>
-import TextArea from "@/components/form/TextArea";
-import TimeRangePicker from "@/components/form/TimeRangePicker";
 import axios from "axios";
 import jwtService from "@/helpers/JwtService";
-
-
+import DateRangePicker from "@/components/form/DateRangePicker";
 
 export default {
-  name: "AddLogToTask",
-  components: {TimeRangePicker, TextArea},
+  name: "MakeActiveSprint",
   props: {
-    taskId: String,
+    sprintId: String,
   },
+  components: {DateRangePicker},
   data: () => ({
     dialog: false,
     form: {
-      description: "",
-      startClock: "",
-      endClock: "",
+      endDate: "",
     },
   }),
   methods: {
@@ -84,11 +73,14 @@ export default {
       this.form[componentFormTitle] = model
     },
     createTaskHandler() {
-       axios.post("http://localhost:9000/taskLog/create/"+this.$props.taskId,
+      // eslint-disable-next-line no-debugger
+      debugger;
+      axios.post("http://localhost:9000/sprint/makeActiveSprint", {},
           {
-            ...this.form,
-          },
-          {
+            params: {
+              sprintId: this.$props.sprintId,
+              endDate: this.form.endDate,
+            },
             headers: {
               Authorization: `Bearer ${jwtService.getToken()}`,
               "Accept-Encoding": "gzip, deflate, br",
@@ -99,8 +91,7 @@ export default {
           .then( response => {
                 // eslint-disable-next-line no-debugger
                 debugger;
-                this.$emit("taskLogCreateHandler",response.data)
-                this.dialog = false;
+                window.alert(response.data)
               },
           )
           .catch(c => {
