@@ -55,7 +55,13 @@ export default new Vuex.Store({
     },
     setSelectedSprintId (state,sprintId) {
         state.selectedSprintId = sprintId;
-    }
+    },
+    setSprintStateChange (state,sprint) {
+        // eslint-disable-next-line no-debugger
+        debugger;
+        let index = state.selectedProject.sprints.findIndex(searchSprint => searchSprint.id === sprint.id)
+        state.selectedProject.sprints[index] = sprint;
+    },
 
   },
   actions: {
@@ -104,7 +110,7 @@ export default new Vuex.Store({
     async createSprint(context,form) {
       // eslint-disable-next-line no-debugger
       debugger;
-      await axios.post("http://localhost:9000/sprint/create",
+      await axios.post("http://localhost:9000/sprint/create/" + context.state.selectedProject.id,
           {
             ...form,
           },

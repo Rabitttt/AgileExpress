@@ -1,9 +1,10 @@
 <template>
   <div >
     <v-row>
+      <!-- BACKLOGS -->
       <v-col
           class="col-3">
-        {{this.selectedProject.sprints[sprintIndex].id}}
+        Sprint Name: {{this.selectedProject.sprints[sprintIndex].name}}
 
         <h5><strong>Backlogs</strong></h5>
         <div class="drop-zone"
@@ -30,6 +31,7 @@
         >
         </CreateBacklog>
       </v-col>
+      <!-- Task Management -->
       <v-col
           class="col-6 d-flex flex-row">
         <div
@@ -59,19 +61,45 @@
           </div>
         </div>
       </v-col>
+      <!-- Sprints -->
+
       <v-col
           class="col-3">
         <h5><strong>Sprints</strong></h5>
-        <div
-            v-for="(item,index) in selectedProject.sprints"
-            v-bind:key="index"
-            style="border-bottom:1px solid black"
+        <v-tabs
+            v-model="tab"
+            background-color="transparent"
+            grow
         >
-          <SprintCard :sprint="item" @handleClick="onSprintChanged"></SprintCard>
-        </div>
+          <v-tab
+              v-for="item in items"
+              :key="item"
+          >
+            {{ item }}
+          </v-tab>
+        </v-tabs>
+        <v-tabs-items v-model="tab">
+          <v-tab-item
+              v-for="item in items"
+              :key="item"
+          >
+            <div
+                v-for="(item,index) in activeSprints"
+                v-bind:key="index"
+                style="border-bottom:1px solid black"
+            >
+              <SprintCard :sprint="item"
+                          @handleClick="onSprintChanged"
+                          style="margin: 30px;">
+              </SprintCard>
+            </div>
+          </v-tab-item>
+        </v-tabs-items>
+
         <CreateSprint>
         </CreateSprint>
       </v-col>
+
     </v-row>
   </div>
 </template>
@@ -91,19 +119,19 @@ export default {
     return {
       //memberUsernames: [],
       sprintIndex: 0,
+      tab: null,
+      items: [
+        'active', 'planned', 'completed',
+      ],
+      text: 'quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
     }
   },
   created() {
     this.$store.dispatch("setSelectedProject",this.$route.params.id)
     this.setUsernameArray();
+    this.tab = 0; //items array index
   },
   methods: {
-    createSprint() {
-      console.log("Create Sprint");
-    },
-    createBacklog() {
-      console.log("Create Backlog");
-    },
     startDrag(evt, item,itemFrom) {
       // eslint-disable-next-line no-debugger
       debugger;
@@ -238,7 +266,14 @@ export default {
       // eslint-disable-next-line no-debugger
       debugger
       return this.$store.state.selectedProject.members.map(member  => member.username);
-    }
+    },
+    //Split sprints from sprintStates, Active , Planned ,
+    activeSprints() {
+      // eslint-disable-next-line no-debugger
+      debugger;
+      let state = this.items[this.tab];
+      return  this.selectedProject.sprints.filter((item) => item.sprintState === state);
+    },
   }
 }
 </script>

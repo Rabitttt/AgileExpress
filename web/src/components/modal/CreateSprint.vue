@@ -43,7 +43,7 @@
           <v-btn
               color="blue darken-1"
               text
-              @click="createTaskHandler"
+              @click="createSprintHandler"
           >
             Save
           </v-btn>
@@ -71,7 +71,7 @@ export default {
     onFormChanged(model, componentFormTitle) {
       this.form[componentFormTitle] = model
     },
-    createTaskHandler() {
+    createSprintHandler() {
       this.$store.dispatch("createSprint", this.form)
     }
   },

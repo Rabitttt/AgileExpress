@@ -1,6 +1,8 @@
 <template>
   <div>
-    {{task}}
+    {{task.storyPoint}}
+    {{task.taskName}}
+    {{task.taskName}}
     <button
         class="btn btn-sm btn-primary btn-block"
         v-on:click="handleProjectDetails"

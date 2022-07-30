@@ -26,6 +26,7 @@ public class SprintService {
 
     //TODO : Get projectId from request (client)
     public Sprint createSprint(Sprint sprint,String projectId) {
+        sprint.setSprintState("planned");
         Sprint createdSprint = sprintRepository.save(sprint);
         projectService.addSprintToProject(createdSprint, projectId);
         return createdSprint;
@@ -68,6 +69,15 @@ public class SprintService {
         Date formattedEndDate = new SimpleDateFormat("yyyy-MM-dd").parse(endDate);
         sprint.setEndDate(formattedEndDate);
         sprint.setStartDate(new Date());
+        sprintRepository.save(sprint);
+        return sprint;
+    }
+
+    public Sprint changeSprintState(String sprintId,String state) {
+        Sprint sprint = sprintRepository.findById(sprintId).get();
+        sprint.setSprintState(state);
+        sprint.setStartDate(null);
+        sprint.setEndDate(null);
         sprintRepository.save(sprint);
         return sprint;
     }

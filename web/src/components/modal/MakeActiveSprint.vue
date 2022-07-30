@@ -5,14 +5,13 @@
         max-width="900px"
     >
       <template v-slot:activator="{ on, attrs }">
-        <v-btn
-            color="primary btn-sm"
-            dark
+        <button
+            class="btn btn-sm btn-dark btn-block"
             v-bind="attrs"
             v-on="on"
         >
           Make Active Sprint
-        </v-btn>
+        </button>
       </template>
       <v-card>
         <v-card-title>
@@ -39,7 +38,7 @@
           <v-btn
               color="blue darken-1"
               text
-              @click="createTaskHandler"
+              @click="changeToActive"
           >
             Save
           </v-btn>
@@ -72,7 +71,7 @@ export default {
       debugger;
       this.form[componentFormTitle] = model
     },
-    createTaskHandler() {
+    changeToActive() {
       // eslint-disable-next-line no-debugger
       debugger;
       axios.post("http://localhost:9000/sprint/makeActiveSprint", {},
@@ -91,7 +90,7 @@ export default {
           .then( response => {
                 // eslint-disable-next-line no-debugger
                 debugger;
-                window.alert(response.data)
+                this.$store.commit("setSprintStateChange", response.data);
               },
           )
           .catch(c => {
