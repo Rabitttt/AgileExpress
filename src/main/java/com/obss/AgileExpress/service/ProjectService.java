@@ -5,6 +5,7 @@ import com.obss.AgileExpress.domain.ProjectDao;
 import com.obss.AgileExpress.entity.*;
 import com.obss.AgileExpress.enums.UserRoles;
 import com.obss.AgileExpress.repository.ProjectRepository;
+import com.obss.AgileExpress.repository.SprintRepository;
 import com.obss.AgileExpress.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,12 +26,19 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final TaskRepository taskRepository;
     private final UserService userService;
+    private final SprintRepository sprintRepository;
 
     public Project createProject(ProjectDao projectDao) {
         List<User> members = new ArrayList<>();
         for (String string : projectDao.getMembers()) {
             members.add(userService.getUserById(string));
         }
+        Sprint sprint = new Sprint();
+        sprint.setName("Initial Sprint of " + projectDao.getName());
+        sprint.setSprintState("planned");
+        sprintRepository.save(sprint);
+        List<Sprint> sprints = new ArrayList<>();
+        sprints.add(sprint);
         List<TaskStatus> taskStatuses = new ArrayList<>(projectDao.getTaskStatus());
         Project project = Project.builder()
                 .id(null)
@@ -43,6 +51,7 @@ public class ProjectService {
                 .members(members)
                 .backlogTasks(null)
                 .taskStatus(taskStatuses)
+                .sprints(sprints)
                 .build();
 
         projectRepository.save(project);

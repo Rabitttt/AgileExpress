@@ -2,6 +2,10 @@
   <div class="container">
     <div class="row">
       <div class="col-8">
+        <div>
+          <SearchBar></SearchBar>
+        </div>
+        <div>
         <h5><strong>Projects</strong></h5>
         <project-card
             v-for="(project,index) in data"
@@ -9,6 +13,7 @@
             :project="project"
             @handleSelectedProject="setProjectUser"
         ></project-card>
+        </div>
       </div>
       <div class="col-4">
         <h5><strong>Users</strong></h5>
@@ -24,10 +29,11 @@
 import axios from "axios"
 import jwtService from "@/helpers/JwtService.js";
 import ProjectCard from "@/components/ProjectCard";
+import SearchBar from "@/components/SearchBar";
 
   export default {
     name: 'ProjectList',
-    components: {ProjectCard},
+    components: {SearchBar, ProjectCard},
     data: () => ({
       data: {},
       projectMembers: [],

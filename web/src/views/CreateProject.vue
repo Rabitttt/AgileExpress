@@ -146,18 +146,17 @@ export default {
       teamLeader: null,
       users: [],
       form: {
+        id: "",
         name: "",
+        createdDate: "",
         description: "",
-        creator: "62d87cc053d2624bcabdc07e",
+        creator: "62e69c563235105e87ebcbed",
         teamLeader: "",
         projectManager: "",
         members: [],
         backlogTasks: [],
-        taskStatus: [
-          "deneme",
-          "status2",
-          "status10"
-        ]
+        taskStatus: [],
+        sprints: [],
       },
     }
   },
@@ -181,7 +180,7 @@ export default {
     },
 
     async createProject() {
-      await axios.post("http://localhost:9000/project/create/"+this.$store.state.selectedProject.id,
+      await axios.post("http://localhost:9000/project/create",
           {
             ...this.form
           },
@@ -195,6 +194,7 @@ export default {
       })
           .then( response => {
                 console.log(response)
+                this.$router.push("/");
               },
           )
           .catch(c => {

@@ -11,9 +11,10 @@ spring:
 
   data:
     mongodb:
-      authentication-database: admin
-      username: rootuser
-      password: rootpass
+      #authentication-database: admin
+      #username: rootuser
+      #password: rootpass
       database: AgileExpress
-      port: 27017
-      host: localhost
+      #port: 27017
+      #host: localhost
+      uri: mongodb+srv://Rabitttt:Selman_02588520@cluster0.s2os0cs.mongodb.net/AgileExpress?retryWrites=true&w=majority
