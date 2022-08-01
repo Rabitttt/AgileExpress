@@ -1,9 +1,8 @@
 package com.obss.AgileExpress.controller;
 
 import com.obss.AgileExpress.domain.TaskDao;
-import com.obss.AgileExpress.entity.Project;
-import com.obss.AgileExpress.entity.Task;
-import com.obss.AgileExpress.entity.TaskLog;
+import com.obss.AgileExpress.documents.Project;
+import com.obss.AgileExpress.documents.Task;
 import com.obss.AgileExpress.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;

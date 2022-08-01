@@ -1,9 +1,7 @@
 package com.obss.AgileExpress.service;
 
-import com.obss.AgileExpress.domain.TaskDao;
-import com.obss.AgileExpress.entity.Sprint;
-import com.obss.AgileExpress.entity.Task;
-import com.obss.AgileExpress.entity.User;
+import com.obss.AgileExpress.documents.Sprint;
+import com.obss.AgileExpress.documents.Task;
 import com.obss.AgileExpress.repository.SprintRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 

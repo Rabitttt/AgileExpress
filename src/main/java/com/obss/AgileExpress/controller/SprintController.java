@@ -1,14 +1,13 @@
 package com.obss.AgileExpress.controller;
 
 
-import com.obss.AgileExpress.entity.Sprint;
+import com.obss.AgileExpress.documents.Sprint;
 import com.obss.AgileExpress.service.SprintService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
-import java.util.Date;
 
 @RestController
 @RequestMapping("sprint")

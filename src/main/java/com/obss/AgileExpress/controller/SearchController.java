@@ -1,6 +1,6 @@
 package com.obss.AgileExpress.controller;
 
-import com.obss.AgileExpress.entity.Project;
+import com.obss.AgileExpress.documents.Project;
 import com.obss.AgileExpress.service.SearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

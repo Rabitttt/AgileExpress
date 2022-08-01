@@ -1,4 +1,4 @@
-package com.obss.AgileExpress.entity;
+package com.obss.AgileExpress.documents;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

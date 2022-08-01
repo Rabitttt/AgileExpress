@@ -1,9 +1,8 @@
 package com.obss.AgileExpress.controller;
 
 import com.obss.AgileExpress.domain.ProjectDao;
-import com.obss.AgileExpress.entity.Project;
+import com.obss.AgileExpress.documents.Project;
 import com.obss.AgileExpress.service.ProjectService;
-import com.obss.AgileExpress.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

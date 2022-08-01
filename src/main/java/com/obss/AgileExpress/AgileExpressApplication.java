@@ -1,26 +1,9 @@
 package com.obss.AgileExpress;
 
-import com.obss.AgileExpress.entity.Project;
-import com.obss.AgileExpress.entity.Sprint;
-import com.obss.AgileExpress.entity.Task;
-import com.obss.AgileExpress.entity.User;
-import com.obss.AgileExpress.enums.UserRoles;
-import com.obss.AgileExpress.repository.SprintRepository;
-import com.obss.AgileExpress.repository.TaskRepository;
-import com.obss.AgileExpress.repository.UserRepository;
-import com.obss.AgileExpress.service.ProjectService;
-import com.obss.AgileExpress.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
 @EnableMongoAuditing

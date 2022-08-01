@@ -1,7 +1,7 @@
 package com.obss.AgileExpress.repository;
 
 
-import com.obss.AgileExpress.entity.User;
+import com.obss.AgileExpress.documents.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

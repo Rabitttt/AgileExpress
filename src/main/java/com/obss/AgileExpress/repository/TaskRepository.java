@@ -1,6 +1,6 @@
 package com.obss.AgileExpress.repository;
 
-import com.obss.AgileExpress.entity.Task;
+import com.obss.AgileExpress.documents.Task;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

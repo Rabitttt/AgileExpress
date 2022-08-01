@@ -1,13 +1,10 @@
 package com.obss.AgileExpress.domain;
 
-import com.obss.AgileExpress.entity.TaskLog;
-import com.obss.AgileExpress.entity.User;
+import com.obss.AgileExpress.documents.TaskLog;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import java.util.List;

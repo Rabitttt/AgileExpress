@@ -1,11 +1,10 @@
 package com.obss.AgileExpress.service;
 
-import com.obss.AgileExpress.entity.LdapUser;
-import com.obss.AgileExpress.entity.User;
+import com.obss.AgileExpress.documents.LdapUser;
+import com.obss.AgileExpress.documents.User;
 import com.obss.AgileExpress.repository.LdapUserRepository;
 import com.obss.AgileExpress.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

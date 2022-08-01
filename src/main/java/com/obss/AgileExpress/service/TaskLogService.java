@@ -1,13 +1,11 @@
 package com.obss.AgileExpress.service;
 
-import com.obss.AgileExpress.entity.Task;
-import com.obss.AgileExpress.entity.TaskLog;
+import com.obss.AgileExpress.documents.Task;
+import com.obss.AgileExpress.documents.TaskLog;
 import com.obss.AgileExpress.repository.TaskLogRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

@@ -1,13 +1,11 @@
 package com.obss.AgileExpress.controller;
 
-import com.obss.AgileExpress.entity.Task;
-import com.obss.AgileExpress.entity.TaskLog;
+import com.obss.AgileExpress.documents.Task;
+import com.obss.AgileExpress.documents.TaskLog;
 import com.obss.AgileExpress.service.TaskLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 @RequestMapping("/taskLog")

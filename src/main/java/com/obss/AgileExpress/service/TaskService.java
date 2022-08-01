@@ -1,10 +1,10 @@
 package com.obss.AgileExpress.service;
 
 import com.obss.AgileExpress.domain.TaskDao;
-import com.obss.AgileExpress.entity.Project;
-import com.obss.AgileExpress.entity.Task;
-import com.obss.AgileExpress.entity.TaskLog;
-import com.obss.AgileExpress.entity.User;
+import com.obss.AgileExpress.documents.Project;
+import com.obss.AgileExpress.documents.Task;
+import com.obss.AgileExpress.documents.TaskLog;
+import com.obss.AgileExpress.documents.User;
 import com.obss.AgileExpress.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

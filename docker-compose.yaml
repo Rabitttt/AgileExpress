@@ -21,6 +21,14 @@ services:
       - ME_CONFIG_MONGODB_ADMINPASSWORD=rootpass
       - ME_CONFIG_MONGODB_SERVER=mongodb
 
+  elasticsearch:
+    image: elasticsearch:7.4.2
+    ports:
+      - '9200:9200'
+      - '9300:9300'
+    environment:
+      - discovery.type=single-node
+
 volumes:
   data:  {}
 

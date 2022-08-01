@@ -1,6 +1,6 @@
 package com.obss.AgileExpress.controller;
 
-import com.obss.AgileExpress.entity.User;
+import com.obss.AgileExpress.documents.User;
 import com.obss.AgileExpress.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;

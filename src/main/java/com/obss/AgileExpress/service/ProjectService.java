@@ -2,7 +2,7 @@ package com.obss.AgileExpress.service;
 
 
 import com.obss.AgileExpress.domain.ProjectDao;
-import com.obss.AgileExpress.entity.*;
+import com.obss.AgileExpress.documents.*;
 import com.obss.AgileExpress.enums.UserRoles;
 import com.obss.AgileExpress.repository.ProjectRepository;
 import com.obss.AgileExpress.repository.SprintRepository;
@@ -11,11 +11,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Service;
-import org.yaml.snakeyaml.util.ArrayUtils;
 
 import javax.management.relation.InvalidRoleInfoException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service

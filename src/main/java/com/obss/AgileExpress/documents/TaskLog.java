@@ -1,4 +1,4 @@
-package com.obss.AgileExpress.entity;
+package com.obss.AgileExpress.documents;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,9 +7,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
-
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @Document("taskLog")
 @Data

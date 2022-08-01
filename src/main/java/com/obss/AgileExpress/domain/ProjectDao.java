@@ -1,7 +1,7 @@
 package com.obss.AgileExpress.domain;
 
 
-import com.obss.AgileExpress.entity.TaskStatus;
+import com.obss.AgileExpress.documents.TaskStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

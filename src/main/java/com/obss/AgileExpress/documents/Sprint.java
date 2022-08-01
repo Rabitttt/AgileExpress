@@ -1,15 +1,13 @@
-package com.obss.AgileExpress.entity;
+package com.obss.AgileExpress.documents;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
-import javax.persistence.Column;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
