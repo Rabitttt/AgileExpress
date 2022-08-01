@@ -23,7 +23,7 @@ public class TaskService {
 
     private final UserService userService;
 
-    public Task createTask(TaskDao taskDao) {
+    public Task createTask(TaskDao taskDao,String projectId) {
         User taskAssignee = userService.getUserById(taskDao.getAssignee());
         Task task = Task.builder()
                 .id(null)
@@ -34,7 +34,8 @@ public class TaskService {
                 .status("backlog")
                 .build();
         Task createdBacklogTask = taskRepository.save(task);
-        projectService.addBacklogTaskToProject(createdBacklogTask, "62e6a02d6523f117a5bf7961");
+        projectService.addBacklogTaskToProject(createdBacklogTask, projectId);
+
         //62e6a02d6523f117a5bf7961
         //62db079402d1390f0b58f513
         return createdBacklogTask;

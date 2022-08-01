@@ -11,6 +11,7 @@ export default new Vuex.Store({
     token: "",
     isAuthenticated : false,
     username: "",
+    userId: "",
     userRole: "",
 
 
@@ -82,7 +83,7 @@ export default new Vuex.Store({
     async createTask(context,form) {
       // eslint-disable-next-line no-debugger
       debugger;
-      await axios.post("http://localhost:9000/task/create",
+      await axios.post("http://localhost:9000/task/create/" + context.state.selectedProject.id,
           {
             ...form,
           },

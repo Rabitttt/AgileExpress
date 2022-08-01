@@ -64,12 +64,26 @@ export default {
 
             this.$store.commit("setPayload",jwt_decode(this.token));
             this.$store.commit("setAuthUserStatus",true);
-            this.$router.push({ path: '/' })
           },
       )
       .catch(c => {
         console.log(c)
       });
+      await axios.get("http://localhost:9000/user/getUserDetails/" + this.$store.state.username , {}, {
+        headers: {
+          Authorization: `Bearer ${jwtService.getToken()}`,
+        }
+      })
+          .then( response => {
+                // eslint-disable-next-line no-debugger
+                debugger;
+                this.$store.state.userId = response.data.id;
+                this.$router.push({ path: '/' })
+              },
+          )
+          .catch(c => {
+            console.log(c)
+          });
 
     }
   },

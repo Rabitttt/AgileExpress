@@ -25,9 +25,9 @@ public class TaskController {
 
 
     @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')")
-    @PostMapping("/create")
-    public Task createBacklogTask(@RequestBody TaskDao taskDao) {
-        return taskService.createTask(taskDao);
+    @PostMapping("/create/{projectId}")
+    public Task createBacklogTask(@PathVariable(value = "projectId") String projectId, @RequestBody TaskDao taskDao) {
+        return taskService.createTask(taskDao,projectId);
     }
 
     @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')")

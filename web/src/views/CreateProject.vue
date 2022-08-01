@@ -150,7 +150,7 @@ export default {
         name: "",
         createdDate: "",
         description: "",
-        creator: "62e69c563235105e87ebcbed",
+        creator: this.$store.state.userId,
         teamLeader: "",
         projectManager: "",
         members: [],
