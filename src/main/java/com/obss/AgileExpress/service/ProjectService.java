@@ -1,9 +1,11 @@
 package com.obss.AgileExpress.service;
 
 
+import com.obss.AgileExpress.documents.ElasticSearch.ProjectES;
 import com.obss.AgileExpress.domain.ProjectDao;
 import com.obss.AgileExpress.documents.*;
 import com.obss.AgileExpress.enums.UserRoles;
+import com.obss.AgileExpress.repository.ElsaticSearch.ProjectESRepository;
 import com.obss.AgileExpress.repository.ProjectRepository;
 import com.obss.AgileExpress.repository.SprintRepository;
 import com.obss.AgileExpress.repository.TaskRepository;
@@ -25,6 +27,7 @@ public class ProjectService {
     private final TaskRepository taskRepository;
     private final UserService userService;
     private final SprintRepository sprintRepository;
+    private final ProjectESRepository projectESRepository;
 
     public Project createProject(ProjectDao projectDao) {
         List<User> members = new ArrayList<>();
@@ -53,6 +56,8 @@ public class ProjectService {
                 .build();
 
         projectRepository.save(project);
+        //Save project To ES
+        projectESRepository.save(ProjectES.builder().id(project.getId()).name(project.getName()).build());
         log.info("Project created: {}", project);
         return project;
     }

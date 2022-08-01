@@ -1,6 +1,8 @@
 package com.obss.AgileExpress.service;
 
+import com.obss.AgileExpress.documents.ElasticSearch.UserES;
 import com.obss.AgileExpress.documents.User;
+import com.obss.AgileExpress.repository.ElsaticSearch.UserESRepository;
 import com.obss.AgileExpress.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,10 +23,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class UserService implements UserDetailsService {
+public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private final AuthService authService;
+    private final UserESRepository userESRepository;
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -34,7 +37,9 @@ public class UserService implements UserDetailsService {
     public User saveUser(User user) {
         log.info("Saving new user {} to database",user.getUsername());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+        User userEntity = userRepository.save(user);
+        userESRepository.save(UserES.builder().id(userEntity.getId()).email(userEntity.getEmail()).username(userEntity.getUsername()).roles(userEntity.getRoles()).build());
+        return userEntity;
     }
 
     public User getUserByUsername(String username) {
@@ -52,6 +57,7 @@ public class UserService implements UserDetailsService {
     }
 
 
+    /*
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
@@ -72,6 +78,7 @@ public class UserService implements UserDetailsService {
         authService.create(user.getUsername(),user.getEmail(),user.getPassword());
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
     }
+     */
 
     /*
     @Bean
