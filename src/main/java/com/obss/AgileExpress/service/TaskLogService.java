@@ -1,15 +1,12 @@
 package com.obss.AgileExpress.service;
 
-import com.obss.AgileExpress.documents.ElasticSearch.TaskES;
 import com.obss.AgileExpress.documents.Task;
 import com.obss.AgileExpress.documents.TaskLog;
-import com.obss.AgileExpress.repository.ElsaticSearch.TaskESRepository;
 import com.obss.AgileExpress.repository.TaskLogRepository;
 import com.obss.AgileExpress.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.yaml.snakeyaml.util.ArrayUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -50,6 +47,7 @@ public class TaskLogService {
         taskLogRepository.deleteById(taskLogId);
         return task.getTaskLogs();
     }
+
 
     public TaskLog updateTaskLog(TaskLog taskLog,String taskLogId) {
         TaskLog oldTaskLog = taskLogRepository.findById(taskLogId).get();

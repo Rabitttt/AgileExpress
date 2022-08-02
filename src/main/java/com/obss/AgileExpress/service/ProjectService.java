@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import javax.management.relation.InvalidRoleInfoException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -188,11 +190,19 @@ public class ProjectService {
     public void deleteBacklog (Task task,String projectId) {
         Project project = getProjectById(projectId);
 
+        /*
         project.getBacklogTasks().stream().findFirst().ifPresent(t->{
             if(t.getId().equals(task.getId())) {
                 project.getBacklogTasks().remove(t);
             }
         });
+         */
+        int index = IntStream.range(0, project.getBacklogTasks().size())
+                .filter(i -> Objects.equals(task.getId(), project.getBacklogTasks().get(i).getId()))
+                .findFirst()
+                .orElse(-1);
+
+        project.getBacklogTasks().remove(index);
         projectRepository.save(project);
     }
 

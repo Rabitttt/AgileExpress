@@ -9,6 +9,7 @@ import com.obss.AgileExpress.documents.TaskLog;
 import com.obss.AgileExpress.documents.User;
 import com.obss.AgileExpress.repository.ElsaticSearch.TaskESRepository;
 import com.obss.AgileExpress.repository.ElsaticSearch.UserESRepository;
+import com.obss.AgileExpress.repository.TaskLogRepository;
 import com.obss.AgileExpress.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,9 +23,11 @@ import java.util.List;
 @Slf4j
 public class TaskService {
     private final TaskRepository taskRepository;
+    private final TaskLogRepository taskLogRepository;
     private final ProjectService projectService;
     private final SprintService sprintService;
     private final UserService userService;
+
     private final TaskESRepository taskESRepository;
     private final UserESRepository userESRepository;
 
@@ -106,5 +109,23 @@ public class TaskService {
         taskESRepository.save(taskES);
         //RETURN TASK
         return taskToUpdate;
+    }
+
+    public void deleteTask(String taskId,String projectId,String sprintId) {
+        //MONGO
+        Task task = taskRepository.findById(taskId).get();
+        if(task.getStatus().equals("backlog")) {
+            projectService.deleteBacklog(task, projectId);
+        }else {
+            sprintService.deleteTask(task, sprintId);
+        }
+        //TASK LOG DELETE
+        task.getTaskLogs().forEach(item -> {
+            taskLogRepository.deleteById(item.getId());
+        });
+        //TASK DELETE FROM MONGO
+        taskRepository.delete(task);
+        //ELASTIC DELETE
+        taskESRepository.deleteById(taskId);
     }
 }

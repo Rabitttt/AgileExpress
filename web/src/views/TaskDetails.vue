@@ -7,6 +7,11 @@
         :task="this.task"
         @handleUpdateItem="onTaskUpdated"
       ></UpdateTask>
+      <button
+          class="btn btn-sm btn-primary btn-block"
+          v-on:click="onDeleteTask">
+        Delete Task
+      </button>
     </v-row>
     <v-row class="justify-content-between">
       <v-col class="col-3">
@@ -69,6 +74,35 @@ export default {
     onTaskUpdated(task) {
       this.task = task;
     },
+    onDeleteTask() {
+      // eslint-disable-next-line no-debugger
+      debugger;
+      axios.post("http://localhost:9000/task/delete", {},
+          {
+            params: {
+              taskId: this.task.id,
+              projectId: this.$store.state.selectedProject.id,
+              sprintId: this.$store.state.selectedSprintId,
+            },
+            headers: {
+              Authorization: `Bearer ${jwtService.getToken()}`,
+              "Accept-Encoding": "gzip, deflate, br",
+              "Accept": "*/*",
+              "Connection": "keep-alive",},
+          },
+      )
+          .then( response => {
+                // eslint-disable-next-line no-debugger
+                debugger;
+                if(response.status === 200) {
+                  this.$router.push("/project/management/" + this.$store.state.selectedProject.id);
+                }
+              },
+          )
+          .catch(c => {
+            console.log(c)
+          });
+    }
   },
 }
 </script>

@@ -1,6 +1,5 @@
 package com.obss.AgileExpress.controller;
 
-import com.obss.AgileExpress.documents.TaskLog;
 import com.obss.AgileExpress.domain.TaskDao;
 import com.obss.AgileExpress.documents.Project;
 import com.obss.AgileExpress.documents.Task;
@@ -62,6 +61,15 @@ public class TaskController {
             @RequestBody TaskDao task,
             @RequestParam String taskId) {
         return taskService.updateTask(task,taskId);
+    }
+
+    @PostMapping("delete")
+    public void deleteTask(
+            @RequestParam String taskId,
+            @RequestParam String projectId,
+            @RequestParam String sprintId
+    ) {
+        taskService.deleteTask(taskId,projectId,sprintId);
     }
 
 }

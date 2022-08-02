@@ -11,6 +11,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -44,11 +46,13 @@ public class SprintService {
 
     public void deleteTask(Task task, String sprintId) {
         Sprint sprint = sprintRepository.findById(sprintId).get();
-        sprint.getTasks().stream().findAny().ifPresent(t -> {
-            if (t.getId().equals(task.getId())) {
-                sprint.getTasks().remove(t);
-            }
-        });
+
+        int index = IntStream.range(0, sprint.getTasks().size())
+                .filter(i -> Objects.equals(task.getId(), sprint.getTasks().get(i).getId()))
+                .findFirst()
+                .orElse(-1);
+
+        sprint.getTasks().remove(index);
         sprintRepository.save(sprint);
     }
 
