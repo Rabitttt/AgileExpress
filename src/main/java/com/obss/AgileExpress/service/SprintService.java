@@ -1,10 +1,14 @@
 package com.obss.AgileExpress.service;
 
+import com.obss.AgileExpress.documents.Project;
 import com.obss.AgileExpress.documents.Sprint;
 import com.obss.AgileExpress.documents.Task;
+import com.obss.AgileExpress.repository.ProjectRepository;
 import com.obss.AgileExpress.repository.SprintRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -15,15 +19,21 @@ import java.util.Objects;
 import java.util.stream.IntStream;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class SprintService {
 
     private final ProjectService projectService;
     private final SprintRepository sprintRepository;
+    private final TaskService taskService;
 
-    //TODO : Get projectId from request (client)
-    public Sprint createSprint(Sprint sprint,String projectId) {
+    @Autowired
+    public SprintService(@Lazy ProjectService projectService, SprintRepository sprintRepository,@Lazy TaskService taskService) {
+        this.projectService = projectService;
+        this.sprintRepository = sprintRepository;
+        this.taskService = taskService;
+    }
+
+    public Sprint createSprint(Sprint sprint, String projectId) {
         sprint.setSprintState("planned");
         Sprint createdSprint = sprintRepository.save(sprint);
         projectService.addSprintToProject(createdSprint, projectId);
@@ -80,5 +90,17 @@ public class SprintService {
         sprint.setEndDate(null);
         sprintRepository.save(sprint);
         return sprint;
+    }
+
+    public void deleteSprint(String sprintId, String projectId) {
+        Project project = projectService.getProjectById(projectId);
+
+        //Can't delete all sprints,at least one sprints is must be in project
+        if(project.getSprints().size() > 1) {
+            Sprint sprint = sprintRepository.findById(sprintId).get();
+            projectService.deleteSprintFromProject(sprintId, projectId);
+            sprint.getTasks().forEach(item -> taskService.deleteTask(item.getId(),projectId,sprintId));
+            sprintRepository.delete(sprint);
+        }
     }
 }

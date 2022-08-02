@@ -210,4 +210,16 @@ public class ProjectService {
         Project project = getProjectById(projectId);
         return project.getMembers();
     }
+
+    public void deleteSprintFromProject(String sprintId, String projectId) {
+        Project project = getProjectById(projectId);
+        int index = IntStream.range(0, project.getSprints().size())
+                .filter(i -> Objects.equals(project.getSprints().get(i).getId(), sprintId))
+                .findFirst()
+                .orElse(-1);
+        if(index != -1) {
+            project.getSprints().remove(index);
+            projectRepository.save(project);
+        }
+    }
 }

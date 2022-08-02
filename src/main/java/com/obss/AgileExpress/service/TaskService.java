@@ -13,6 +13,7 @@ import com.obss.AgileExpress.repository.TaskLogRepository;
 import com.obss.AgileExpress.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final TaskLogRepository taskLogRepository;
     private final ProjectService projectService;
+    @Lazy
     private final SprintService sprintService;
     private final UserService userService;
 

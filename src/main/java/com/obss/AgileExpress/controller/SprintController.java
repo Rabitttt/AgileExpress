@@ -4,6 +4,7 @@ package com.obss.AgileExpress.controller;
 import com.obss.AgileExpress.documents.Sprint;
 import com.obss.AgileExpress.service.SprintService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,4 +41,13 @@ public class SprintController {
                                      @RequestParam String state) throws ParseException {
         return sprintService.changeSprintState(sprintId,state);
     }
+    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')")
+    @PostMapping("/delete")
+    public void deleteSprint(
+            @RequestParam String sprintId,
+            @RequestParam String projectId
+    ) {
+        sprintService.deleteSprint(sprintId,projectId);
+    }
+
 }

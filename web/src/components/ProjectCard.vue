@@ -34,7 +34,6 @@ export default {
       this.$router.push("project/management/" + this.project.id);
     },
     deleteProject() {
-
     }
   },
 }

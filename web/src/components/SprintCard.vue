@@ -15,6 +15,11 @@
         v-on:click="handleStateChange('completed')">
     Set as Completed
     </button>
+    <button
+        class="btn btn-sm btn-danger btn-block"
+        v-on:click="deleteSprint">
+    Delete Sprints
+    </button>
   </div>
 </template>
 
@@ -55,6 +60,34 @@ export default {
                 // eslint-disable-next-line no-debugger
                 debugger;
                 this.$store.commit("setSprintStateChange", response.data);
+              },
+          )
+          .catch(c => {
+            console.log(c)
+          });
+    },
+    async deleteSprint () {
+      // eslint-disable-next-line no-debugger
+      debugger;
+      await axios.post("http://localhost:9000/sprint/delete", {},
+          {
+            params: {
+              sprintId: this.sprint.id,
+              projectId: this.$store.state.selectedProject.id,
+            },
+            headers: {
+              Authorization: `Bearer ${jwtService.getToken()}`,
+              "Accept-Encoding": "gzip, deflate, br",
+              "Accept": "*/*",
+              "Connection": "keep-alive",},
+          },
+      )
+          .then( response => {
+                // eslint-disable-next-line no-debugger
+                debugger;
+                if(response.status === 200) {
+                  this.$router.push("/");
+                }
               },
           )
           .catch(c => {
