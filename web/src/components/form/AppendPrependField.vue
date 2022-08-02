@@ -25,6 +25,7 @@ export default {
   name: "AppendPrependField",
   props: {
     componentFormTitle: String,
+    initialData: Int32Array,
   },
   data() {
     return {
@@ -41,12 +42,26 @@ export default {
       ]
     }
   },
+  created() {
+    // eslint-disable-next-line no-debugger
+    debugger;
+    this.setInitialData();
+  },
   methods: {
     handleMinus() {
       this.index = this.index !== 0 ? this.index - 1 : 0;
     },
     handlePlus() {
       this.index = this.index !== 7 ? this.index + 1 : 7;
+    },
+    setInitialData() {
+      // eslint-disable-next-line no-debugger
+      debugger;
+      this.items.findIndex(item => {
+        if (item === this.$props.initialData) {
+          this.index = this.items.indexOf(item);
+        }
+      });
     }
   },
   watch: {

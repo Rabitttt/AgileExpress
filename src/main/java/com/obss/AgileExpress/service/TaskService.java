@@ -87,4 +87,24 @@ public class TaskService {
         taskRepository.save(task);
         return task;
     }
+
+    public Task updateTask(TaskDao task, String taskId) {
+        //UPDATE MONGO
+        User user = userService.getUserByUsername(task.getAssignee());
+        Task taskToUpdate = taskRepository.findById(taskId).get();
+        taskToUpdate.setTaskName(task.getTaskName());
+        taskToUpdate.setDescription(task.getDescription());
+        taskToUpdate.setStoryPoint(task.getStoryPoint());
+        taskToUpdate.setAssignee(user);
+        //UPDATE ELASTİC
+        TaskES taskES = taskESRepository.findById(taskId).get();
+        taskES.setTaskName(taskToUpdate.getTaskName());
+        taskES.setDescription(taskToUpdate.getDescription());
+        taskES.setStoryPoint(taskToUpdate.getStoryPoint());
+        //UPDATE MONGO AND ELASTIC
+        taskRepository.save(taskToUpdate);
+        taskESRepository.save(taskES);
+        //RETURN TASK
+        return taskToUpdate;
+    }
 }

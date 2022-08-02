@@ -11,11 +11,17 @@ export default {
   name: "TextField",
   props: {
     componentFormTitle: String,
+    initialData: String,
   },
   data() {
     return {
       model: "",
     }
+  },
+  created() {
+    // eslint-disable-next-line no-debugger
+    debugger;
+    this.model = this.initialData;
   },
   watch: {
     model () {

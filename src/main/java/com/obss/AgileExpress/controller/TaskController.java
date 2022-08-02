@@ -1,5 +1,6 @@
 package com.obss.AgileExpress.controller;
 
+import com.obss.AgileExpress.documents.TaskLog;
 import com.obss.AgileExpress.domain.TaskDao;
 import com.obss.AgileExpress.documents.Project;
 import com.obss.AgileExpress.documents.Task;
@@ -55,5 +56,12 @@ public class TaskController {
     }
 
 
+    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')")
+    @PostMapping("/update")
+    public Task updateTask(
+            @RequestBody TaskDao task,
+            @RequestParam String taskId) {
+        return taskService.updateTask(task,taskId);
+    }
 
 }

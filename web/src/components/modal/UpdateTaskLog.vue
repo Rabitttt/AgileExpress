@@ -46,7 +46,7 @@
           <v-btn
               color="blue darken-1"
               text
-              @click="updateTaskHandler"
+              @click="updateTaskLogHandler"
           >
             Save
           </v-btn>
@@ -90,7 +90,7 @@ export default {
       debugger;
       this.form[componentFormTitle] = model
     },
-    updateTaskHandler() {
+    updateTaskLogHandler() {
       axios.post("http://localhost:9000/taskLog/update/",
           {
             ...this.form,

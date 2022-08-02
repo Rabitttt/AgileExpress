@@ -3,6 +3,10 @@
     <v-row>
     Hellooooo {{this.$route.params.id}}
     <p>{{task}}</p>
+      <UpdateTask
+        :task="this.task"
+        @handleUpdateItem="onTaskUpdated"
+      ></UpdateTask>
     </v-row>
     <v-row class="justify-content-between">
       <v-col class="col-3">
@@ -29,10 +33,11 @@ import axios from "axios";
 import jwtService from "@/helpers/JwtService";
 import AddLogToTask from "@/components/modal/AddLogToTask";
 import TaskLogCard from "@/components/TaskLogCard";
+import UpdateTask from "@/components/modal/UpdateTask";
 
 export default {
   name: "TaskDetails",
-  components: {TaskLogCard, AddLogToTask},
+  components: {UpdateTask, TaskLogCard, AddLogToTask},
   data () {
     return {
       task: {},
@@ -60,8 +65,11 @@ export default {
       // eslint-disable-next-line no-debugger
       debugger;
       this.task.taskLogs = taskLogList;
-    }
-  }
+    },
+    onTaskUpdated(task) {
+      this.task = task;
+    },
+  },
 }
 </script>
 

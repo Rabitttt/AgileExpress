@@ -196,4 +196,8 @@ public class ProjectService {
         projectRepository.save(project);
     }
 
+    public List<User> getTeamMembers(String projectId) {
+        Project project = getProjectById(projectId);
+        return project.getMembers();
+    }
 }

@@ -1,5 +1,6 @@
 package com.obss.AgileExpress.controller;
 
+import com.obss.AgileExpress.documents.User;
 import com.obss.AgileExpress.domain.ProjectDao;
 import com.obss.AgileExpress.documents.Project;
 import com.obss.AgileExpress.service.ProjectService;
@@ -85,5 +86,11 @@ public class ProjectController {
             @PathVariable(value = "projectId") String projectId,
             @PathVariable(value = "userId") String userId) {
         projectService.removeProjectManager(projectId,userId);
+    }
+
+    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')" + "|| hasRole('TeamMember')")
+    @GetMapping("/getTeamMembers/{projectId}")
+    public List<User> getTeamMembers(@PathVariable(value = "projectId") String projectId) {
+        return projectService.getTeamMembers(projectId);
     }
 }
