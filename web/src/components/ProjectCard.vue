@@ -11,6 +11,10 @@
         class="btn btn-lg btn-primary btn-block"
         v-on:click="projectDetails"
     >Project Details</button>
+    <button
+        class="btn btn-lg btn-primary btn-block"
+        v-on:click="deleteProject"
+    >Delete Project</button>
   </div>
 </template>
 
@@ -28,6 +32,9 @@ export default {
     },
     projectDetails() {
       this.$router.push("project/management/" + this.project.id);
+    },
+    deleteProject() {
+
     }
   },
 }

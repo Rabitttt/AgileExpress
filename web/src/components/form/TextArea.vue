@@ -10,12 +10,18 @@
 export default {
   name: "TextArea",
   props: {
+    initialData: String,
     componentFormTitle: String,
   },
   data() {
     return {
       model: "",
     }
+  },
+  created() {
+    // eslint-disable-next-line no-debugger
+    debugger;
+    this.model = this.initialData;
   },
   watch: {
     model () {

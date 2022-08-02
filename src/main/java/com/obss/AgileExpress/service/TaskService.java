@@ -85,15 +85,6 @@ public class TaskService {
         Task task = taskRepository.findById(taskId).get();
         task.getTaskLogs().add(taskLog);
         taskRepository.save(task);
-        //save to ES
-        TaskES taskES = taskESRepository.findById(taskId).get();
-        taskES.getTaskLogs().add(
-                TaskLogES.builder()
-                        .id(task.getId())
-                        .description(task.getDescription())
-                        .creator(userESRepository.findById(task.getId()).get())
-                        .build());
-        taskESRepository.save(taskES);
         return task;
     }
 }

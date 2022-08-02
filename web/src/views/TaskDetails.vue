@@ -14,7 +14,11 @@
     </v-row>
     <v-row>
       <div v-for="(item,index) in task.taskLogs" v-bind:key="index">
-        {{item}}
+        <TaskLogCard
+            :item="item"
+            :task-id="task.id"
+            @handleDeletedItem="onTaskLogDeleted"
+        ></TaskLogCard>
       </div>
     </v-row>
   </div>
@@ -24,10 +28,11 @@
 import axios from "axios";
 import jwtService from "@/helpers/JwtService";
 import AddLogToTask from "@/components/modal/AddLogToTask";
+import TaskLogCard from "@/components/TaskLogCard";
 
 export default {
   name: "TaskDetails",
-  components: {AddLogToTask},
+  components: {TaskLogCard, AddLogToTask},
   data () {
     return {
       task: {},
@@ -50,6 +55,11 @@ export default {
     },
     taskLogAdded(task) {
       this.task = task;
+    },
+    onTaskLogDeleted(taskLogList) {
+      // eslint-disable-next-line no-debugger
+      debugger;
+      this.task.taskLogs = taskLogList;
     }
   }
 }

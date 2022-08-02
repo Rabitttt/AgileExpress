@@ -29,11 +29,19 @@
 <script>
 export default {
   name: "TimeRangePicker",
+  props: {
+    initialStart: String,
+    initialEnd: String,
+  },
   data () {
     return {
       start: null,
       end: null,
     }
+  },
+  created() {
+    this.start = this.initialStart;
+    this.end = this.initialEnd;
   },
   watch: {
     start () {

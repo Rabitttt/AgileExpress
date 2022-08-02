@@ -24,6 +24,6 @@ public class Task {
     private int storyPoint;
     private User assignee;
     private String status;
-    @DocumentReference(lazy = true)
+    @DocumentReference(lazy = false)
     private List<TaskLog> taskLogs;
 }
