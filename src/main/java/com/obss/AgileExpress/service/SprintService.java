@@ -92,11 +92,10 @@ public class SprintService {
         return sprint;
     }
 
-    public void deleteSprint(String sprintId, String projectId) {
+    public void deleteSprint(String sprintId, String projectId,Boolean isProjectDeletion) {
         Project project = projectService.getProjectById(projectId);
-
         //Can't delete all sprints,at least one sprints is must be in project
-        if(project.getSprints().size() > 1) {
+        if(project.getSprints().size() > 1 || isProjectDeletion) {
             Sprint sprint = sprintRepository.findById(sprintId).get();
             projectService.deleteSprintFromProject(sprintId, projectId);
             sprint.getTasks().forEach(item -> taskService.deleteTask(item.getId(),projectId,sprintId));

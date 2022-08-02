@@ -19,6 +19,9 @@
 </template>
 
 <script>
+import axios from "axios";
+import jwtService from "@/helpers/JwtService";
+
 export default {
   name: "ProjectCard",
   props: {
@@ -33,7 +36,32 @@ export default {
     projectDetails() {
       this.$router.push("project/management/" + this.project.id);
     },
-    deleteProject() {
+    async deleteProject() {
+      // eslint-disable-next-line no-debugger
+      debugger;
+      await axios.post("http://localhost:9000/project/delete", {},
+          {
+            params: {
+              projectId: this.project.id,
+            },
+            headers: {
+              Authorization: `Bearer ${jwtService.getToken()}`,
+              "Accept-Encoding": "gzip, deflate, br",
+              "Accept": "*/*",
+              "Connection": "keep-alive",},
+          },
+      )
+          .then( response => {
+                // eslint-disable-next-line no-debugger
+                debugger;
+                if(response.status === 200) {
+                  this.$router.push("/");
+                }
+              },
+          )
+          .catch(c => {
+            console.log(c)
+          });
     }
   },
 }

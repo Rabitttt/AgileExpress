@@ -47,7 +47,7 @@ public class SprintController {
             @RequestParam String sprintId,
             @RequestParam String projectId
     ) {
-        sprintService.deleteSprint(sprintId,projectId);
+        sprintService.deleteSprint(sprintId,projectId,false);
     }
 
 }

@@ -36,12 +36,6 @@ public class ProjectController {
     }
 
     @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')")
-    @DeleteMapping("/delete/{projectId}")
-    public void deleteProject(@PathVariable(value =  "projectId") String projectId) {
-        projectService.deleteProjectById(projectId);
-    }
-
-    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')")
     @PostMapping("/addTeamMember/{projectId}/{userId}")
     public Project addTeamMember(
             @PathVariable(value = "projectId") String projectId,
@@ -92,5 +86,13 @@ public class ProjectController {
     @GetMapping("/getTeamMembers/{projectId}")
     public List<User> getTeamMembers(@PathVariable(value = "projectId") String projectId) {
         return projectService.getTeamMembers(projectId);
+    }
+
+    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')")
+    @PostMapping("/delete")
+    public void deleteProject(
+            @RequestParam String projectId
+    ) {
+        projectService.deleteProjectById(projectId);
     }
 }

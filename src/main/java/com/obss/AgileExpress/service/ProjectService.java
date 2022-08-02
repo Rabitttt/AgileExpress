@@ -9,9 +9,9 @@ import com.obss.AgileExpress.repository.ElsaticSearch.ProjectESRepository;
 import com.obss.AgileExpress.repository.ProjectRepository;
 import com.obss.AgileExpress.repository.SprintRepository;
 import com.obss.AgileExpress.repository.TaskRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.management.relation.InvalidRoleInfoException;
@@ -21,7 +21,6 @@ import java.util.Objects;
 import java.util.stream.IntStream;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class ProjectService {
 
@@ -30,6 +29,26 @@ public class ProjectService {
     private final UserService userService;
     private final SprintRepository sprintRepository;
     private final ProjectESRepository projectESRepository;
+    private final SprintService sprintService;
+    private final TaskService taskService;
+
+    public ProjectService(
+            ProjectRepository projectRepository,
+            @Lazy TaskRepository taskRepository,
+            @Lazy UserService userService,
+            SprintRepository sprintRepository,
+            ProjectESRepository projectESRepository,
+            @Lazy SprintService sprintService,
+            @Lazy TaskService taskService) {
+        this.projectRepository = projectRepository;
+        this.taskRepository = taskRepository;
+        this.userService = userService;
+        this.sprintRepository = sprintRepository;
+        this.projectESRepository = projectESRepository;
+        this.sprintService = sprintService;
+        this.taskService = taskService;
+    }
+
 
     public Project createProject(ProjectDao projectDao) {
         List<User> members = new ArrayList<>();
@@ -69,7 +88,18 @@ public class ProjectService {
     }
 
     public void deleteProjectById(String projectId) {
-        //projectRepository.delete(project);
+        Project project = projectRepository.findById(projectId).orElseThrow();
+        //DELETE sprints
+        for (Sprint sprint : project.getSprints()) {
+            sprintService.deleteSprint(sprint.getId(),project.getId(),true);
+        }
+        //DELETE backlog tasks
+        project.getBacklogTasks().forEach(item -> taskService.deleteTask(item.getId(),projectId,null));
+        //Delete project
+        projectRepository.deleteById(projectId);
+        //DELETE project from ES
+        projectESRepository.deleteById(projectId);
+
         projectRepository.deleteById(projectId);
         log.info("Project deleted: {}", projectId);
     }
