@@ -34,10 +34,18 @@
 </style>
 <script>
 import Navbar from "@/components/Navbar";
+import AuthService from "@/helpers/AuthService";
+import jwt_decode from "jwt-decode";
+import JwtService from "@/helpers/JwtService";
 export default {
   components: {Navbar},
-  methods: {
-
-  },
+  created() {
+    // eslint-disable-next-line no-debugger
+    debugger;
+    if(AuthService.isAuthenticated()) {
+      this.$store.commit("setPayload",jwt_decode(JwtService.getToken()));
+      this.$store.commit("setUserId", window.localStorage.getItem("user_id"));
+    }
+  }
 }
 </script>

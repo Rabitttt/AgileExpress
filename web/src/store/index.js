@@ -2,14 +2,14 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from "axios";
 import jwtService from "@/helpers/JwtService";
+import AuthService from "@/helpers/AuthService";
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     // User
-    token: "",
-    isAuthenticated : false,
+    isAuthenticated : AuthService.isAuthenticated(),
     username: "",
     userId: "",
     userRole: "",
@@ -20,17 +20,19 @@ export default new Vuex.Store({
     //sprints
     selectedSprintId: "",
 
-
     allProjects: []
   },
 
   mutations: {
-    setUserToken (state,token) {
-      // eslint-disable-next-line no-debugger
-      debugger;
-      state.token = token;
+    setUserId (state,userId) {
+        // eslint-disable-next-line no-debugger
+        debugger;
+        state.userId = userId;
+        window.localStorage.setItem("user_id", userId);
     },
     setAuthUserStatus (state,status) {
+        // eslint-disable-next-line no-debugger
+        debugger;
       state.isAuthenticated = status;
     },
     setPayload (state,payload) {

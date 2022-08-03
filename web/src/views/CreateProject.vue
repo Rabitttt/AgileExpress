@@ -149,7 +149,7 @@ export default {
         name: "",
         createdDate: "",
         description: "",
-        creator: this.$store.state.userId,
+        creator: "",
         teamLeader: "",
         projectManager: "",
         members: [],
@@ -179,6 +179,9 @@ export default {
     },
 
     async createProject() {
+      // eslint-disable-next-line no-debugger
+      debugger;
+      this.form.creator = this.$store.state.userId;
       await axios.post("http://localhost:9000/project/create",
           {
             ...this.form

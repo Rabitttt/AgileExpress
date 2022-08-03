@@ -61,7 +61,6 @@ export default {
             jwtService.destroyToken();
             this.token = response.data.access_token;
             jwtService.saveToken(this.token);
-
             this.$store.commit("setPayload",jwt_decode(this.token));
             this.$store.commit("setAuthUserStatus",true);
           },
@@ -77,7 +76,7 @@ export default {
           .then( response => {
                 // eslint-disable-next-line no-debugger
                 debugger;
-                this.$store.state.userId = response.data.id;
+                this.$store.commit("setUserId",response.data.id);
                 this.$router.push({ path: '/' })
               },
           )

@@ -35,11 +35,11 @@ export default {
     },
     logout() {
       jwtService.destroyToken();
+      window.localStorage.removeItem("user_id");
       this.$store.commit("setAuthUserStatus", false);
       this.$router.push({path: "/login"})
     },
-  }
-
+  },
 }
 </script>
 
