@@ -19,8 +19,12 @@ public class TaskLogController {
 
     @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')" + "|| hasRole('TeamMember')")
     @PostMapping("/create/{taskId}")
-    public Task createTaskLog(@PathVariable(value = "taskId") String taskId, @RequestBody TaskLog taskLog) {
-        return taskLogService.createTaskLog(taskId,taskLog);
+    public Task createTaskLog(
+            @PathVariable(value = "taskId") String taskId,
+            @RequestBody TaskLog taskLog,
+            @RequestParam String userId
+    ) {
+        return taskLogService.createTaskLog(taskId,taskLog,userId);
     }
 
 

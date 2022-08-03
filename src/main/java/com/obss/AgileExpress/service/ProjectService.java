@@ -18,6 +18,7 @@ import javax.management.relation.InvalidRoleInfoException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
@@ -251,5 +252,30 @@ public class ProjectService {
             project.getSprints().remove(index);
             projectRepository.save(project);
         }
+    }
+
+    public void updateProject(String projectId, ProjectDao projectDao) {
+        //MONGO UPDATE
+        Project project = getProjectById(projectId);
+        List<User> updatedProjectMembers = projectDao.getMembers().stream()
+                .map(
+                userService::getUserByUsername
+        ).toList();
+        List<User> deletedUsers =
+                project.getMembers()
+                        .stream()
+                        .filter(user -> !updatedProjectMembers.contains(user))
+                        .toList();
+        deletedUsers.forEach(user -> {
+            taskService.findAndDeleteTaskAssignee(user.getUsername());
+        });
+
+        project.setName(projectDao.getName());
+        project.setDescription(projectDao.getDescription());
+        project.setProjectManager(userService.getUserById(projectDao.getProjectManager()));
+        project.setProjectManager(userService.getUserById(projectDao.getTeamLeader()));
+        project.setMembers(updatedProjectMembers);
+        projectRepository.save(project);
+        //ES UPDATE
     }
 }

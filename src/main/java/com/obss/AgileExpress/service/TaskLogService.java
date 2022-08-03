@@ -2,6 +2,7 @@ package com.obss.AgileExpress.service;
 
 import com.obss.AgileExpress.documents.Task;
 import com.obss.AgileExpress.documents.TaskLog;
+import com.obss.AgileExpress.documents.User;
 import com.obss.AgileExpress.repository.TaskLogRepository;
 import com.obss.AgileExpress.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +21,11 @@ public class TaskLogService {
     private final TaskLogRepository taskLogRepository;
     private final TaskService taskService;
     private final TaskRepository taskRepository;
+    private final UserService userService;
 
-    public Task createTaskLog(String taskId, TaskLog taskLog) {
+    public Task createTaskLog(String taskId, TaskLog taskLog, String userId) {
+        User user = userService.getUserById(userId);
+        taskLog.setCreator(user);
         TaskLog createdTaskLog = taskLogRepository.save(taskLog);
         return taskService.addTaskLogToTask(taskId,createdTaskLog);
     }

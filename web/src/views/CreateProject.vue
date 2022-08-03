@@ -140,10 +140,9 @@ export default {
       //teamMembers: [],
       //projectManagers: [],
       //teamLeaders: [],
-      isHoveringToUser: false,
       projectManager: null,
-      teamMembers: [],
       teamLeader: null,
+      teamMembers: [],
       users: [],
       form: {
         id: "",

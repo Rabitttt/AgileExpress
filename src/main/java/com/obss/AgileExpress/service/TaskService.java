@@ -14,6 +14,9 @@ import com.obss.AgileExpress.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,6 +35,7 @@ public class TaskService {
 
     private final TaskESRepository taskESRepository;
     private final UserESRepository userESRepository;
+    private final MongoTemplate mongoTemplate;
 
     public Task createTask(TaskDao taskDao,String projectId) {
         User taskAssignee = userService.getUserByUsername(taskDao.getAssignee());
@@ -129,5 +133,16 @@ public class TaskService {
         taskRepository.delete(task);
         //ELASTIC DELETE
         taskESRepository.deleteById(taskId);
+    }
+
+    public void findAndDeleteTaskAssignee(String username) {
+        User user = userService.getUserByUsername(username);
+        Query query = new Query();
+        query.addCriteria(Criteria.where("assignee").is(user));
+        List<Task> tasks = mongoTemplate.find(query,Task.class);
+        tasks.forEach(item -> {
+            item.setAssignee(null);
+            taskRepository.save(item);
+        });
     }
 }

@@ -8,11 +8,11 @@
     <p>createdDate = {{project.createdDate}}</p>
     <p>creator = {{project.creator.username}}</p>
     <button
-        class="btn btn-lg btn-primary btn-block"
+        class="btn btn-sm btn-primary btn-block"
         v-on:click="projectDetails"
     >Project Details</button>
     <button
-        class="btn btn-lg btn-primary btn-block"
+        class="btn btn-sm btn-danger btn-block"
         v-on:click="deleteProject"
     >Delete Project</button>
   </div>

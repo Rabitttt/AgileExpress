@@ -7,9 +7,11 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Document("users")
 @Data
@@ -26,4 +28,10 @@ public class User {
     private String password;
     private Collection<String> roles = new ArrayList<>();
 
+    /*
+    @DocumentReference(lazy = true)
+    private List<Project> projects = new ArrayList<>();
+    @DocumentReference(lazy = true)
+    private List<Task> tasks = new ArrayList<>();
+     */
 }

@@ -95,4 +95,13 @@ public class ProjectController {
     ) {
         projectService.deleteProjectById(projectId);
     }
+
+    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')")
+    @PostMapping("/update")
+    public void updateProject(
+            @RequestParam String projectId,
+            @RequestBody ProjectDao projectDao
+    ) {
+        projectService.updateProject(projectId,projectDao);
+    }
 }

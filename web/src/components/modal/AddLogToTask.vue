@@ -89,6 +89,9 @@ export default {
             ...this.form,
           },
           {
+            params: {
+              userId: this.$store.state.userId,
+            },
             headers: {
               Authorization: `Bearer ${jwtService.getToken()}`,
               "Accept-Encoding": "gzip, deflate, br",

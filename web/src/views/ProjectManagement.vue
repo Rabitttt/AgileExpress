@@ -5,7 +5,7 @@
       <v-col
           class="col-3">
         Sprint Name: {{this.selectedProject.sprints[sprintIndex].name}}
-
+        <UpdateProject :project="this.$store.state.selectedProject"></UpdateProject>
         <h5><strong>Backlogs</strong></h5>
         <div class="drop-zone"
              @drop="onDrop($event, 'backlog')"
@@ -111,10 +111,11 @@ import axios from "axios";
 import jwtService from "@/helpers/JwtService";
 import SprintCard from "@/components/SprintCard";
 import TaskCard from "@/components/TaskCard";
+import UpdateProject from "@/components/modal/UpdateProject";
 
 export default {
   name: "ProjectManagement",
-  components: {TaskCard, SprintCard, CreateBacklog,CreateSprint},
+  components: {UpdateProject, TaskCard, SprintCard, CreateBacklog,CreateSprint},
   data () {
     return {
       //memberUsernames: [],
