@@ -277,5 +277,8 @@ public class ProjectService {
         project.setMembers(updatedProjectMembers);
         projectRepository.save(project);
         //ES UPDATE
+        ProjectES projectES = projectESRepository.findById(projectId).orElse(null);
+        projectES.setName(project.getName());
+        projectESRepository.save(projectES);
     }
 }
