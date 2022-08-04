@@ -23,6 +23,14 @@ public class ProjectController {
          return projectService.getAllProjects();
     }
 
+
+
+    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')" + "|| hasRole('TeamMember')")
+    @GetMapping("/getAllProjectsByUser")
+    public List<Project> getAllProjectsByUser() {
+        return projectService.getAllProjectsByUser();
+    }
+
     @GetMapping("/getProject/{projectId}")
     public Project getProject(@PathVariable(value = "projectId") String projectId) {
         return projectService.getProjectById(projectId);

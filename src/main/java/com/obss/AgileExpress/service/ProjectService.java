@@ -5,20 +5,22 @@ import com.obss.AgileExpress.documents.ElasticSearch.ProjectES;
 import com.obss.AgileExpress.domain.ProjectDao;
 import com.obss.AgileExpress.documents.*;
 import com.obss.AgileExpress.enums.UserRoles;
+import com.obss.AgileExpress.helper.AuthHelper;
 import com.obss.AgileExpress.repository.ElsaticSearch.ProjectESRepository;
 import com.obss.AgileExpress.repository.ProjectRepository;
 import com.obss.AgileExpress.repository.SprintRepository;
-import com.obss.AgileExpress.repository.TaskRepository;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import javax.management.relation.InvalidRoleInfoException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
@@ -26,42 +28,53 @@ import java.util.stream.IntStream;
 public class ProjectService {
 
     private final ProjectRepository projectRepository;
-    private final TaskRepository taskRepository;
     private final UserService userService;
     private final SprintRepository sprintRepository;
     private final ProjectESRepository projectESRepository;
     private final SprintService sprintService;
     private final TaskService taskService;
 
+    private final MongoTemplate mongoTemplate;
+
+    private final AuthHelper authHelper;
+
+
     public ProjectService(
             ProjectRepository projectRepository,
-            @Lazy TaskRepository taskRepository,
             @Lazy UserService userService,
             SprintRepository sprintRepository,
             ProjectESRepository projectESRepository,
             @Lazy SprintService sprintService,
-            @Lazy TaskService taskService) {
+            @Lazy TaskService taskService,
+            MongoTemplate mongoTemplate,
+            AuthHelper authHelper) {
         this.projectRepository = projectRepository;
-        this.taskRepository = taskRepository;
         this.userService = userService;
         this.sprintRepository = sprintRepository;
         this.projectESRepository = projectESRepository;
         this.sprintService = sprintService;
         this.taskService = taskService;
+        this.mongoTemplate = mongoTemplate;
+        this.authHelper = authHelper;
     }
 
 
     public Project createProject(ProjectDao projectDao) {
+        //Get Member List
         List<User> members = new ArrayList<>();
         for (String string : projectDao.getMembers()) {
             members.add(userService.getUserById(string));
         }
+        //Set basic values
         Sprint sprint = new Sprint();
         sprint.setName("Initial Sprint of " + projectDao.getName());
         sprint.setSprintState("planned");
         sprintRepository.save(sprint);
+        //Set Initial Sprint
         List<Sprint> sprints = new ArrayList<>();
         sprints.add(sprint);
+
+        //Set project Object
         List<TaskStatus> taskStatuses = new ArrayList<>(projectDao.getTaskStatus());
         Project project = Project.builder()
                 .id(null)
@@ -77,7 +90,12 @@ public class ProjectService {
                 .sprints(sprints)
                 .build();
 
+        //Save project to database
         projectRepository.save(project);
+        /*
+        //Add project to User
+        userService.addProjectToUser(project);
+         */
         //Save project To ES
         projectESRepository.save(ProjectES.builder().id(project.getId()).name(project.getName()).build());
         log.info("Project created: {}", project);
@@ -96,6 +114,10 @@ public class ProjectService {
         }
         //DELETE backlog tasks
         project.getBacklogTasks().forEach(item -> taskService.deleteTask(item.getId(),projectId,null));
+        /*
+        //Delete project from User projects
+        userService.deleteProjectFromUser(project);
+         */
         //Delete project
         projectRepository.deleteById(projectId);
         //DELETE project from ES
@@ -109,11 +131,6 @@ public class ProjectService {
     public Project addTeamMemberToProject(String projectId,String userId) throws Exception {
         try {
             User user = userService.getUserById(userId);
-            /*
-            if(user.getRoles().equals("TeamMember")) {
-                throw new UsernameNotFoundException("User is role not a team member");
-            }
-             */
             boolean isRoleTrue = user.getRoles().stream().anyMatch(role-> role.equals(UserRoles.TeamMember.toString()));
             Project project = getProject(projectId, user, isRoleTrue);
             if (project != null) return project;
@@ -127,11 +144,6 @@ public class ProjectService {
     public Project addTeamLeaderToProject(String projectId,String userId) throws Exception {
         try {
             User user = userService.getUserById(userId);
-            /*
-            if(user.getRoles().equals("TeamMember")) {
-                throw new UsernameNotFoundException("User is role not a team member");
-            }
-             */
             boolean isRoleTrue = user.getRoles().stream().anyMatch(role-> role.equals(UserRoles.TeamLeader.name()));
             Project project = getProject(projectId, user, isRoleTrue);
             if (project != null) return project;
@@ -145,11 +157,6 @@ public class ProjectService {
     public Project addProjectManagerToProject(String projectId,String userId) throws Exception {
         try {
             User user = userService.getUserById(userId);
-            /*
-            if(user.getRoles().equals("TeamMember")) {
-                throw new UsernameNotFoundException("User is role not a team member");
-            }
-             */
             boolean isRoleTrue = user.getRoles().stream().anyMatch(role-> role.equals(UserRoles.ProjectManager.name()));
             Project project = getProject(projectId, user, isRoleTrue);
             if (project != null) return project;
@@ -221,13 +228,6 @@ public class ProjectService {
     public void deleteBacklog (Task task,String projectId) {
         Project project = getProjectById(projectId);
 
-        /*
-        project.getBacklogTasks().stream().findFirst().ifPresent(t->{
-            if(t.getId().equals(task.getId())) {
-                project.getBacklogTasks().remove(t);
-            }
-        });
-         */
         int index = IntStream.range(0, project.getBacklogTasks().size())
                 .filter(i -> Objects.equals(task.getId(), project.getBacklogTasks().get(i).getId()))
                 .findFirst()
@@ -280,5 +280,20 @@ public class ProjectService {
         ProjectES projectES = projectESRepository.findById(projectId).orElse(null);
         projectES.setName(project.getName());
         projectESRepository.save(projectES);
+    }
+
+    public List<Project> getAllProjectsByUser() {
+        User user = authHelper.getUserPrincipal();
+        Query query = new Query();
+        List<Criteria> criteria = new ArrayList<>();
+
+        criteria.add(Criteria.where("creator").is(user));
+        criteria.add(Criteria.where("projectManager").is(user));
+        criteria.add(Criteria.where("teamLeader").is(user));
+        criteria.add(Criteria.where("members").all(user));
+
+        query.addCriteria(new Criteria().orOperator(criteria.toArray(new Criteria[criteria.size()])));
+        List<Project> projects = mongoTemplate.find(query,Project.class);
+        return projects;
     }
 }

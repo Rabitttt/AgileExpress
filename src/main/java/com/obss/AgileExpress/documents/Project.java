@@ -1,11 +1,13 @@
 package com.obss.AgileExpress.documents;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
@@ -37,7 +39,8 @@ public class Project {
     @CreatedDate
     private Date createdDate;
 
-    @DocumentReference(lazy = true)
+    @DocumentReference
+    @JsonManagedReference
     private User creator;
 
     @DocumentReference(lazy = true)

@@ -47,7 +47,15 @@ import SearchBar from "@/components/SearchBar";
 
     methods: {
       async getData() {
-        axios.get('http://localhost:9000/project/getAll',{
+        let queryExtension="";
+        if (this.$store.state.userRole === "ROLE_Admin")
+        {
+          queryExtension = "getAll"
+        }else {
+          queryExtension = "getAllProjectsByUser"
+        }
+
+        axios.get('http://localhost:9000/project/' + queryExtension,{
           headers: {
             Authorization: "Bearer "+ jwtService.getToken(),
           }
