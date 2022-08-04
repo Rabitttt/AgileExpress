@@ -7,6 +7,8 @@ import com.obss.AgileExpress.documents.Project;
 import com.obss.AgileExpress.documents.Task;
 import com.obss.AgileExpress.documents.TaskLog;
 import com.obss.AgileExpress.documents.User;
+import com.obss.AgileExpress.enums.UserRoles;
+import com.obss.AgileExpress.helper.AuthHelper;
 import com.obss.AgileExpress.repository.ElsaticSearch.TaskESRepository;
 import com.obss.AgileExpress.repository.ElsaticSearch.UserESRepository;
 import com.obss.AgileExpress.repository.TaskLogRepository;
@@ -36,6 +38,7 @@ public class TaskService {
     private final TaskESRepository taskESRepository;
     private final UserESRepository userESRepository;
     private final MongoTemplate mongoTemplate;
+    private final AuthHelper authHelper;
 
     public Task createTask(TaskDao taskDao,String projectId) {
         User taskAssignee = userService.getUserByUsername(taskDao.getAssignee());
@@ -62,27 +65,48 @@ public class TaskService {
         return createdBacklogTask;
     }
 
+
     public List<Task> changeTaskStatus(String id, String sprintId, String newStatus) {
         Task task = taskRepository.findById(id).get();
-        task.setStatus(newStatus);
-        taskRepository.save(task);
+
+        if(task.getAssignee() != null) {
+            User user = authHelper.getUserPrincipal();
+            //User role is Team Member , But task assignee is different user. (User only can change own task's status)
+            if (!(user.getRoles().toArray()[0].equals(UserRoles.TeamMember.toString()) && !user.getId().equals(task.getAssignee().getId()))) {
+                task.setStatus(newStatus);
+                taskRepository.save(task);
+            }
+        }
         return sprintService.getSprintTasks(sprintId);
     }
 
     public Project backlogToSprint(String id, String sprintId, String newStatus, String projectId) {
         Task task = taskRepository.findById(id).get();
-        projectService.deleteBacklog(task,projectId);
-        task.setStatus(newStatus);
-        taskRepository.save(task);
-        sprintService.addTaskToSprint(task, sprintId);
+        if(task.getAssignee() != null) {
+            User user = authHelper.getUserPrincipal();
+            //User role is Team Member , But task assignee is different user. (User only can change own task's status)
+            if (!(user.getRoles().toArray()[0].equals(UserRoles.TeamMember.toString()) && !user.getId().equals(task.getAssignee().getId()))) {
+                projectService.deleteBacklog(task,projectId);
+                task.setStatus(newStatus);
+                taskRepository.save(task);
+                sprintService.addTaskToSprint(task, sprintId);
+            }
+        }
         return projectService.getProjectById(projectId);
     }
     public Project sprintToBacklog(String id, String sprintId, String projectId) {
         Task task = taskRepository.findById(id).get();
-        sprintService.deleteTask(task, sprintId);
-        task.setStatus("backlog");
-        taskRepository.save(task);
-        projectService.addBacklogTaskToProject(task,projectId);
+        if(task.getAssignee() != null) {
+            User user = authHelper.getUserPrincipal();
+            //User role is Team Member , But task assignee is different user. (User only can change own task's status)
+            if (!(user.getRoles().toArray()[0].equals(UserRoles.TeamMember.toString()) && !user.getId().equals(task.getAssignee().getId()))) {
+                sprintService.deleteTask(task, sprintId);
+                task.setStatus("backlog");
+                taskRepository.save(task);
+                projectService.addBacklogTaskToProject(task,projectId);
+
+            }
+        }
         return projectService.getProjectById(projectId);
     }
 
@@ -144,5 +168,25 @@ public class TaskService {
             item.setAssignee(null);
             taskRepository.save(item);
         });
+    }
+
+    public Task makeMyTask(String taskId) {
+        Task task = getTaskById(taskId);
+        User user = authHelper.getUserPrincipal();
+        if(task.getAssignee() == null) {
+            task.setAssignee(user);
+            taskRepository.save(task);
+        }
+        return task;
+    }
+
+    public Task dropTaskFromMe(String taskId) {
+        Task task = getTaskById(taskId);
+        User user = authHelper.getUserPrincipal();
+        if(task.getAssignee().getId().equals(user.getId())) {
+            task.setAssignee(null);
+            taskRepository.save(task);
+        }
+        return task;
     }
 }

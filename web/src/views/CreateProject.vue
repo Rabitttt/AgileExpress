@@ -160,7 +160,7 @@ export default {
     }
   },
   created() {
-    //TODO: Get All users and set user data
+    //TODO: Get All users and set user data (solved in Update Project)
     axios.get("http://localhost:9000/user/getAll",{
       headers: {
         Authorization: "Bearer "+ jwtService.getToken(),

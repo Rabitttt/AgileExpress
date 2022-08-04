@@ -74,4 +74,15 @@ public class TaskController {
         taskService.deleteTask(taskId,projectId,sprintId);
     }
 
+    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')" + "|| hasRole('TeamMember')")
+    @PostMapping("/makeMyTask")
+    public Task makeMyTask(@RequestParam String taskId) {
+        return taskService.makeMyTask(taskId);
+    }
+
+    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')" + "|| hasRole('TeamMember')")
+    @PostMapping("/dropTaskFromMe")
+    public Task dropTaskFromMe(@RequestParam String taskId) {
+        return taskService.dropTaskFromMe(taskId);
+    }
 }

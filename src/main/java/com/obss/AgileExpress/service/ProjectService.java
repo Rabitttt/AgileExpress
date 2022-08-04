@@ -200,7 +200,6 @@ public class ProjectService {
         }
     }
 
-    //TODO: Check is it requested user's own project
     public Project getProjectById(String projectId) {
         return projectRepository.findById(projectId).orElse(null);
     }

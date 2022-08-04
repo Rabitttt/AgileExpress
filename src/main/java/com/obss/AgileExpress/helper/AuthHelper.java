@@ -1,6 +1,7 @@
 package com.obss.AgileExpress.helper;
 
 import com.obss.AgileExpress.documents.User;
+import com.obss.AgileExpress.enums.UserRoles;
 import com.obss.AgileExpress.repository.UserRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,10 @@ public class AuthHelper {
     public Boolean isUserPrincipal(String userIdOrUsername) {
         User user = getUserPrincipal();
         return user.getUsername().equals(userIdOrUsername) || user.getId().equals(userIdOrUsername);
+    }
+
+    public UserRoles getPrincipalRole() {
+        return (UserRoles) getUserPrincipal().getRoles().toArray()[0];
     }
 
 }

@@ -14,6 +14,18 @@
           v-on:click="onDeleteTask">
         Delete Task
       </button>
+      <button
+          v-if="$store.getters.isRoleMemberOrHigher && this.task.assignee === null"
+          class="btn btn-sm btn-success btn-block"
+          v-on:click="makeMyTask">
+         Assign To Me
+      </button>
+      <button
+          v-if="$store.getters.isRoleMemberOrHigher && isMyTask"
+          class="btn btn-sm btn-danger btn-block"
+          v-on:click="dropTaskFromMe">
+        Drop Task From Me
+      </button>
     </v-row>
     <v-row class="justify-content-between">
       <v-col class="col-3">
@@ -107,8 +119,44 @@ export default {
           .catch(c => {
             console.log(c)
           });
+    },
+    async makeMyTask() {
+      await axios.post("http://localhost:9000/task/makeMyTask/",{},{
+        params: {
+          taskId: this.task.id,
+        },
+        headers: {
+          Authorization: "Bearer "+ jwtService.getToken(),
+        }
+      }).then(response => {
+        // eslint-disable-next-line no-debugger
+        debugger;
+        this.task = response.data;
+      });
+    },
+    async dropTaskFromMe() {
+      await axios.post("http://localhost:9000/task/dropTaskFromMe/",{},{
+        params: {
+          taskId: this.task.id,
+        },
+        headers: {
+          Authorization: "Bearer "+ jwtService.getToken(),
+        }
+      }).then(response => {
+        // eslint-disable-next-line no-debugger
+        debugger;
+        this.task = response.data;
+      });
     }
   },
+  computed: {
+    isMyTask() {
+      if(this.task.assignee !== null){
+        return this.task.assignee.id === this.$store.state.userId
+      }
+      return false
+    }
+  }
 }
 </script>
 
