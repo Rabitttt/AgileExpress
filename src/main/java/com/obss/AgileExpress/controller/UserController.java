@@ -26,8 +26,9 @@ public class UserController {
         return users;
     }
 
+    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')" + "|| hasRole('TeamMember')")
     @GetMapping("getUserDetails/{username}")
-    public User getUserDetails(@PathVariable(value = "username") String username) {
+    public User getUserByUsername(@PathVariable(value = "username") String username) {
         User user = userService.getUserByUsername(username);
         return user;
     }

@@ -23,19 +23,19 @@ public class SprintController {
         return sprintService.createSprint(sprint,projectId);
     }
 
-    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')")
+    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')" + "|| hasRole('TeamMember')")
     @GetMapping("/getSprint/{sprintId}")
     public Sprint getSprint(@PathVariable(value = "sprintId") String sprintId) {
         return sprintService.getSprint(sprintId);
     }
 
-    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')")
+    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')")
     @PostMapping("/makeActiveSprint")
     public Sprint changeActiveSprint(@RequestParam String sprintId,
                                      @RequestParam String endDate) throws ParseException {
         return sprintService.makeActiveSprint(sprintId,endDate);
     }
-    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')")
+    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')")
     @PostMapping("/changeSprintState")
     public Sprint changeSprintState(@RequestParam String sprintId,
                                      @RequestParam String state) throws ParseException {

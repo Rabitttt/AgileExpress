@@ -11,9 +11,23 @@
         <v-col
             cols="6"
             class="text-center">
-          <span class="nav-item" v-on:click="changeRoute('/')">Projects</span>
-          <span class="nav-item" v-on:click="changeRoute('/user/profile/')">Profile</span>
-          <span class="nav-item" v-on:click="changeRoute('/project/create')">Create Project</span>
+          <span
+              class="nav-item"
+              v-on:click="changeRoute('/')">
+            Projects
+          </span>
+          <span
+              class="nav-item"
+              v-on:click="changeRoute('/user/profile/')">
+            Profile
+          </span>
+          <span
+              class="nav-item"
+              v-on:click="changeRoute('/project/create')"
+              v-if="this.$store.getters.isRoleProjectManagerOrHigher"
+          >
+            Create Project
+          </span>
 
 
           <span v-if="this.$store.state.isAuthenticated" class="nav-item" v-on:click="logout()">Logout</span>

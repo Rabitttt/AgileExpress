@@ -12,6 +12,7 @@
         v-on:click="projectDetails"
     >Project Details</button>
     <button
+        v-if="this.$store.getters.isRoleProjectManagerOrHigher"
         class="btn btn-sm btn-danger btn-block"
         v-on:click="deleteProject"
     >Delete Project</button>

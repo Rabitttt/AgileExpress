@@ -2,20 +2,23 @@
   <div v-on:click="handleClick" class="sprint-card">
     {{sprint.id}}
     {{sprint.name}}
-    <MakeActiveSprint v-if="sprint.sprintState !== 'active'" :sprint-id="sprint.id"></MakeActiveSprint>
+    <MakeActiveSprint
+        v-if="sprint.sprintState !== 'active' && $store.getters.isRoleProjectManagerOrHigher"
+        :sprint-id="sprint.id"></MakeActiveSprint>
     <button
         class="btn btn-sm btn-secondary btn-block"
-        v-if="sprint.sprintState !== 'planned'"
+        v-if="sprint.sprintState !== 'planned' && $store.getters.isRoleProjectManagerOrHigher"
         v-on:click="handleStateChange('planned')">
       Set as Planned
     </button>
     <button
         class="btn btn-sm btn-success btn-block"
-        v-if="sprint.sprintState !== 'completed'"
+        v-if="sprint.sprintState !== 'completed' && $store.getters.isRoleProjectManagerOrHigher"
         v-on:click="handleStateChange('completed')">
     Set as Completed
     </button>
     <button
+        v-if="$store.getters.isRoleProjectManagerOrHigher"
         class="btn btn-sm btn-danger btn-block"
         v-on:click="deleteSprint">
     Delete Sprints

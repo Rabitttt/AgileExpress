@@ -35,7 +35,6 @@ public class AuthController {
     }
 
     @PreAuthorize("hasRole('TeamMember')")
-
     @GetMapping("/user/deneme")
     public String TeamMember() {
         return "hi TeamMember";

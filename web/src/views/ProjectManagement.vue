@@ -5,7 +5,10 @@
       <v-col
           class="col-3">
         Sprint Name: {{this.selectedProject.sprints[sprintIndex].name}}
-        <UpdateProject :project="this.$store.state.selectedProject"></UpdateProject>
+        <UpdateProject
+            v-if="this.$store.getters.isRoleProjectManagerOrHigher"
+            :project="this.$store.state.selectedProject"
+        ></UpdateProject>
         <h5><strong>Backlogs</strong></h5>
         <div class="drop-zone"
              @drop="onDrop($event, 'backlog')"
@@ -27,6 +30,7 @@
         </div>
 
         <CreateBacklog
+            v-if="this.$store.getters.isRoleTeamLeaderOrHigher"
             :members="memberUsernames"
         >
         </CreateBacklog>
@@ -96,7 +100,7 @@
           </v-tab-item>
         </v-tabs-items>
 
-        <CreateSprint>
+        <CreateSprint v-if="this.$store.getters.isRoleProjectManagerOrHigher">
         </CreateSprint>
       </v-col>
 

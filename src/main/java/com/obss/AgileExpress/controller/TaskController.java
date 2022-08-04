@@ -16,26 +16,27 @@ import java.util.List;
 public class TaskController {
 
     private final TaskService taskService;
-    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')")
+    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')" + "|| hasRole('TeamMember')")
     @GetMapping("/getTask/{taskId}")
     public Task getTask(@PathVariable(value = "taskId") String taskId) {
         return taskService.getTaskById(taskId);
     }
 
 
-    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')")
+    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')")
     @PostMapping("/create/{projectId}")
     public Task createBacklogTask(@PathVariable(value = "projectId") String projectId, @RequestBody TaskDao taskDao) {
         return taskService.createTask(taskDao,projectId);
     }
 
-    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')")
+    //TODO: everybody can change task status but if role is teamMember he can only change his own task's status
+    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')" + "|| hasRole('TeamMember')")
     @PostMapping("/changeStatus")
     public List<Task> changeTaskStatus(@RequestParam String id, @RequestParam String sprintId, @RequestParam String newStatus) {
         return taskService.changeTaskStatus(id,sprintId,newStatus);
     }
 
-    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')")
+    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')" + "|| hasRole('TeamMember')")
     @PostMapping("/backlogToSprint")
     public Project backlogToSprint(
             @RequestParam String id,
@@ -45,9 +46,9 @@ public class TaskController {
         return taskService.backlogToSprint(id,sprintId,newStatus,projectId);
     }
 
-    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')")
+    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')" + "|| hasRole('TeamMember')")
     @PostMapping("/sprintToBacklog")
-    public Project backlogToSprint(
+    public Project sprintToBacklog(
             @RequestParam String id,
             @RequestParam String sprintId,
             @RequestParam String projectId) {
@@ -55,7 +56,7 @@ public class TaskController {
     }
 
 
-    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')")
+    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')")
     @PostMapping("/update")
     public Task updateTask(
             @RequestBody TaskDao task,
@@ -63,6 +64,7 @@ public class TaskController {
         return taskService.updateTask(task,taskId);
     }
 
+    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')")
     @PostMapping("delete")
     public void deleteTask(
             @RequestParam String taskId,

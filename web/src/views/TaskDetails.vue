@@ -4,10 +4,12 @@
     Hellooooo {{this.$route.params.id}}
     <p>{{task}}</p>
       <UpdateTask
+        v-if="$store.getters.isRoleTeamLeaderOrHigher"
         :task="this.task"
         @handleUpdateItem="onTaskUpdated"
       ></UpdateTask>
       <button
+          v-if="$store.getters.isRoleTeamLeaderOrHigher"
           class="btn btn-sm btn-primary btn-block"
           v-on:click="onDeleteTask">
         Delete Task
@@ -18,7 +20,10 @@
         <h4>Logs</h4>
       </v-col>
       <v-col class="col-2">
-        <AddLogToTask :task-id="this.task.id" @taskLogCreateHandler="taskLogAdded"></AddLogToTask>
+        <AddLogToTask
+            v-if="$store.getters.isRoleMemberOrHigher"
+            :task-id="this.task.id"
+            @taskLogCreateHandler="taskLogAdded"></AddLogToTask>
       </v-col>
     </v-row>
     <v-row>

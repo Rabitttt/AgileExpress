@@ -19,6 +19,7 @@ public class SearchController {
 
     private final SearchService searchService;
 
+    //TODO: Make authorization for search (trying to solve it in service section can be good idea)
     @GetMapping("/{searchText}")
     public SearchResultDao getSearchedProject(@PathVariable(value = "searchText") String searchText) {
         return searchService.search(searchText);
