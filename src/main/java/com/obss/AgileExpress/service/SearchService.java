@@ -4,6 +4,7 @@ import com.obss.AgileExpress.documents.ElasticSearch.ProjectES;
 import com.obss.AgileExpress.documents.ElasticSearch.TaskES;
 import com.obss.AgileExpress.documents.ElasticSearch.UserES;
 import com.obss.AgileExpress.documents.Project;
+import com.obss.AgileExpress.documents.Task;
 import com.obss.AgileExpress.domain.SearchResultDao;
 import com.obss.AgileExpress.repository.ElsaticSearch.ProjectESRepository;
 import com.obss.AgileExpress.repository.ElsaticSearch.TaskESRepository;
@@ -25,6 +26,7 @@ public class SearchService {
     private final TaskESRepository taskESRepository;
     private final MongoTemplate mongoTemplate;
     private final ProjectService projectService;
+    private final TaskService taskService;
 
     public SearchResultDao search(String searchText) {
 
@@ -48,35 +50,12 @@ public class SearchService {
                 .toList();
     }
     public List<TaskES> getSearchedTasks(String searchText) {
-        return taskESRepository.findTaskESByTaskNameContainsOrDescriptionContainsOrStoryPointContainsOrStatusContainsOrTaskLogsContains(searchText, searchText, searchText, searchText, searchText);
+        List<TaskES> taskESList = taskESRepository.findTaskESByTaskNameContainsOrDescriptionContainsOrStoryPointContainsOrStatusContainsOrTaskLogsContains(searchText, searchText, searchText, searchText, searchText);
+        //Is principal user have access to this tasks?
+        List<Task> accessibleTasks = taskService.userAccessibleTasksForEs();
+        return taskESList.stream()
+                .filter(taskEs -> accessibleTasks.stream().anyMatch(task -> task.getId().equals(taskEs.getId())))
+                .toList();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*
-        Aggregation agg = newAggregation(
-                match(where("quantity").gt(1)),
-                group("giftCard").count().as("count")
-        );
-
-        AggregationResults<Project> results = mongoTemplate.aggregate(
-                agg, "order", Project.class
-        );
-        List<Project> orderCount = results.getMappedResults();
-        */
-//return null;
 

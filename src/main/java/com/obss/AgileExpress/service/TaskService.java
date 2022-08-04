@@ -1,5 +1,6 @@
 package com.obss.AgileExpress.service;
 
+import com.obss.AgileExpress.documents.ElasticSearch.ProjectES;
 import com.obss.AgileExpress.documents.ElasticSearch.TaskES;
 import com.obss.AgileExpress.documents.ElasticSearch.TaskLogES;
 import com.obss.AgileExpress.domain.TaskDao;
@@ -21,7 +22,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -188,5 +191,34 @@ public class TaskService {
             taskRepository.save(task);
         }
         return task;
+    }
+
+    public List<Task> userAccessibleTasksForEs() {
+        List<Task> accessibleTasks = new ArrayList<>();
+        User user = authHelper.getUserPrincipal();
+
+        Query query = new Query();
+        List<Criteria> criteria = new ArrayList<>();
+
+        //Accessible Projects from user
+        List<Project> accessibleProjects = new ArrayList<>();
+
+        criteria.add(Criteria.where("creator").is(user));
+        criteria.add(Criteria.where("projectManager").is(user));
+        criteria.add(Criteria.where("teamLeader").is(user));
+        criteria.add(Criteria.where("members").all(user));
+
+        query.addCriteria(new Criteria().orOperator(criteria.toArray(new Criteria[criteria.size()])));
+        accessibleProjects = mongoTemplate.find(query,Project.class);
+
+        //All accessible Tasks from user accessible Projects
+        accessibleProjects.forEach(item -> {
+            accessibleTasks.addAll(item.getBacklogTasks());
+            item.getSprints().forEach(sprint -> {
+                accessibleTasks.addAll(sprint.getTasks());
+            });
+        });
+
+        return accessibleTasks;
     }
 }

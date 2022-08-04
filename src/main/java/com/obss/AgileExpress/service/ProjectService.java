@@ -304,7 +304,7 @@ public class ProjectService {
         Query query = new Query();
         List<Criteria> criteria = new ArrayList<>();
 
-        criteria.add(Criteria.where("projectId").all(projectESList.stream().map(ProjectES::getId).collect(Collectors.toList())));
+        //criteria.add(Criteria.where("projectId").all(projectESList.stream().map(ProjectES::getId).collect(Collectors.toList())));
         criteria.add(Criteria.where("creator").is(user));
         criteria.add(Criteria.where("projectManager").is(user));
         criteria.add(Criteria.where("teamLeader").is(user));
