@@ -24,6 +24,7 @@ public class SearchService {
     private final ProjectESRepository projectESRepository;
     private final TaskESRepository taskESRepository;
     private final MongoTemplate mongoTemplate;
+    private final ProjectService projectService;
 
     public SearchResultDao search(String searchText) {
 
@@ -39,7 +40,12 @@ public class SearchService {
     }
 
     public List<ProjectES> getSearchedProjects(String searchText) {
-        return projectESRepository.findProjectESByNameContains(searchText);
+        List<ProjectES> projectESList = projectESRepository.findProjectESByNameContains(searchText);
+        //Is principal user have access to this project?
+        List<Project> accessibleProjects = projectService.userAccessibleProjectsForEs(projectESList);
+        return projectESList.stream()
+                .filter(projectES -> accessibleProjects.stream().anyMatch(project -> project.getId().equals(projectES.getId())))
+                .toList();
     }
     public List<TaskES> getSearchedTasks(String searchText) {
         return taskESRepository.findTaskESByTaskNameContainsOrDescriptionContainsOrStoryPointContainsOrStatusContainsOrTaskLogsContains(searchText, searchText, searchText, searchText, searchText);

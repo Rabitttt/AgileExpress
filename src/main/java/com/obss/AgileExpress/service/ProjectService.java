@@ -21,6 +21,7 @@ import javax.management.relation.InvalidRoleInfoException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
@@ -294,5 +295,23 @@ public class ProjectService {
         query.addCriteria(new Criteria().orOperator(criteria.toArray(new Criteria[criteria.size()])));
         List<Project> projects = mongoTemplate.find(query,Project.class);
         return projects;
+    }
+
+    public List<Project> userAccessibleProjectsForEs(List<ProjectES> projectESList) {
+        List<Project> accessibleProjects = new ArrayList<>();
+        User user = authHelper.getUserPrincipal();
+
+        Query query = new Query();
+        List<Criteria> criteria = new ArrayList<>();
+
+        criteria.add(Criteria.where("projectId").all(projectESList.stream().map(ProjectES::getId).collect(Collectors.toList())));
+        criteria.add(Criteria.where("creator").is(user));
+        criteria.add(Criteria.where("projectManager").is(user));
+        criteria.add(Criteria.where("teamLeader").is(user));
+        criteria.add(Criteria.where("members").all(user));
+
+        query.addCriteria(new Criteria().orOperator(criteria.toArray(new Criteria[criteria.size()])));
+        accessibleProjects = mongoTemplate.find(query,Project.class);
+        return accessibleProjects;
     }
 }
