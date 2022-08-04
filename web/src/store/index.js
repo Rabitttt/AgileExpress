@@ -22,7 +22,20 @@ export default new Vuex.Store({
 
     allProjects: []
   },
-
+  getters: {
+      isUserRoleAdmin(state) {
+          return state.userRole === "ROLE_Admin";
+      },
+      isUserRoleProjectManager(state) {
+          return state.userRole === "ROLE_ProjectManager";
+      },
+      isUserRoleTeamLeader(state) {
+          return state.userRole === "ROLE_TeamLeader";
+      },
+      isUserRoleTeamMember(state) {
+          return state.userRole === "ROLE_TeamMember";
+      }
+  },
   mutations: {
     setUserId (state,userId) {
         // eslint-disable-next-line no-debugger

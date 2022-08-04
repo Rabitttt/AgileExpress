@@ -56,91 +56,91 @@ uid: john
 userPassword: $2a$10$c6bSeWPhg06xB1lvmaWNNe4NROmZiSpYhlocU/98HNr2MhIOiSt36
 mail: john@gmail.com
 
-dn: uid=Will Smith,ou=people,dc=springframework,dc=org
+dn: uid=will,ou=people,dc=springframework,dc=org
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-cn: Will Smith
+cn: will
 sn: Smith
-uid: Will Smith
-userPassword: $2a$10$c6bSeWPhg06xB1lvmaWNNe4NROmZiSpYhlocU/98HNr2MhIOiSt36
+uid: will
+userPassword: $2a$10$kvyWoHIaDfDsH71k2Ph3k.bMLHnXq0qDR/t1dAjZCPcKaRa5AGOKu
 mail: will@gmail.com
 
-dn: uid=Jim Carry,ou=people,dc=springframework,dc=org
+dn: uid=jim,ou=people,dc=springframework,dc=org
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-cn: Jim Carry
-uid: Jim Carry
+cn: jim
+uid: jim
 sn: Carry
 userPassword: $2a$10$c6bSeWPhg06xB1lvmaWNNe4NROmZiSpYhlocU/98HNr2MhIOiSt36
 mail: jim@gmail.com
 
 
-dn: uid=Arnold Schwarzenegger,ou=people,dc=springframework,dc=org
+dn: uid=arnold,ou=people,dc=springframework,dc=org
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-cn: Arnold Schwarzenegger
+cn: arnold
 sn: Schwarzenegger
-uid: Arnold Schwarzenegger
+uid: arnold
 userPassword: $2a$10$c6bSeWPhg06xB1lvmaWNNe4NROmZiSpYhlocU/98HNr2MhIOiSt36
 mail: arnold@gmail.com
 
-dn: uid=Lionel Messi,ou=people,dc=springframework,dc=org
+dn: uid=lionel,ou=people,dc=springframework,dc=org
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-cn: Lionel Messi
+cn: lionel
 sn: Messi
-uid: Lionel Messi
+uid: lionel
 userPassword: $2a$10$c6bSeWPhg06xB1lvmaWNNe4NROmZiSpYhlocU/98HNr2MhIOiSt36
 mail: lionel@gmail.com
 
-dn: uid=Robert Downey,ou=people,dc=springframework,dc=org
+dn: uid=robert,ou=people,dc=springframework,dc=org
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-cn: Robert Downey
+cn: robert
 sn: Downey
-uid: Robert Downey
+uid: robert
 userPassword: $2a$10$c6bSeWPhg06xB1lvmaWNNe4NROmZiSpYhlocU/98HNr2MhIOiSt36
 mail: robert@gmail.com
 
-dn: uid=Great Gatsby,ou=people,dc=springframework,dc=org
+dn: uid=gatsby,ou=people,dc=springframework,dc=org
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-cn: Great Gatsby
-sn: Gatsby
-uid: Great Gatsby
+cn: gatsby
+sn: Great
+uid: gatsby
 userPassword: $2a$10$c6bSeWPhg06xB1lvmaWNNe4NROmZiSpYhlocU/98HNr2MhIOiSt36
 mail: great@gmail.com
 
-dn: uid=Vito Corleone,ou=people,dc=springframework,dc=org
+dn: uid=vito,ou=people,dc=springframework,dc=org
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-cn: Vito Corleone
+cn: vito
 sn: Corleone
-uid: Vito Corleone
+uid: vito
 userPassword: $2a$10$c6bSeWPhg06xB1lvmaWNNe4NROmZiSpYhlocU/98HNr2MhIOiSt36
 mail: vito@gmail.com
 
-dn: uid=Manga,ou=people,dc=springframework,dc=org
+dn: uid=manga,ou=people,dc=springframework,dc=org
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-cn: Manga
+cn: manga
 sn: Manga
-uid: Manga
+uid: manga
 userPassword: $2a$10$c6bSeWPhg06xB1lvmaWNNe4NROmZiSpYhlocU/98HNr2MhIOiSt36
 mail: manga@gmail.com

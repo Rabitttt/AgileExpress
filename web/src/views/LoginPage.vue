@@ -53,6 +53,7 @@ export default {
           "Accept-Encoding": "gzip, deflate, br",
           "Accept": "*/*",
           "Connection": "keep-alive",
+          "Content-Type": "application/x-www-form-urlencoded",
         }
       })
       .then( response => {
