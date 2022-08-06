@@ -75,7 +75,7 @@
             <h5>Add User</h5>
             <div>
               <AddUserToProject
-                  v-for="(user,index) in this.users"
+                  v-for="(user,index) in users"
                   v-bind:key="index"
                   @handleClick="addUserToProject"
                   :user="user"
@@ -83,38 +83,6 @@
               >
               </AddUserToProject>
             </div>
-            <!--
-            <div v-if="this.form.projectManager === ''">
-              <h6><strong>Project Managers</strong></h6>
-              <AddUserToProject
-                  v-for="(user,index) in this.projectManagers"
-                  v-bind:key="index"
-                  @handleClick="addUserToProject"
-                  :user="user"
-              >
-              </AddUserToProject>
-            </div>
-            <div v-if="this.form.teamLeader === ''">
-              <h6><strong>Team Leaders</strong></h6>
-              <AddUserToProject
-                  v-for="(user,index) in this.users"
-                  v-bind:key="index"
-                  @handleClick="addUserToProject"
-                  :user="user"
-              >
-              </AddUserToProject>
-            </div>
-            <div>
-              <h6><strong>Team Members</strong></h6>
-              <AddUserToProject
-                  v-for="(user,index) in this.teamMembers"
-                  v-bind:key="index"
-                  @handleClick="addUserToProject"
-                  :user="user"
-              >
-              </AddUserToProject>
-            </div>
-            -->
           </v-col>
         </v-row>
       </v-card-text>
@@ -213,10 +181,40 @@ export default {
       // eslint-disable-next-line no-debugger
       debugger;
       if(user.roles[0] === "ProjectManager") {
+        if(this.projectManager !== null) {
+          this.$toast.error("Only one Project Manager allowed.", {
+            timeout: 3000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            icon: true,
+            rtl: false
+          });
+          return null;
+        }
         this.form.projectManager = user.id;
         this.projectManager = user;
       }
       if(user.roles[0] === "TeamLeader") {
+        if(this.teamLeader !== null) {
+          this.$toast.error("Only one Team Leader allowed.", {
+            timeout: 3000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            icon: true,
+            rtl: false
+          });
+          return null;
+        }
         this.form.teamLeader = user.id;
         this.teamLeader = user;
       }
@@ -225,7 +223,10 @@ export default {
         this.teamMembers.push(user);
       }
       //delete from users
-      this.users.splice(this.users.indexOf(member => member.id === user.id), 1);
+      let index = this.users.findIndex(u => u.id === user.id);
+      if(index !== -1) {
+        this.users.splice(index, 1);
+      }
     },
     setInitialProjectMembers() {
       this.projectManager = this.$props.project.projectManager;

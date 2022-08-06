@@ -257,10 +257,15 @@ public class ProjectService {
     public void updateProject(String projectId, ProjectDao projectDao) {
         //MONGO UPDATE
         Project project = getProjectById(projectId);
-        List<User> updatedProjectMembers = projectDao.getMembers().stream()
-                .map(
-                userService::getUserByUsername
-        ).toList();
+        List<User> updatedProjectMembers = new ArrayList<User>();
+
+        projectDao.getMembers().forEach(
+                member -> {
+                    User user = userService.getUserById(member);
+                    updatedProjectMembers.add(user);
+                }
+        );
+
         List<User> deletedUsers =
                 project.getMembers()
                         .stream()

@@ -78,7 +78,6 @@ export default new Vuex.Store({
         let index = state.selectedProject.sprints.findIndex(searchSprint => searchSprint.id === sprint.id)
         state.selectedProject.sprints[index] = sprint;
     },
-
   },
   actions: {
     async setSelectedProject (context,id) {

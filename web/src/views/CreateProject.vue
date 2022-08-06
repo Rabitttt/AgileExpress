@@ -46,11 +46,17 @@
 
             <div class="form-element" v-if="this.projectManager !== null">
               <label class="required fs-5 fw-bold mb-2">Project Manager</label>
-              <ShowUserInProject :user="this.projectManager"></ShowUserInProject>
+              <ShowUserInProject
+                  :user="this.projectManager"
+                  @handleDelete="deleteUserFromProject"
+              ></ShowUserInProject>
             </div>
             <div class="form-element" v-if="this.teamLeader !== null">
               <label class="required fs-5 fw-bold mb-2">Team Leader</label>
-              <ShowUserInProject :user="this.teamLeader"></ShowUserInProject>
+              <ShowUserInProject
+                  :user="this.teamLeader"
+                  @handleDelete="deleteUserFromProject"
+              ></ShowUserInProject>
             </div>
             <div class="form-element" v-if="this.teamMembers !== []">
               <label class="required fs-5 fw-bold mb-2">Team Members</label>
@@ -60,6 +66,7 @@
                     :key="index"
                     :user="user"
                     style="width: 110px;"
+                    @handleDelete="deleteUserFromProject"
                 ></ShowUserInProject>
               </div>
             </div>
@@ -220,9 +227,31 @@ export default {
       }
       this.users.splice(this.users.indexOf(user), 1);
     },
+    deleteUserFromProject(user) {
+      // eslint-disable-next-line no-debugger
+      debugger;
+      if(user.roles[0] === "ProjectManager") {
+        this.form.projectManager = "";
+        this.projectManager = null;
+      }
+      if(user.roles[0] === "TeamLeader") {
+        this.form.teamLeader = "";
+        this.teamLeader = null;
+      }
+      if(user.roles[0] === "TeamMember") {
+        //delete from array
+        let index = this.teamMembers.findIndex(member => member.id === user.id);
+        this.teamMembers.splice(index, 1);
+        //delete from array on form data
+        let formIndex = this.form.members.findIndex(member => member === user.id)
+        this.form.members.splice(formIndex, 1);
+      }
+      //add users
+      this.users.push(user);
+    },
     /*
     addUserToProject (user) {
-      // eslint-disable-next-line no-debugger
+      // eslint-disahttp://localhost:8081/ble-next-line no-debugger
       debugger;
       if(user.roles[0] === "ProjectManager") {
         this.form.projectManager = user.id;

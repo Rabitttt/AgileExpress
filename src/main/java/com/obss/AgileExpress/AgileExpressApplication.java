@@ -64,7 +64,7 @@ public class AgileExpressApplication {
  */
 
 
-	/*
+
 	@Bean
 	CommandLineRunner runner(UserService userService) {
 		return args -> {
@@ -79,7 +79,6 @@ public class AgileExpressApplication {
 
 		};
 	}
-	 */
 
 
 }
