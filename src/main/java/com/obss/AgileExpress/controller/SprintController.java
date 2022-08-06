@@ -32,8 +32,10 @@ public class SprintController {
     @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')")
     @PostMapping("/makeActiveSprint")
     public Sprint changeActiveSprint(@RequestParam String sprintId,
-                                     @RequestParam String endDate) throws ParseException {
-        return sprintService.makeActiveSprint(sprintId,endDate);
+                                     @RequestParam String endDate,
+                                     @RequestParam String projectId
+                                     ) throws ParseException {
+        return sprintService.makeActiveSprint(sprintId,endDate,projectId);
     }
     @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')")
     @PostMapping("/changeSprintState")

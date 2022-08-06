@@ -74,28 +74,46 @@ export default {
     changeToActive() {
       // eslint-disable-next-line no-debugger
       debugger;
-      axios.post("http://localhost:9000/sprint/makeActiveSprint", {},
-          {
-            params: {
-              sprintId: this.$props.sprintId,
-              endDate: this.form.endDate,
-            },
-            headers: {
-              Authorization: `Bearer ${jwtService.getToken()}`,
-              "Accept-Encoding": "gzip, deflate, br",
-              "Accept": "*/*",
-              "Connection": "keep-alive",},
-          },
-      )
-          .then( response => {
-                // eslint-disable-next-line no-debugger
-                debugger;
-                this.$store.commit("setSprintStateChange", response.data);
+      let activeSprint = this.$store.state.selectedProject.sprints.filter((item) => item.sprintState === "active");
+      if(activeSprint.length > 0) {
+        this.$toast.error("There is already an active sprint", {
+          timeout: 2000,
+          closeOnClick: true,
+          pauseOnFocusLoss: true,
+          pauseOnHover: true,
+          draggable: true,
+          draggablePercent: 0.6,
+          showCloseButtonOnHover: false,
+          hideProgressBar: true,
+          icon: true,
+          rtl: false
+        });
+      }
+      else {
+        axios.post("http://localhost:9000/sprint/makeActiveSprint", {},
+            {
+              params: {
+                sprintId: this.$props.sprintId,
+                endDate: this.form.endDate,
+                projectId: this.$store.state.selectedProject.id
               },
+              headers: {
+                Authorization: `Bearer ${jwtService.getToken()}`,
+                "Accept-Encoding": "gzip, deflate, br",
+                "Accept": "*/*",
+                "Connection": "keep-alive",},
+            },
           )
-          .catch(c => {
-            console.log(c)
-          });
+            .then( response => {
+                  // eslint-disable-next-line no-debugger
+                  debugger;
+                  this.$store.commit("setSprintStateChange", response.data);
+                },
+            )
+            .catch(c => {
+              console.log(c)
+            });
+      }
     },
   },
 }

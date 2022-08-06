@@ -3,16 +3,23 @@ package com.obss.AgileExpress.service;
 import com.obss.AgileExpress.documents.Project;
 import com.obss.AgileExpress.documents.Sprint;
 import com.obss.AgileExpress.documents.Task;
+import com.obss.AgileExpress.documents.User;
 import com.obss.AgileExpress.repository.ProjectRepository;
 import com.obss.AgileExpress.repository.SprintRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpStatusCodeException;
 
+import java.net.http.HttpResponse;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -73,14 +80,19 @@ public class SprintService {
         sprintRepository.save(sprint);
         return sprint;
     }
-    public Sprint makeActiveSprint(String sprintId, String endDate) throws ParseException {
-        Sprint sprint = sprintRepository.findById(sprintId).get();
-        sprint.setSprintState("active");
-        Date formattedEndDate = new SimpleDateFormat("yyyy-MM-dd").parse(endDate);
-        sprint.setEndDate(formattedEndDate);
-        sprint.setStartDate(new Date());
-        sprintRepository.save(sprint);
-        return sprint;
+    public Sprint makeActiveSprint(String sprintId, String endDate, String projectId) throws ParseException {
+        if (findActiveSprint(projectId) != null) {
+            return null;
+        }
+        else {
+            Sprint sprint = sprintRepository.findById(sprintId).get();
+            sprint.setSprintState("active");
+            Date formattedEndDate = new SimpleDateFormat("yyyy-MM-dd").parse(endDate);
+            sprint.setEndDate(formattedEndDate);
+            sprint.setStartDate(new Date());
+            sprintRepository.save(sprint);
+            return sprint;
+        }
     }
 
     public Sprint changeSprintState(String sprintId,String state) {
@@ -101,5 +113,12 @@ public class SprintService {
             sprint.getTasks().forEach(item -> taskService.deleteTask(item.getId(),projectId,sprintId));
             sprintRepository.delete(sprint);
         }
+    }
+    private Sprint findActiveSprint(String projectId) {
+        Project project = projectService.getProjectById(projectId);
+        return project.getSprints().stream()
+                .filter(item -> item.getSprintState().equals("active"))
+                .findFirst()
+                .orElse(null);
     }
 }
