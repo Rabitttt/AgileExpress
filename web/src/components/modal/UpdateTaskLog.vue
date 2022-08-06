@@ -86,8 +86,7 @@ export default {
   },
   methods: {
     onFormChanged(model, componentFormTitle) {
-      // eslint-disable-next-line no-debugger
-      debugger;
+
       this.form[componentFormTitle] = model
     },
     updateTaskLogHandler() {
@@ -107,8 +106,7 @@ export default {
           },
       )
           .then( response => {
-                // eslint-disable-next-line no-debugger
-                debugger;
+
                 this.$emit("taskLogUpdateHandler",response.data)
                 this.dialog = false;
               },

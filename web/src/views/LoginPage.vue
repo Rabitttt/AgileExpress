@@ -40,10 +40,8 @@ export default {
   methods: {
     async login() {
 
-      // eslint-disable-next-line no-debugger
-      debugger
-      // eslint-disable-next-line no-debugger
-      //debugger
+
+
       await axios.post("http://localhost:9000/login", {}, {
         params: {
           username: this.username,
@@ -57,8 +55,7 @@ export default {
         }
       })
       .then( response => {
-            // eslint-disable-next-line no-debugger
-            debugger;
+
             jwtService.destroyToken();
             this.token = response.data.access_token;
             jwtService.saveToken(this.token);
@@ -75,8 +72,7 @@ export default {
         }
       })
           .then( response => {
-                // eslint-disable-next-line no-debugger
-                debugger;
+
                 this.$store.commit("setUserId",response.data.id);
                 this.$router.push({ path: '/' })
               },

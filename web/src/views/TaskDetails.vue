@@ -75,8 +75,7 @@ export default {
           Authorization: "Bearer "+ jwtService.getToken(),
         }
       }).then(response => {
-        // eslint-disable-next-line no-debugger
-        debugger;
+
         this.task = response.data;
       });
     },
@@ -84,16 +83,14 @@ export default {
       this.task = task;
     },
     onTaskLogDeleted(taskLogList) {
-      // eslint-disable-next-line no-debugger
-      debugger;
+
       this.task.taskLogs = taskLogList;
     },
     onTaskUpdated(task) {
       this.task = task;
     },
     onDeleteTask() {
-      // eslint-disable-next-line no-debugger
-      debugger;
+
       axios.post("http://localhost:9000/task/delete", {},
           {
             params: {
@@ -109,8 +106,7 @@ export default {
           },
       )
           .then( response => {
-                // eslint-disable-next-line no-debugger
-                debugger;
+
                 if(response.status === 200) {
                   this.$router.push("/project/management/" + this.$store.state.selectedProject.id);
                 }
@@ -129,8 +125,7 @@ export default {
           Authorization: "Bearer "+ jwtService.getToken(),
         }
       }).then(response => {
-        // eslint-disable-next-line no-debugger
-        debugger;
+
         this.task = response.data;
       });
     },
@@ -143,8 +138,7 @@ export default {
           Authorization: "Bearer "+ jwtService.getToken(),
         }
       }).then(response => {
-        // eslint-disable-next-line no-debugger
-        debugger;
+
         this.task = response.data;
       });
     }

@@ -99,8 +99,7 @@ export default {
     members: [],
   }),
   created() {
-    // eslint-disable-next-line no-debugger
-    debugger
+
     /*
     this.form.taskName = this.$props.task.taskName;
     this.form.description = this.$props.task.description;
@@ -130,8 +129,7 @@ export default {
           },
       )
           .then( response => {
-                // eslint-disable-next-line no-debugger
-                debugger;
+
                 this.dialog = false;
                 this.$emit("handleUpdateItem",response.data)
               },
@@ -142,16 +140,14 @@ export default {
     },
     /*
     async getTeamMembers() {
-      // eslint-disable-next-line no-debugger
-      debugger
+
       let id = this.$store.state.selectedProject.id;
       await axios.get("http://localhost:9000/project/getTeamMembers/" + id,{
         headers: {
           Authorization: "Bearer "+ jwtService.getToken(),
         }
       }).then(response => {
-        // eslint-disable-next-line no-debugger
-        debugger
+
         this.members = response.data;
       });
     }
@@ -161,8 +157,7 @@ export default {
   /*
   computed: {
     memberUsernames() {
-      // eslint-disable-next-line no-debugger
-      debugger
+
       return this.members.map(member  => member.username);
     },
   }
@@ -170,8 +165,7 @@ export default {
 
   computed: {
     memberUsernames() {
-      // eslint-disable-next-line no-debugger
-      debugger
+
       return this.$store.state.selectedProject.members.map(member  => member.username);
     },
   }

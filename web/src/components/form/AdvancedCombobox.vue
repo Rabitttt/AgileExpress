@@ -112,8 +112,6 @@ export default {
 
         return v
       })
-      // eslint-disable-next-line no-debugger
-      debugger;
       this.$emit('handleFormChange',this.model,this.componentFormTitle)
     },
   },

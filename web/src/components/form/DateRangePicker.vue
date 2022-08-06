@@ -39,8 +39,6 @@ export default {
   },
   watch: {
     dates () {
-      // eslint-disable-next-line no-debugger
-      debugger;
       this.dates[0] = this.minDate;
       this.$emit("handleFormChange", this.dates[1], this.$props.componentFormTitle);
     },

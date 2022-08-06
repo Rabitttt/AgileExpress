@@ -41,15 +41,13 @@ export default {
   },
   methods: {
     async search() {
-        // eslint-disable-next-line no-debugger
-        debugger;
+
         await axios.get("http://localhost:9000/search/" + this.searchText,{
           headers: {
             Authorization: "Bearer "+ jwtService.getToken(),
           }
         }).then(response => {
-          // eslint-disable-next-line no-debugger
-          debugger;
+
           console.log("Search Result = "+response.data);
           this.searchResults = response.data;
         });
@@ -60,8 +58,7 @@ export default {
   },
   watch: {
     searchText (){
-      // eslint-disable-next-line no-debugger
-      debugger;
+
       if(this.searchText === "") {
         this.searchResults = [];
       }

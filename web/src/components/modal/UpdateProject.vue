@@ -142,8 +142,6 @@ export default {
         Authorization: "Bearer "+ jwtService.getToken(),
       }
     }).then(response => {
-      // eslint-disable-next-line no-debugger
-      debugger
       let allUsers = response.data;
       this.users = this.deleteFormMembersInAllUsers(allUsers);
 
@@ -155,8 +153,7 @@ export default {
       this.form[componentFormTitle] = model
     },
     updateProject() {
-      // eslint-disable-next-line no-debugger
-      debugger;
+
       this.form.teamLeader = this.teamLeader.id;
       this.form.projectManager = this.projectManager.id;
       this.teamMembers.forEach(user => {
@@ -178,8 +175,6 @@ export default {
       });
     },
     addUserToProject (user) {
-      // eslint-disable-next-line no-debugger
-      debugger;
       if(user.roles[0] === "ProjectManager") {
         if(this.projectManager !== null) {
           this.$toast.error("Only one Project Manager allowed.", {
@@ -236,8 +231,6 @@ export default {
       });
     },
     deleteUserFromProject(user) {
-      // eslint-disable-next-line no-debugger
-      debugger;
       if(user.roles[0] === "ProjectManager") {
         this.form.projectManager = "";
         this.projectManager = null;
@@ -258,8 +251,7 @@ export default {
       this.users.push(user);
     },
     deleteFormMembersInAllUsers(allUsers) {
-      // eslint-disable-next-line no-debugger
-      debugger;
+
       //project users
       let projectUsers = [];
       for (let index in this.teamMembers) {

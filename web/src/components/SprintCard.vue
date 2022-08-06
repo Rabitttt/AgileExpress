@@ -38,14 +38,12 @@ export default {
   },
   methods: {
     handleClick() {
-      // eslint-disable-next-line no-debugger
-      debugger;
+
       //this.$store.commit("setSelectedSprintId", this.sprint.id);
       this.$emit("handleClick",this.sprint.id)
     },
     handleStateChange(newState) {
-      // eslint-disable-next-line no-debugger
-      debugger;
+
       axios.post("http://localhost:9000/sprint/changeSprintState", {},
           {
             params: {
@@ -60,8 +58,7 @@ export default {
           },
       )
           .then( response => {
-                // eslint-disable-next-line no-debugger
-                debugger;
+
                 this.$store.commit("setSprintStateChange", response.data);
               },
           )
@@ -70,8 +67,7 @@ export default {
           });
     },
     async deleteSprint () {
-      // eslint-disable-next-line no-debugger
-      debugger;
+
       await axios.post("http://localhost:9000/sprint/delete", {},
           {
             params: {
@@ -86,7 +82,7 @@ export default {
           },
       )
           .then( response => {
-                // eslint-disable-next-line no-debugger
+                // eslint-disable-next-line
                 debugger;
                 if(response.status === 200) {
                   this.$router.push("/");

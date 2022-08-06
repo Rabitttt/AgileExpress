@@ -138,16 +138,14 @@ export default {
   },
   methods: {
     startDrag(evt, item,itemFrom) {
-      // eslint-disable-next-line no-debugger
-      debugger;
+
       evt.dataTransfer.dropEffect = 'move'
       evt.dataTransfer.effectAllowed = 'move'
       evt.dataTransfer.setData('itemID', item.id)
       evt.dataTransfer.setData('itemFrom', itemFrom)
     },
     async onDrop(evt, taskStatus) {
-      // eslint-disable-next-line no-debugger
-      debugger;
+
       const itemID = evt.dataTransfer.getData('itemID')
       const itemFrom = evt.dataTransfer.getData('itemFrom')
 
@@ -168,8 +166,7 @@ export default {
           }
         })
             .then( response => {
-                  // eslint-disable-next-line no-debugger
-                  debugger;
+
                   this.$store.state.selectedProject.sprints[this.sprintIndex].tasks = response.data;
                 },
             )
@@ -193,8 +190,7 @@ export default {
           }
         })
             .then( response => {
-                  // eslint-disable-next-line no-debugger
-                  debugger;
+
                   this.$store.state.selectedProject = response.data;
                 },
             )
@@ -217,8 +213,7 @@ export default {
           }
         })
             .then( response => {
-                  // eslint-disable-next-line no-debugger
-                  debugger;
+
                   this.$store.state.selectedProject = response.data;
                 },
             )
@@ -251,8 +246,7 @@ export default {
     },
     /*
     onDropFromBacklog(evt,taskStatus) {
-      // eslint-disable-next-line no-debugger
-      debugger;
+
       const itemID = evt.dataTransfer.getData('itemID')
       let selectedBacklog = this.selectedProject.backlogTasks.find((item) => item.id === itemID);
       selectedBacklog.status = taskStatus.status;
@@ -268,14 +262,12 @@ export default {
       return this.$store.state.selectedProject;
     },
     memberUsernames() {
-      // eslint-disable-next-line no-debugger
-      debugger
+
       return this.$store.state.selectedProject.members.map(member  => member.username);
     },
     //Split sprints from sprintStates, Active , Planned ,
     activeSprints() {
-      // eslint-disable-next-line no-debugger
-      debugger;
+
       let state = this.items[this.tab];
       return  this.selectedProject.sprints.filter((item) => item.sprintState === state);
     },

@@ -173,8 +173,7 @@ export default {
         Authorization: "Bearer "+ jwtService.getToken(),
       }
     }).then(response => {
-      // eslint-disable-next-line no-debugger
-      debugger
+
       this.users = response.data;
       console.log(this.users)
       //this.seperateUsers();
@@ -186,8 +185,7 @@ export default {
     },
 
     async createProject() {
-      // eslint-disable-next-line no-debugger
-      debugger;
+
       this.form.creator = this.$store.state.userId;
       await axios.post("http://localhost:9000/project/create",
           {
@@ -211,13 +209,42 @@ export default {
           });
     },
     addUserToProject (user) {
-      // eslint-disable-next-line no-debugger
-      debugger;
+
       if(user.roles[0] === "ProjectManager") {
+        if(this.projectManager !== null) {
+          this.$toast.error("Only one Project Manager allowed.", {
+            timeout: 3000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            icon: true,
+            rtl: false
+          });
+          return null;
+        }
         this.form.projectManager = user.id;
         this.projectManager = user;
       }
       if(user.roles[0] === "TeamLeader") {
+        if(this.teamLeader !== null) {
+          this.$toast.error("Only one Team Leader allowed.", {
+            timeout: 3000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            icon: true,
+            rtl: false
+          });
+          return null;
+        }
         this.form.teamLeader = user.id;
         this.teamLeader = user;
       }
@@ -228,8 +255,7 @@ export default {
       this.users.splice(this.users.indexOf(user), 1);
     },
     deleteUserFromProject(user) {
-      // eslint-disable-next-line no-debugger
-      debugger;
+
       if(user.roles[0] === "ProjectManager") {
         this.form.projectManager = "";
         this.projectManager = null;
@@ -251,8 +277,7 @@ export default {
     },
     /*
     addUserToProject (user) {
-      // eslint-disahttp://localhost:8081/ble-next-line no-debugger
-      debugger;
+
       if(user.roles[0] === "ProjectManager") {
         this.form.projectManager = user.id;
         this.projectManagers.splice(this.projectManagers.indexOf(user), 1);
@@ -270,8 +295,7 @@ export default {
 
     /*
     seperateUsers () {
-      // eslint-disable-next-line no-debugger
-      debugger;
+
       this.users.forEach(user => {
         if (user.roles[0] === "TeamLeader") {
           this.teamLeaders.push(user);

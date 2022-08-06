@@ -67,13 +67,9 @@ export default {
   }),
   methods: {
     onFormChanged(model, componentFormTitle) {
-      // eslint-disable-next-line no-debugger
-      debugger;
       this.form[componentFormTitle] = model
     },
     changeToActive() {
-      // eslint-disable-next-line no-debugger
-      debugger;
       let activeSprint = this.$store.state.selectedProject.sprints.filter((item) => item.sprintState === "active");
       if(activeSprint.length > 0) {
         this.$toast.error("There is already an active sprint", {
@@ -105,8 +101,6 @@ export default {
             },
           )
             .then( response => {
-                  // eslint-disable-next-line no-debugger
-                  debugger;
                   this.$store.commit("setSprintStateChange", response.data);
                 },
             )

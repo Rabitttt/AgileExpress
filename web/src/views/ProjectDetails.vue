@@ -24,8 +24,7 @@ export default {
       }
     }).then(response => {
 
-      // eslint-disable-next-line no-debugger
-      debugger;
+
       this.data = response.data;
       console.log(this.data)
     });

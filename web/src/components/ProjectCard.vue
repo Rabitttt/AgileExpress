@@ -30,16 +30,14 @@ export default {
   },
   methods: {
     handleClick() {
-      // eslint-disable-next-line no-debugger
-      debugger;
+
       this.$emit("handleSelectedProject", this.project.members,this.project.teamLeader,this.project.projectManager);
     },
     projectDetails() {
       this.$router.push("project/management/" + this.project.id);
     },
     async deleteProject() {
-      // eslint-disable-next-line no-debugger
-      debugger;
+
       await axios.post("http://localhost:9000/project/delete", {},
           {
             params: {
@@ -53,8 +51,7 @@ export default {
           },
       )
           .then( response => {
-                // eslint-disable-next-line no-debugger
-                debugger;
+
                 if(response.status === 200) {
                   this.$router.push("/");
                 }

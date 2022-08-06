@@ -25,8 +25,6 @@ export default {
   },
   methods: {
     handleClick() {
-      // eslint-disable-next-line no-debugger
-      debugger;
       this.$emit('handleClick',this.user)
     },
   },

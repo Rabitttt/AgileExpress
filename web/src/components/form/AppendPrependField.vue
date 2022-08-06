@@ -43,8 +43,7 @@ export default {
     }
   },
   created() {
-    // eslint-disable-next-line no-debugger
-    debugger;
+
     this.setInitialData();
   },
   methods: {
@@ -55,8 +54,7 @@ export default {
       this.index = this.index !== 7 ? this.index + 1 : 7;
     },
     setInitialData() {
-      // eslint-disable-next-line no-debugger
-      debugger;
+
       this.items.findIndex(item => {
         if (item === this.$props.initialData) {
           this.index = this.items.indexOf(item);
@@ -66,8 +64,7 @@ export default {
   },
   watch: {
     index () {
-      // eslint-disable-next-line no-debugger
-      debugger;
+
       let modelValue = this.items[this.index]
       this.$emit('handleFormChange',modelValue,this.componentFormTitle)
     },

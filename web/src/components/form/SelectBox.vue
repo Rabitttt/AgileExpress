@@ -21,8 +21,7 @@ export default {
     }
   },
   created() {
-    // eslint-disable-next-line no-debugger
-    debugger;
+
     this.model = this.initialData;
   },
   watch: {
