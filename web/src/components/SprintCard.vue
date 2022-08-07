@@ -58,8 +58,35 @@ export default {
           },
       )
           .then( response => {
-
-                this.$store.commit("setSprintStateChange", response.data);
+                if(response.data !== "") {
+                  this.$store.commit("setSprintStateChange", response.data);
+                  this.$toast.success("Task successfully updated.", {
+                    timeout: 3000,
+                    closeOnClick: true,
+                    pauseOnFocusLoss: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    draggablePercent: 0.6,
+                    showCloseButtonOnHover: false,
+                    hideProgressBar: true,
+                    icon: true,
+                    rtl: false
+                  });
+                }
+                else {
+                  this.$toast.error("Operation Failed.", {
+                    timeout: 3000,
+                    closeOnClick: true,
+                    pauseOnFocusLoss: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    draggablePercent: 0.6,
+                    showCloseButtonOnHover: false,
+                    hideProgressBar: true,
+                    icon: true,
+                    rtl: false
+                  });
+                }
               },
           )
           .catch(c => {
@@ -67,31 +94,57 @@ export default {
           });
     },
     async deleteSprint () {
-
-      await axios.post("http://localhost:9000/sprint/delete", {},
-          {
-            params: {
-              sprintId: this.sprint.id,
-              projectId: this.$store.state.selectedProject.id,
-            },
-            headers: {
-              Authorization: `Bearer ${jwtService.getToken()}`,
-              "Accept-Encoding": "gzip, deflate, br",
-              "Accept": "*/*",
-              "Connection": "keep-alive",},
-          },
-      )
-          .then( response => {
-                // eslint-disable-next-line
-                debugger;
-                if(response.status === 200) {
-                  this.$router.push("/");
-                }
+      if(confirm(`Do you really want to delete Sprint '${this.sprint.name}' ?`)) {
+        await axios.post("http://localhost:9000/sprint/delete", {},
+            {
+              params: {
+                sprintId: this.sprint.id,
+                projectId: this.$store.state.selectedProject.id,
               },
-          )
-          .catch(c => {
-            console.log(c)
-          });
+              headers: {
+                Authorization: `Bearer ${jwtService.getToken()}`,
+                "Accept-Encoding": "gzip, deflate, br",
+                "Accept": "*/*",
+                "Connection": "keep-alive",},
+            },
+        )
+            .then( response => {
+
+                  if(response.status === 200) {
+                    this.$toast.success("Sprint successfully deleted.", {
+                      timeout: 3000,
+                      closeOnClick: true,
+                      pauseOnFocusLoss: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      draggablePercent: 0.6,
+                      showCloseButtonOnHover: false,
+                      hideProgressBar: true,
+                      icon: true,
+                      rtl: false
+                    });
+                    this.$router.push("/");
+                  }
+                  else {
+                    this.$toast.error("Operation Failed.", {
+                      timeout: 3000,
+                      closeOnClick: true,
+                      pauseOnFocusLoss: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      draggablePercent: 0.6,
+                      showCloseButtonOnHover: false,
+                      hideProgressBar: true,
+                      icon: true,
+                      rtl: false
+                    });
+                  }
+                },
+            )
+            .catch(c => {
+              console.log(c)
+            });
+      }
     }
   },
 }

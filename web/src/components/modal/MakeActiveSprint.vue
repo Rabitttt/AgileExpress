@@ -72,8 +72,8 @@ export default {
     changeToActive() {
       let activeSprint = this.$store.state.selectedProject.sprints.filter((item) => item.sprintState === "active");
       if(activeSprint.length > 0) {
-        this.$toast.error("There is already an active sprint", {
-          timeout: 2000,
+        this.$toast.warning("There is already an active sprint", {
+          timeout: 3000,
           closeOnClick: true,
           pauseOnFocusLoss: true,
           pauseOnHover: true,

@@ -30,8 +30,6 @@ export default {
     }
   },
   created() {
-    // eslint-disable-next-line no-debugger
-    debugger;
     let id = this.$route.params.id
     axios.get("http://localhost:9000/user/profile/" + id,{
       headers: {

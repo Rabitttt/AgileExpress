@@ -254,7 +254,7 @@ public class ProjectService {
         }
     }
 
-    public void updateProject(String projectId, ProjectDao projectDao) {
+    public Project updateProject(String projectId, ProjectDao projectDao) {
         //MONGO UPDATE
         Project project = getProjectById(projectId);
         List<User> updatedProjectMembers = new ArrayList<User>();
@@ -285,6 +285,8 @@ public class ProjectService {
         ProjectES projectES = projectESRepository.findById(projectId).orElse(null);
         projectES.setName(project.getName());
         projectESRepository.save(projectES);
+
+        return project;
     }
 
     public List<Project> getAllProjectsByUser() {
@@ -334,4 +336,5 @@ public class ProjectService {
         List<Project> projects = mongoTemplate.find(query,Project.class);
         return projects;
     }
+
 }

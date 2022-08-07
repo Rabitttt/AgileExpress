@@ -201,7 +201,35 @@ export default {
       })
           .then( response => {
                 console.log(response)
-                this.$router.push("/");
+                if(response.data !== "") {
+                  this.$toast.success("Project created successfully.", {
+                    timeout: 3000,
+                    closeOnClick: true,
+                    pauseOnFocusLoss: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    draggablePercent: 0.6,
+                    showCloseButtonOnHover: false,
+                    hideProgressBar: true,
+                    icon: true,
+                    rtl: false
+                  });
+                  this.$router.push("/");
+                }
+                else {
+                  this.$toast.error("Operation Failed.", {
+                    timeout: 3000,
+                    closeOnClick: true,
+                    pauseOnFocusLoss: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    draggablePercent: 0.6,
+                    showCloseButtonOnHover: false,
+                    hideProgressBar: true,
+                    icon: true,
+                    rtl: false
+                  });
+                }
               },
           )
           .catch(c => {

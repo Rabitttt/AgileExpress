@@ -103,7 +103,35 @@ export default new Vuex.Store({
 
                 let newTask = response.data;
                 console.log(newTask)
-                context.commit("setCreatedTask",newTask);
+                if(response.data !== "") {
+                    context.commit("setCreatedTask",newTask);
+                    this._vm.$toast.success("Task successfully created.", {
+                        timeout: 3000,
+                        closeOnClick: true,
+                        pauseOnFocusLoss: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        draggablePercent: 0.6,
+                        showCloseButtonOnHover: false,
+                        hideProgressBar: true,
+                        icon: true,
+                        rtl: false
+                    });
+                }
+                else {
+                    this.$toast.error("Operation Failed.", {
+                        timeout: 3000,
+                        closeOnClick: true,
+                        pauseOnFocusLoss: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        draggablePercent: 0.6,
+                        showCloseButtonOnHover: false,
+                        hideProgressBar: true,
+                        icon: true,
+                        rtl: false
+                    });
+                }
               },
           )
           .catch(c => {
@@ -126,12 +154,38 @@ export default new Vuex.Store({
           },
       )
           .then( response => {
-
-                let newTask = response.data;
-                console.log(newTask)
-                context.commit("setCreatedSprint",newTask);
-              },
-          )
+              let newTask = response.data;
+              console.log(newTask)
+              if(response.data !== "") {
+                  context.commit("setCreatedSprint",newTask);
+                  this._vm.$toast.success("Sprint successfully created.", {
+                      timeout: 3000,
+                      closeOnClick: true,
+                      pauseOnFocusLoss: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      draggablePercent: 0.6,
+                      showCloseButtonOnHover: false,
+                      hideProgressBar: true,
+                      icon: true,
+                      rtl: false
+                  });
+              }
+              else {
+                  this.$toast.error("Operation Failed.", {
+                      timeout: 3000,
+                      closeOnClick: true,
+                      pauseOnFocusLoss: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      draggablePercent: 0.6,
+                      showCloseButtonOnHover: false,
+                      hideProgressBar: true,
+                      icon: true,
+                      rtl: false
+                  });
+              }
+            })
           .catch(c => {
             console.log(c)
           });

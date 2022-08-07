@@ -130,8 +130,36 @@ export default {
       )
           .then( response => {
 
-                this.dialog = false;
-                this.$emit("handleUpdateItem",response.data)
+                if(response.data !== "") {
+                  this.dialog = false;
+                  this.$emit("handleUpdateItem",response.data)
+                  this.$toast.success("Task successfully updated.", {
+                    timeout: 3000,
+                    closeOnClick: true,
+                    pauseOnFocusLoss: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    draggablePercent: 0.6,
+                    showCloseButtonOnHover: false,
+                    hideProgressBar: true,
+                    icon: true,
+                    rtl: false
+                  });
+                }
+                else {
+                  this.$toast.error("Operation Failed.", {
+                    timeout: 3000,
+                    closeOnClick: true,
+                    pauseOnFocusLoss: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    draggablePercent: 0.6,
+                    showCloseButtonOnHover: false,
+                    hideProgressBar: true,
+                    icon: true,
+                    rtl: false
+                  });
+                }
               },
           )
           .catch(c => {

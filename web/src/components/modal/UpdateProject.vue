@@ -170,8 +170,36 @@ export default {
           Authorization: "Bearer "+ jwtService.getToken(),
         }
       }).then(response => {
-        this.dialog = false;
-        this.$emit("updateProject", response.data);
+        if(response.data !== "") {
+          this.dialog = false;
+          this.$emit("updateProject", response.data);
+          this.$toast.success("Project successfully updated.", {
+            timeout: 3000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            icon: true,
+            rtl: false
+          });
+        }
+        else {
+          this.$toast.error("Operation Failed.", {
+            timeout: 3000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            icon: true,
+            rtl: false
+          });
+        }
       });
     },
     addUserToProject (user) {
@@ -251,7 +279,6 @@ export default {
       this.users.push(user);
     },
     deleteFormMembersInAllUsers(allUsers) {
-
       //project users
       let projectUsers = [];
       for (let index in this.teamMembers) {

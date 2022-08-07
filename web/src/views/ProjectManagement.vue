@@ -8,6 +8,7 @@
         <UpdateProject
             v-if="this.$store.getters.isRoleProjectManagerOrHigher"
             :project="this.$store.state.selectedProject"
+            :updateProject="onUpdateProject"
         ></UpdateProject>
         <h5><strong>Backlogs</strong></h5>
         <div class="drop-zone"
@@ -146,14 +147,12 @@ export default {
     },
     async onDrop(evt, taskStatus) {
 
-      // eslint-disable-next-line no-debugger
-      debugger;
       const itemID = evt.dataTransfer.getData('itemID')
       const itemFrom = evt.dataTransfer.getData('itemFrom')
       const taskAssigneeId = evt.dataTransfer.getData('taskAssigneeId')
 
       if(taskAssigneeId !== this.$store.state.userId) {
-        this.$toast.error("Can't change state if task is not yours", {
+        this.$toast.warning("Can't change state if task is not yours", {
           timeout: 3000,
           closeOnClick: true,
           pauseOnFocusLoss: true,

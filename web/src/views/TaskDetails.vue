@@ -90,31 +90,57 @@ export default {
       this.task = task;
     },
     onDeleteTask() {
-
-      axios.post("http://localhost:9000/task/delete", {},
-          {
-            params: {
-              taskId: this.task.id,
-              projectId: this.$store.state.selectedProject.id,
-              sprintId: this.$store.state.selectedSprintId,
-            },
-            headers: {
-              Authorization: `Bearer ${jwtService.getToken()}`,
-              "Accept-Encoding": "gzip, deflate, br",
-              "Accept": "*/*",
-              "Connection": "keep-alive",},
-          },
-      )
-          .then( response => {
-
-                if(response.status === 200) {
-                  this.$router.push("/project/management/" + this.$store.state.selectedProject.id);
-                }
+      if(confirm(`Do you really want to delete Task '${this.task.taskName}' ?`)) {
+          axios.post("http://localhost:9000/task/delete", {},
+            {
+              params: {
+                taskId: this.task.id,
+                projectId: this.$store.state.selectedProject.id,
+                sprintId: this.$store.state.selectedSprintId,
               },
-          )
-          .catch(c => {
-            console.log(c)
-          });
+              headers: {
+                Authorization: `Bearer ${jwtService.getToken()}`,
+                "Accept-Encoding": "gzip, deflate, br",
+                "Accept": "*/*",
+                "Connection": "keep-alive",},
+            },
+        )
+            .then( response => {
+                  if(response.status === 200) {
+                    this.$router.push("/project/management/" + this.$store.state.selectedProject.id);
+                    this.$toast.error("Task deleted successfully.", {
+                      timeout: 3000,
+                      closeOnClick: true,
+                      pauseOnFocusLoss: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      draggablePercent: 0.6,
+                      showCloseButtonOnHover: false,
+                      hideProgressBar: true,
+                      icon: true,
+                      rtl: false
+                    });
+                  }
+                  else {
+                    this.$toast.error("Operation Failed.", {
+                      timeout: 3000,
+                      closeOnClick: true,
+                      pauseOnFocusLoss: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      draggablePercent: 0.6,
+                      showCloseButtonOnHover: false,
+                      hideProgressBar: true,
+                      icon: true,
+                      rtl: false
+                    });
+                  }
+                },
+            )
+            .catch(c => {
+              console.log(c)
+            });
+      }
     },
     async makeMyTask() {
       await axios.post("http://localhost:9000/task/makeMyTask/",{},{
@@ -125,8 +151,35 @@ export default {
           Authorization: "Bearer "+ jwtService.getToken(),
         }
       }).then(response => {
-
-        this.task = response.data;
+          if(response.data !== "") {
+            this.task = response.data;
+            this.$toast.success("Task assignee updated.", {
+              timeout: 3000,
+              closeOnClick: true,
+              pauseOnFocusLoss: true,
+              pauseOnHover: true,
+              draggable: true,
+              draggablePercent: 0.6,
+              showCloseButtonOnHover: false,
+              hideProgressBar: true,
+              icon: true,
+              rtl: false
+            });
+          }
+          else {
+            this.$toast.error("Operation Failed.", {
+              timeout: 3000,
+              closeOnClick: true,
+              pauseOnFocusLoss: true,
+              pauseOnHover: true,
+              draggable: true,
+              draggablePercent: 0.6,
+              showCloseButtonOnHover: false,
+              hideProgressBar: true,
+              icon: true,
+              rtl: false
+            });
+          }
       });
     },
     async dropTaskFromMe() {
@@ -138,8 +191,35 @@ export default {
           Authorization: "Bearer "+ jwtService.getToken(),
         }
       }).then(response => {
-
-        this.task = response.data;
+        if(response.data !== "") {
+          this.task = response.data;
+          this.$toast.success("Task assignee updated.", {
+            timeout: 3000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            icon: true,
+            rtl: false
+          });
+        }
+        else {
+          this.$toast.error("Operation Failed.", {
+            timeout: 3000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            icon: true,
+            rtl: false
+          });
+        }
       });
     }
   },

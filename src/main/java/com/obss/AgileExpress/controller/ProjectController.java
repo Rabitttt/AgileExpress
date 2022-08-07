@@ -47,8 +47,8 @@ public class ProjectController {
 
     @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')")
     @PostMapping("/create")
-    public void createProject(@RequestBody ProjectDao projectDao) {
-        projectService.createProject(projectDao);
+    public Project createProject(@RequestBody ProjectDao projectDao) {
+        return projectService.createProject(projectDao);
     }
 
     @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')" + "|| hasRole('TeamMember')")
@@ -67,10 +67,10 @@ public class ProjectController {
 
     @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')")
     @PostMapping("/update")
-    public void updateProject(
+    public Project updateProject(
             @RequestParam String projectId,
             @RequestBody ProjectDao projectDao
     ) {
-        projectService.updateProject(projectId,projectDao);
+       return projectService.updateProject(projectId,projectDao);
     }
 }

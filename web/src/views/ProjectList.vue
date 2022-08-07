@@ -62,8 +62,7 @@ import UserCard from "@/components/UserCard";
             Authorization: "Bearer "+ jwtService.getToken(),
           }
         }).then(response => {
-          // eslint-disable-next-line no-debugger
-          debugger;
+
           this.data = response.data;
           //set first project data to initial data for users
           this.projectManager = this.data[0].projectManager;

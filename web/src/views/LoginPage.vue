@@ -55,12 +55,25 @@ export default {
         }
       })
       .then( response => {
-
             jwtService.destroyToken();
             this.token = response.data.access_token;
             jwtService.saveToken(this.token);
             this.$store.commit("setPayload",jwt_decode(this.token));
             this.$store.commit("setAuthUserStatus",true);
+            if(response.data.access_token !== "") {
+              this.$toast(`Wellcome ${this.username}.`, {
+                timeout: 3000,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                draggable: true,
+                draggablePercent: 0.6,
+                showCloseButtonOnHover: false,
+                hideProgressBar: true,
+                icon: true,
+                rtl: false
+              });
+            }
           },
       )
       .catch(c => {
