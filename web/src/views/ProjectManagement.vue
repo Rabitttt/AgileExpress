@@ -138,17 +138,35 @@ export default {
   },
   methods: {
     startDrag(evt, item,itemFrom) {
-
       evt.dataTransfer.dropEffect = 'move'
       evt.dataTransfer.effectAllowed = 'move'
       evt.dataTransfer.setData('itemID', item.id)
       evt.dataTransfer.setData('itemFrom', itemFrom)
+      evt.dataTransfer.setData('taskAssigneeId',item.assignee.id)
     },
     async onDrop(evt, taskStatus) {
 
+      // eslint-disable-next-line no-debugger
+      debugger;
       const itemID = evt.dataTransfer.getData('itemID')
       const itemFrom = evt.dataTransfer.getData('itemFrom')
+      const taskAssigneeId = evt.dataTransfer.getData('taskAssigneeId')
 
+      if(taskAssigneeId !== this.$store.state.userId) {
+        this.$toast.error("Can't change state if task is not yours", {
+          timeout: 3000,
+          closeOnClick: true,
+          pauseOnFocusLoss: true,
+          pauseOnHover: true,
+          draggable: true,
+          draggablePercent: 0.6,
+          showCloseButtonOnHover: false,
+          hideProgressBar: true,
+          icon: true,
+          rtl: false
+        });
+        return null;
+      }
 
       console.log(itemID, itemFrom,taskStatus);
       if (itemFrom === 'sprints' && taskStatus !== 'backlog') {
@@ -166,7 +184,6 @@ export default {
           }
         })
             .then( response => {
-
                   this.$store.state.selectedProject.sprints[this.sprintIndex].tasks = response.data;
                 },
             )
