@@ -18,7 +18,7 @@
           </span>
           <span
               class="nav-item"
-              v-on:click="changeRoute('/user/profile/')">
+              v-on:click="activeUserProfile()">
             Profile
           </span>
           <span
@@ -53,6 +53,9 @@ export default {
       this.$store.commit("setAuthUserStatus", false);
       this.$router.push({path: "/login"})
     },
+    activeUserProfile() {
+      this.$router.push({path: "/user/profile/"+this.$store.state.userId})
+    }
   },
 }
 </script>

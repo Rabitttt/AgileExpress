@@ -16,7 +16,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-
     private final UserService userService;
 
     @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')")
@@ -30,6 +29,11 @@ public class UserController {
     public User getUserByUsername(@PathVariable(value = "username") String username) {
         User user = userService.getUserByUsername(username);
         return user;
+    }
+
+    @GetMapping("/profile/{userId}")
+    public User getUserProfile(@PathVariable(value = "userId") String userId) {
+        return userService.getUserById(userId);
     }
 
 }

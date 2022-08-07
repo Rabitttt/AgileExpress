@@ -221,4 +221,16 @@ public class TaskService {
 
         return accessibleTasks;
     }
+
+    public List<Task> getTasksByUserId(String userId) {
+        User user = userService.getUserById(userId);
+        Query query = new Query();
+        List<Criteria> criteria = new ArrayList<>();
+
+        criteria.add(Criteria.where("assignee").is(user));
+
+        query.addCriteria(new Criteria().orOperator(criteria.toArray(new Criteria[criteria.size()])));
+        List<Task> tasks = mongoTemplate.find(query,Task.class);
+        return tasks;
+    }
 }

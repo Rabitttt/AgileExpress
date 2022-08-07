@@ -319,4 +319,19 @@ public class ProjectService {
         accessibleProjects = mongoTemplate.find(query,Project.class);
         return accessibleProjects;
     }
+
+    public List<Project> getProjectByUserId(String userId) {
+        User user = userService.getUserById(userId);
+        Query query = new Query();
+        List<Criteria> criteria = new ArrayList<>();
+
+        criteria.add(Criteria.where("creator").is(user));
+        criteria.add(Criteria.where("projectManager").is(user));
+        criteria.add(Criteria.where("teamLeader").is(user));
+        criteria.add(Criteria.where("members").all(user));
+
+        query.addCriteria(new Criteria().orOperator(criteria.toArray(new Criteria[criteria.size()])));
+        List<Project> projects = mongoTemplate.find(query,Project.class);
+        return projects;
+    }
 }

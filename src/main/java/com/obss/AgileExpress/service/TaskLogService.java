@@ -7,8 +7,12 @@ import com.obss.AgileExpress.repository.TaskLogRepository;
 import com.obss.AgileExpress.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.IntStream;
@@ -22,6 +26,7 @@ public class TaskLogService {
     private final TaskService taskService;
     private final TaskRepository taskRepository;
     private final UserService userService;
+    private final MongoTemplate mongoTemplate;
 
     public Task createTaskLog(String taskId, TaskLog taskLog, String userId) {
         User user = userService.getUserById(userId);
@@ -59,5 +64,17 @@ public class TaskLogService {
         oldTaskLog.setStartClock(taskLog.getStartClock());
         oldTaskLog.setEndClock(taskLog.getEndClock());
         return taskLogRepository.save(oldTaskLog);
+    }
+
+    public List<TaskLog> getTaskLogsByUserId(String userId) {
+        User user = userService.getUserById(userId);
+        Query query = new Query();
+        List<Criteria> criteria = new ArrayList<>();
+
+        criteria.add(Criteria.where("creator").is(user));
+
+        query.addCriteria(new Criteria().orOperator(criteria.toArray(new Criteria[criteria.size()])));
+        List<TaskLog> taskLogs = mongoTemplate.find(query,TaskLog.class);
+        return taskLogs;
     }
 }

@@ -36,6 +36,13 @@ public class ProjectController {
     public Project getProjectById(@PathVariable(value = "projectId") String projectId) {
         return projectService.getProjectById(projectId);
     }
+    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')" + "|| hasRole('TeamMember')")
+    @GetMapping("/getProjectsByUserId/{userId}")
+    public List<Project> getProjectsByUserId(
+            @PathVariable(value = "userId") String userId
+    ) {
+        return projectService.getProjectByUserId(userId);
+    }
 
 
     @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')")

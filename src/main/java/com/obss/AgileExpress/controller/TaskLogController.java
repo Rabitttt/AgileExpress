@@ -44,4 +44,12 @@ public class TaskLogController {
     ) {
         return taskLogService.updateTaskLog(taskLog,taskLogId);
     }
+
+    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')" + "|| hasRole('TeamMember')")
+    @GetMapping("/getTaskLogsByUserId/{userId}")
+    public List<TaskLog> getTasksByUserId(
+            @PathVariable(value = "userId") String userId
+    ) {
+        return taskLogService.getTaskLogsByUserId(userId);
+    }
 }

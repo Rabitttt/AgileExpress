@@ -85,4 +85,12 @@ public class TaskController {
     public Task dropTaskFromMe(@RequestParam String taskId) {
         return taskService.dropTaskFromMe(taskId);
     }
+
+    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')" + "|| hasRole('TeamMember')")
+    @GetMapping("/getTasksByUserId/{userId}")
+    public List<Task> getTasksByUserId(
+            @PathVariable(value = "userId") String userId
+    ) {
+        return taskService.getTasksByUserId(userId);
+    }
 }

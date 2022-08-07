@@ -16,10 +16,11 @@
         </div>
       </div>
       <div class="col-4">
-        <h5><strong>Users</strong></h5>
-        <div>{{this.projectManager.username}}</div>
-        <div>{{this.projectTeamLeader.username}}</div>
-        <div v-for="(user,index) in projectMembers" v-bind:key="index">{{user.username}}</div>
+        <UserCard v-for="(data,index) in this.projectMembers"
+                  v-bind:key="index"
+                  :user="data"/>
+        <UserCard :user="projectManager"/>
+        <UserCard :user="projectTeamLeader"/>
       </div>
     </div>
   </div>
@@ -30,15 +31,16 @@ import axios from "axios"
 import jwtService from "@/helpers/JwtService.js";
 import ProjectCard from "@/components/ProjectCard";
 import SearchBar from "@/components/SearchBar";
+import UserCard from "@/components/UserCard";
 
   export default {
     name: 'ProjectList',
-    components: {SearchBar, ProjectCard},
+    components: {UserCard, SearchBar, ProjectCard},
     data: () => ({
       data: {},
       projectMembers: [],
-      projectTeamLeader: "",
-      projectManager: "",
+      projectTeamLeader: {},
+      projectManager: {},
     }),
 
     async created() {
