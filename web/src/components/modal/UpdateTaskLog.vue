@@ -18,7 +18,6 @@
           <span class="text-h5">Update Task Log</span>
         </v-card-title>
         <v-card-text>
-          {{this.form}}
           <form>
             <div class="form-element">
               <label class="required fs-5 fw-bold mb-2">Description</label>

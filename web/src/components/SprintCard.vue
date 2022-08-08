@@ -1,29 +1,89 @@
 <template>
-  <div v-on:click="handleClick" class="sprint-card">
-    {{sprint.id}}
-    {{sprint.name}}
-    <MakeActiveSprint
-        v-if="sprint.sprintState !== 'active' && $store.getters.isRoleProjectManagerOrHigher"
-        :sprint-id="sprint.id"></MakeActiveSprint>
-    <button
-        class="btn btn-sm btn-secondary btn-block"
-        v-if="sprint.sprintState !== 'planned' && $store.getters.isRoleProjectManagerOrHigher"
-        v-on:click="handleStateChange('planned')">
-      Set as Planned
-    </button>
-    <button
-        class="btn btn-sm btn-success btn-block"
-        v-if="sprint.sprintState !== 'completed' && $store.getters.isRoleProjectManagerOrHigher"
-        v-on:click="handleStateChange('completed')">
-    Set as Completed
-    </button>
-    <button
-        v-if="$store.getters.isRoleProjectManagerOrHigher"
-        class="btn btn-sm btn-danger btn-block"
-        v-on:click="deleteSprint">
-    Delete Sprints
-    </button>
-  </div>
+  <v-card>
+    <v-card-title>
+      <span class="text-h5">{{sprint.name}}</span>
+
+      <v-spacer></v-spacer>
+
+      <v-menu
+          bottom
+          left
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+              dark
+              icon
+              v-bind="attrs"
+              v-on="on"
+          >
+            <v-icon color="black">mdi-dots-vertical</v-icon>
+          </v-btn>
+        </template>
+
+        <v-list class="d-flex flex-column justify-content-between">
+          <h6>Change State</h6>
+          <v-list-item v-if="sprint.sprintState !== 'active' && $store.getters.isRoleProjectManagerOrHigher">
+            <MakeActiveSprint
+                :sprint-id="sprint.id"></MakeActiveSprint>
+          </v-list-item>
+          <v-list-item
+              class="px-1"
+              v-if="sprint.sprintState !== 'planned' && $store.getters.isRoleProjectManagerOrHigher"
+          >
+
+          <button
+              style="min-width: 100%"
+                class="btn btn-sm btn-secondary btn-block"
+                v-on:click="handleStateChange('planned')">
+            <i class="fa-solid fa-list-ul"></i>
+              Set as Planned
+            </button>
+          </v-list-item>
+          <v-list-item
+              class="px-1"
+              v-if="sprint.sprintState !== 'completed' && $store.getters.isRoleProjectManagerOrHigher"
+          >
+
+          <button
+              style="min-width: 100%"
+                class="btn btn-sm btn-success btn-block"
+                v-on:click="handleStateChange('completed')">
+            <i class="fa-solid fa-check"></i>
+            Set as Completed
+            </button>
+          </v-list-item>
+          <v-list-item
+              class="px-1"
+              v-if="$store.getters.isRoleProjectManagerOrHigher"
+          >
+            <button
+                style="min-width: 100%"
+                class="btn btn-sm btn-danger btn-block"
+                v-on:click="deleteSprint">
+              <i class="fa-solid fa-trash"></i>
+              Delete Sprints
+            </button>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </v-card-title>
+    <v-card-subtitle class="d-flex justify-content-between" >
+      <div>
+        {{sprint.description}}
+      </div>
+      <div v-on:click="handleClick" class="sprint-card">
+        {{sprint.sprintState}}
+      </div>
+    </v-card-subtitle>
+    <v-card-text>
+      <div v-if="sprint.sprintState ==='active'">
+        Sprint Start Date: {{sprint.startDate}}
+      </div>
+      <div v-if="sprint.sprintState ==='active'">
+        Sprint Start Date: {{sprint.endDate}}
+      </div>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
@@ -36,9 +96,18 @@ export default {
   props: {
     sprint: {},
   },
+  data() {
+    return {
+      items: [
+        { title: 'Click Me' },
+        { title: 'Click Me' },
+        { title: 'Click Me' },
+        { title: 'Click Me 2' },
+      ],
+    }
+  },
   methods: {
     handleClick() {
-
       //this.$store.commit("setSelectedSprintId", this.sprint.id);
       this.$emit("handleClick",this.sprint.id)
     },

@@ -6,10 +6,12 @@
     >
       <template v-slot:activator="{ on, attrs }">
         <button
+            style="min-width: 100%"
             class="btn btn-sm btn-dark btn-block"
             v-bind="attrs"
             v-on="on"
         >
+          <i class="fa-solid fa-chart-line"></i>
           Make Active Sprint
         </button>
       </template>
@@ -18,7 +20,6 @@
           <span class="text-h5">Create New Task</span>
         </v-card-title>
         <v-card-text>
-          {{this.form}}
           <form>
             <div class="form-element">
               <label class="required fs-5 fw-bold mb-2">Select End Date</label>

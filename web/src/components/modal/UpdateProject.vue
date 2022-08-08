@@ -17,7 +17,6 @@
         <h4 class="text-h5">Update Project</h4>
       </v-card-title>
       <v-card-text>
-        {{this.form}}
         <v-row>
           <v-col>
             <form>

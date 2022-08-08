@@ -16,11 +16,31 @@
         </div>
       </div>
       <div class="col-4">
-        <UserCard v-for="(data,index) in this.projectMembers"
-                  v-bind:key="index"
-                  :user="data"/>
-        <UserCard :user="projectManager"/>
-        <UserCard :user="projectTeamLeader"/>
+          <h5><strong>Users</strong></h5>
+          <v-tabs
+              v-model="tab"
+              background-color="transparent"
+              grow
+          >
+            <v-tab
+                v-for="item in items"
+                :key="item"
+            >
+              {{ item }}
+            </v-tab>
+          </v-tabs>
+          <v-tabs-items v-model="tab" class="mt-5">
+            <v-tab-item v-for="item in items"
+                        :key="item"
+            >
+              <div v-for="(data,index) in parsedUsers"
+                   v-bind:key="index">
+                <UserCard :user="data"/>
+              </div>
+            </v-tab-item>
+
+          </v-tabs-items>
+
       </div>
     </div>
   </div>
@@ -36,6 +56,8 @@ import UserCard from "@/components/UserCard";
     name: 'ProjectList',
     components: {UserCard, ProjectCard},
     data: () => ({
+      tab: null,
+      items: ['Manager','Leader','Members'],
       data: {},
       projectMembers: [],
       projectTeamLeader: {},
@@ -44,6 +66,7 @@ import UserCard from "@/components/UserCard";
 
     async created() {
       await this.getData();
+      this.tab = 0;
     },
 
     methods: {
@@ -75,5 +98,21 @@ import UserCard from "@/components/UserCard";
         this.projectManager = projectManager;
       },
     },
+    computed: {
+      parsedUsers() {
+        let array = [];
+        if(this.tab===0){
+          array.push(this.projectManager)
+          return array;
+        }
+        if(this.tab === 1) {
+          array.push(this.projectTeamLeader)
+        }
+        if(this.tab===2) {
+          return this.projectMembers;
+        }
+        return [];
+      }
+    }
   }
 </script>

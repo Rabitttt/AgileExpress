@@ -69,6 +69,7 @@ public class ProjectService {
         //Set basic values
         Sprint sprint = new Sprint();
         sprint.setName("Initial Sprint of " + projectDao.getName());
+        sprint.setDescription("Description of " + projectDao.getName());
         sprint.setSprintState("planned");
         sprintRepository.save(sprint);
         //Set Initial Sprint

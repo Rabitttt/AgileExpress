@@ -3,8 +3,9 @@
       style="text-align: start; margin: 30px;"
       v-on:click="handleClick">
 
-    <v-card-title class="mx-4 mb-1">
+    <v-card-title class="mx-4 mb-1 d-flex justify-content-between">
       <strong>{{project.name}}</strong>
+      <i :class="isOpenIcon"></i>
     </v-card-title>
     <v-card-subtitle class="mx-4 mb-1 d-flex justify-content-between">
       <strong>{{project.creator.username}}</strong>
@@ -16,22 +17,24 @@
       {{project.description}}
       </div>
     </v-card-text>
-    <v-divider class="mx-6 mb-1" color="black"></v-divider>
-    <v-card-title class="mx-4 mb-1">Task States</v-card-title>
-    <div class="px-4 mx-4 mb-1">
-      <v-chip-group v-model="selection">
-        <v-chip
-            v-for="(item,index) in project.taskStatus"
-            v-bind:key="index"
-            :color="item.color"
-            class="px-5"
-        >
-          {{item.status}}
-        </v-chip>
-      </v-chip-group>
-    </div>
-    <v-divider class="mx-6 mb-1" color="black"></v-divider>
-    <v-card-actions class="flex justify-content-end mx-4 mb-1">
+    <span v-if="isOpen">
+      <v-divider class="mx-6 mb-1" color="black"></v-divider>
+      <v-card-title class="mx-4 mb-1">Task States</v-card-title>
+      <div class="px-4 mx-4 mb-1">
+        <v-chip-group v-model="selection">
+          <v-chip
+              label
+              v-for="(item,index) in project.taskStatus"
+              v-bind:key="index"
+              :color="item.color"
+              class="px-5"
+          >
+            {{item.status}}
+          </v-chip>
+        </v-chip-group>
+      </div>
+      <v-divider class="mx-6 mb-1" color="black"></v-divider>
+      <v-card-actions class="flex justify-content-end mx-4 mb-1">
       <v-btn
           color="primary dark lighten-2"
           text
@@ -48,6 +51,7 @@
         Delete Project
       </v-btn>
     </v-card-actions>
+    </span>
   </v-card>
 </template>
 
@@ -60,10 +64,15 @@ export default {
   props: {
     project: {},
   },
+  data() {
+    return {
+      isOpen: false,
+    }
+  },
   methods: {
     handleClick() {
-
       this.$emit("handleSelectedProject", this.project.members,this.project.teamLeader,this.project.projectManager);
+      this.changeOpenState();
     },
     projectDetails() {
       this.$router.push("project/management/" + this.project.id);
@@ -120,8 +129,18 @@ export default {
               console.log(c)
             });
       }
+    },
+    changeOpenState() {
+      this.isOpen = !this.isOpen;
     }
   },
+  computed: {
+    isOpenIcon() {
+      // eslint-disable-next-line no-debugger
+      debugger;
+      return this.isOpen ? "fa-solid fa-angle-up" : "fa-solid fa-angle-down";
+    }
+  }
 }
 </script>
 

@@ -19,7 +19,6 @@
           <h4 class="text-h5">Create New Sprint</h4>
         </v-card-title>
         <v-card-text>
-          {{this.form}}
           <form>
             <div class="form-element">
               <label class="required fs-5 fw-bold mb-2">Project Name</label>
