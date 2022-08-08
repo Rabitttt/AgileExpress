@@ -103,11 +103,25 @@ export default {
           )
             .then( response => {
                   this.$store.commit("setSprintStateChange", response.data);
+                  this.$toast.success("Task successfully updated.", {
+                    timeout: 3000,
+                    closeOnClick: true,
+                    pauseOnFocusLoss: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    draggablePercent: 0.6,
+                    showCloseButtonOnHover: false,
+                    hideProgressBar: true,
+                    icon: true,
+                    rtl: false
+                  });
+                  this.dialog = false;
                 },
             )
             .catch(c => {
               console.log(c)
             });
+
       }
     },
   },

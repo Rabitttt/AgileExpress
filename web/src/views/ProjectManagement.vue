@@ -1,17 +1,21 @@
 <template>
-  <div >
-    <v-row>
+  <div>
+    <v-row style="min-height: 90vh">
       <!-- BACKLOGS -->
       <v-col
           class="col-3">
-        Sprint Name: {{this.selectedProject.sprints[sprintIndex].name}}
-        <UpdateProject
-            v-if="this.$store.getters.isRoleProjectManagerOrHigher"
-            :project="this.$store.state.selectedProject"
-            :updateProject="onUpdateProject"
-        ></UpdateProject>
-        <h5><strong>Backlogs</strong></h5>
+        <div class="d-flex flex-row justify-content-between px-6">
+          <div class="d-flex flex-column justify-content-center align-center">
+            <h5><strong>Backlogs</strong> </h5>
+          </div>
+          <CreateBacklog
+              v-if="this.$store.getters.isRoleTeamLeaderOrHigher"
+              :members="memberUsernames"
+          >
+          </CreateBacklog>
+        </div>
         <div class="drop-zone"
+             style="height: 80vh; overflow-y: auto"
              @drop="onDrop($event, 'backlog')"
              @dragover.prevent
              @dragenter.prevent
@@ -28,18 +32,19 @@
             </span>
           </div>
         </div>
-
-        <CreateBacklog
-            v-if="this.$store.getters.isRoleTeamLeaderOrHigher"
-            :members="memberUsernames"
-        >
-        </CreateBacklog>
+        Sprint Name: {{this.selectedProject.sprints[sprintIndex].name}}
+        <UpdateProject
+            v-if="this.$store.getters.isRoleProjectManagerOrHigher"
+            :project="this.$store.state.selectedProject"
+        ></UpdateProject>
       </v-col>
       <!-- Task Management -->
       <v-col
-          class="col-6 d-flex flex-row">
+          class="col-6 d-flex flex-row"
+          style="overflow-x: auto"
+      >
         <div
-            style="width: 350px; height:70vh; border: 1px solid lightgrey"
+            style="min-width: 300px; height: 90vh; border: 1px solid lightgrey"
             v-for="(taskStatus,index) in selectedProject.taskStatus"
             v-bind:key="index"
         >
@@ -49,27 +54,37 @@
                @drop="onDrop($event, taskStatus.status)"
                @dragover.prevent
                @dragenter.prevent
+               style="overflow-y: auto"
           >
             <!-- iterate over task component -->
-            <div
-                v-for="(task,index) in selectedProject.sprints[sprintIndex].tasks"
-                v-bind:key="index"
-                class="drag-el"
-                draggable
-                @dragstart="startDrag($event, task,'sprints')"
-            >
-              <span v-if="taskStatus.status === task.status" >
-                <TaskCard :task="task"></TaskCard>
-              </span>
-            </div>
+            <span v-for="(task,index) in selectedProject.sprints[sprintIndex].tasks"
+                  v-bind:key="index">
+              <div
+                  class="drag-el"
+                  draggable
+                  @dragstart="startDrag($event, task,'sprints')"
+                  v-if="taskStatus.status === task.status"
+              >
+                <span v-if="taskStatus.status === task.status">
+                  <TaskCard :task="task"></TaskCard>
+                </span>
+              </div>
+            </span>
           </div>
         </div>
       </v-col>
       <!-- Sprints -->
 
       <v-col
-          class="col-3">
-        <h5><strong>Sprints</strong></h5>
+          class="col-3 sprint-list"
+      >
+        <div class="d-flex flex-row justify-content-between px-6">
+          <div class="d-flex flex-column justify-content-center align-center">
+            <h5><strong>Sprints</strong></h5>
+          </div>
+          <CreateSprint v-if="this.$store.getters.isRoleProjectManagerOrHigher">
+          </CreateSprint>
+        </div>
         <v-tabs
             v-model="tab"
             background-color="transparent"
@@ -88,9 +103,9 @@
               :key="item"
           >
             <div
+                style="background-color: Rgb(250,250,250)"
                 v-for="(item,index) in activeSprints"
                 v-bind:key="index"
-                style="border-bottom:1px solid black"
             >
               <SprintCard :sprint="item"
                           @handleClick="onSprintChanged"
@@ -100,8 +115,6 @@
           </v-tab-item>
         </v-tabs-items>
 
-        <CreateSprint v-if="this.$store.getters.isRoleProjectManagerOrHigher">
-        </CreateSprint>
       </v-col>
 
     </v-row>
@@ -133,7 +146,6 @@ export default {
   },
   created() {
     this.$store.dispatch("setSelectedProject",this.$route.params.id)
-    this.setUsernameArray();
     this.tab = 0; //items array index
   },
   methods: {
@@ -230,7 +242,6 @@ export default {
           }
         })
             .then( response => {
-
                   this.$store.state.selectedProject = response.data;
                 },
             )
@@ -279,12 +290,10 @@ export default {
       return this.$store.state.selectedProject;
     },
     memberUsernames() {
-
       return this.$store.state.selectedProject.members.map(member  => member.username);
     },
     //Split sprints from sprintStates, Active , Planned ,
     activeSprints() {
-
       let state = this.items[this.tab];
       return  this.selectedProject.sprints.filter((item) => item.sprintState === state);
     },
@@ -294,13 +303,18 @@ export default {
 
 <style scoped>
 .drop-zone {
-  background-color: #eee;
   margin-bottom: 10px;
   padding: 10px;
-  height: 30vh;
+  height: 85vh;
 }
 .drag-el {
   margin-bottom: 10px;
   padding: 5px;
+}
+.v-window {
+  background-color: Rgb(250, 250, 250) !important;
+}
+h5 {
+  margin: 0;
 }
 </style>

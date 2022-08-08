@@ -1,11 +1,13 @@
 <template>
-  <v-row justify="center">
     <v-dialog
         v-model="dialog"
         max-width="600px"
-    >
+        justify="center"
+
+  >
       <template v-slot:activator="{ on, attrs }">
         <v-btn
+            style="max-width: 120px;"
             color="primary btn-sm"
             dark
             v-bind="attrs"
@@ -60,7 +62,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </v-row>
 </template>
 <script>
 import TextField from "@/components/form/TextField";
