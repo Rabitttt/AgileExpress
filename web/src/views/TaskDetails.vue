@@ -1,8 +1,32 @@
 <template>
   <div class="container">
     <v-row>
-    Hellooooo {{this.$route.params.id}}
-    <p>{{task}}</p>
+      <v-card class="px-7 py-7">
+        <h5>Task Details</h5>
+        <v-divider class="mx-6 mb-1" color="black"></v-divider>
+
+        <v-card-title class="py-2 d-flex flex-row justify-content-between">
+          {{task.taskName}}
+          <div class="assignee-card" style="max-width: 600px;">
+            <h6><strong> Assignee</strong></h6>
+            <UserCard :user="task.assignee"></UserCard>
+          </div>
+        </v-card-title>
+        <v-card-subtitle class="d-flex flex-column">
+          <div style="text-align: start">
+            <strong> Status: </strong> {{task.status}}
+          </div>
+          <div style="text-align: start">
+            <strong> Story Point: </strong>
+            <i class="far fa-gem mt-1"></i>
+            {{task.storyPoint}}
+          </div>
+        </v-card-subtitle>
+        <v-card-text style="text-align: start">
+          <strong> Description:</strong> {{task.description}}
+        </v-card-text>
+      </v-card>
+
       <UpdateTask
         v-if="$store.getters.isRoleTeamLeaderOrHigher"
         :task="this.task"
@@ -10,26 +34,26 @@
       ></UpdateTask>
       <button
           v-if="$store.getters.isRoleTeamLeaderOrHigher"
-          class="btn btn-sm btn-primary btn-block"
+          class="btn btn-sm btn-danger btn-block mt-2"
           v-on:click="onDeleteTask">
         Delete Task
       </button>
       <button
           v-if="$store.getters.isRoleMemberOrHigher && this.task.assignee === null"
-          class="btn btn-sm btn-success btn-block"
+          class="btn btn-sm btn-success btn-block mt-2"
           v-on:click="makeMyTask">
          Assign To Me
       </button>
       <button
           v-if="$store.getters.isRoleMemberOrHigher && isMyTask"
-          class="btn btn-sm btn-danger btn-block"
+          class="btn btn-sm btn-danger btn-block mt-2"
           v-on:click="dropTaskFromMe">
         Drop Task From Me
       </button>
     </v-row>
-    <v-row class="justify-content-between">
+    <v-row class="justify-content-between px-6">
       <v-col class="col-3">
-        <h4>Logs</h4>
+        <h4>Task Logs</h4>
       </v-col>
       <v-col class="col-2">
         <AddLogToTask
@@ -56,10 +80,11 @@ import jwtService from "@/helpers/JwtService";
 import AddLogToTask from "@/components/modal/AddLogToTask";
 import TaskLogCard from "@/components/TaskLogCard";
 import UpdateTask from "@/components/modal/UpdateTask";
+import UserCard from "@/components/UserCard";
 
 export default {
   name: "TaskDetails",
-  components: {UpdateTask, TaskLogCard, AddLogToTask},
+  components: {UserCard, UpdateTask, TaskLogCard, AddLogToTask},
   data () {
     return {
       task: {},

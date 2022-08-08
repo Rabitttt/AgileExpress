@@ -1,13 +1,38 @@
 <template>
-  <div>
-    {{item}}
-    <button class="btn btn-sm btn-primary btn-block" v-on:click="deleteTaskLog">Delete Card</button>
-    <UpdateTaskLog
-        :task-id="taskId"
-        :task-log="item"
-        @taskLogUpdateHandler="updateTaskLog"
-    ></UpdateTaskLog>
-  </div>
+  <v-card
+      style="text-align: start"
+      class="mb-4"
+      elevation="4"
+  >
+    <v-card-title class="d-flex justify-content-between" >
+      <div style="font-size: 0.9em">
+        {{item.description}}
+      </div>
+      <div style="font-size: small" class="p-0">
+        <div>
+          <strong> {{item.startClock}} </strong> <i class="fa-solid fa-arrow-right"></i> <strong> {{item.endClock}} </strong>
+        </div>
+        <div>
+          <strong> {{item.creator.username}} </strong>
+        </div>
+      </div>
+    </v-card-title>
+    <v-card-actions class="flex-row-reverse justify-content-end">
+      <v-btn
+          color="error btn-sm"
+          dark
+          text
+          @click="deleteTaskLog"
+      >
+        Update Task
+      </v-btn>
+      <UpdateTaskLog
+          :task-id="taskId"
+          :task-log="item"
+          @taskLogUpdateHandler="updateTaskLog"
+      ></UpdateTaskLog>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>

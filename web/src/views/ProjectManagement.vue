@@ -4,9 +4,21 @@
       <!-- BACKLOGS -->
       <v-col
           class="col-3">
-        <div class="d-flex flex-row justify-content-between px-6">
-          <div class="d-flex flex-column justify-content-center align-center">
-            <h5><strong>Backlogs</strong> </h5>
+        <v-card class="mx-4">
+          <v-card-title style="background-color: rgb(250,250,250)">
+            {{this.$store.state.selectedProject.name}}
+          </v-card-title>
+          <v-card-subtitle>
+            {{this.$store.state.selectedProject.description}}
+          </v-card-subtitle>
+          <UpdateProject
+              v-if="this.$store.getters.isRoleProjectManagerOrHigher"
+              :project="this.$store.state.selectedProject"
+          ></UpdateProject>
+        </v-card>
+        <div class="d-flex flex-row justify-content-between px-6 mt-5">
+          <div class="d-flex justify-content-center align-center">
+            <h5><strong>Backlogs</strong></h5>
           </div>
           <CreateBacklog
               v-if="this.$store.getters.isRoleTeamLeaderOrHigher"
@@ -32,11 +44,6 @@
             </span>
           </div>
         </div>
-        Sprint Name: {{this.selectedProject.sprints[sprintIndex].name}}
-        <UpdateProject
-            v-if="this.$store.getters.isRoleProjectManagerOrHigher"
-            :project="this.$store.state.selectedProject"
-        ></UpdateProject>
       </v-col>
       <!-- Task Management -->
       <v-col
@@ -44,7 +51,7 @@
           style="overflow-x: auto"
       >
         <div
-            style="min-width: 300px; height: 90vh; border: 1px solid lightgrey"
+            style="min-width: 300px; height: 89vh; border: 1px solid lightgrey"
             v-for="(taskStatus,index) in selectedProject.taskStatus"
             v-bind:key="index"
         >

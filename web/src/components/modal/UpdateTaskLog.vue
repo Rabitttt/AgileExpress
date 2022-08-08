@@ -7,6 +7,7 @@
         <v-btn
             color="primary btn-sm"
             dark
+            text
             v-bind="attrs"
             v-on="on"
         >

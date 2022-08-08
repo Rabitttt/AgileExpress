@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card v-on:click="handleClick">
     <v-card-title>
       <span class="text-h5">{{sprint.name}}</span>
 
@@ -71,7 +71,7 @@
       <div>
         {{sprint.description}}
       </div>
-      <div v-on:click="handleClick" class="sprint-card">
+      <div class="sprint-card">
         {{sprint.sprintState}}
       </div>
     </v-card-subtitle>
