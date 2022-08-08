@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: "ShowUserInProject",
+  name: "ShowUserInProjectUpdate",
   props: {
     user: {},
   },

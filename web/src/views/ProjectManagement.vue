@@ -19,7 +19,6 @@
           <div
               v-for="(item,index) in selectedProject.backlogTasks"
               v-bind:key="index"
-              style="border-bottom:1px solid black"
               class="drag-el"
               draggable
               @dragstart="startDrag($event, item,'backlog')"
@@ -151,7 +150,9 @@ export default {
       const itemFrom = evt.dataTransfer.getData('itemFrom')
       const taskAssigneeId = evt.dataTransfer.getData('taskAssigneeId')
 
-      if(taskAssigneeId !== this.$store.state.userId) {
+      // eslint-disable-next-line no-debugger
+      debugger;
+      if(taskAssigneeId !== this.$store.state.userId && !this.$store.getters.isRoleTeamLeaderOrHigher) {
         this.$toast.warning("Can't change state if task is not yours", {
           timeout: 3000,
           closeOnClick: true,
@@ -299,7 +300,6 @@ export default {
   height: 30vh;
 }
 .drag-el {
-  background-color: #fff;
   margin-bottom: 10px;
   padding: 5px;
 }

@@ -4,6 +4,9 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 import router from './router'
 
+import '@fortawesome/fontawesome-free/css/all.css'
+import '@fortawesome/fontawesome-free/js/all.js'
+
 import Toast from "vue-toastification";
 // Import the CSS or use your own!
 import "vue-toastification/dist/index.css";

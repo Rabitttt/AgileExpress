@@ -46,28 +46,28 @@
 
             <div class="form-element" v-if="this.projectManager !== null">
               <label class="required fs-5 fw-bold mb-2">Project Manager</label>
-              <ShowUserInProject
+              <ShowUserInProjectUpdate
                   :user="this.projectManager"
                   @handleDelete="deleteUserFromProject"
-              ></ShowUserInProject>
+              ></ShowUserInProjectUpdate>
             </div>
             <div class="form-element" v-if="this.teamLeader !== null">
               <label class="required fs-5 fw-bold mb-2">Team Leader</label>
-              <ShowUserInProject
+              <ShowUserInProjectUpdate
                   :user="this.teamLeader"
                   @handleDelete="deleteUserFromProject"
-              ></ShowUserInProject>
+              ></ShowUserInProjectUpdate>
             </div>
             <div class="form-element" v-if="this.teamMembers !== []">
               <label class="required fs-5 fw-bold mb-2">Team Members</label>
               <div class="d-flex">
-                <ShowUserInProject
+                <ShowUserInProjectUpdate
                     v-for="(user,index) in this.teamMembers"
                     :key="index"
                     :user="user"
                     style="width: 110px;"
                     @handleDelete="deleteUserFromProject"
-                ></ShowUserInProject>
+                ></ShowUserInProjectUpdate>
               </div>
             </div>
           </form>
@@ -136,12 +136,12 @@ import jwtService from "@/helpers/JwtService";
 import TextArea from "@/components/form/TextArea";
 import TextField from "@/components/form/TextField";
 import AddUserToProject from "@/components/AddUserToProject";
-import ShowUserInProject from "@/components/ShowUserInProject";
+import ShowUserInProjectUpdate from "@/components/ShowUserInProjectUpdate";
 //import ComboBoxChips from "@/components/form/ComboBoxChips";
 
 export default {
   name: "CreateProject",
-  components: { ShowUserInProject, AddUserToProject, TextField, TextArea, AdvancedCombobox},
+  components: { ShowUserInProjectUpdate, AddUserToProject, TextField, TextArea, AdvancedCombobox},
   data() {
     return {
       //teamMembers: [],

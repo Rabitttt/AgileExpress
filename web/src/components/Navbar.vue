@@ -1,5 +1,5 @@
 <template>
-  <div style="background-color:white; height:5vh; width:100%; border-bottom:1px solid rgba(0, 0, 0, 0.1);">
+  <div style="background-color:white; height:7vh; width:100%; border-bottom:1px solid rgba(0, 0, 0, 0.1);">
     <v-container class="d-flex justify-content-between align-center">
         <v-col
             cols="4"
@@ -8,6 +8,9 @@
               <strong>𝘼𝙜𝙞𝙡𝙚 𝙀𝙭𝙥𝙧𝙚𝙨𝙨</strong>
             </span>
         </v-col>
+      <v-col>
+        <SearchBar></SearchBar>
+      </v-col>
         <v-col
             cols="6"
             class="text-center">
@@ -29,7 +32,6 @@
             Create Project
           </span>
 
-
           <span v-if="this.$store.state.isAuthenticated" class="nav-item" v-on:click="logout()">Logout</span>
           <span v-if="!this.$store.state.isAuthenticated" class="nav-item" v-on:click="changeRoute('/.login')">Login</span>
 
@@ -40,9 +42,11 @@
 
 <script>
 import jwtService from "@/helpers/JwtService";
+import SearchBar from "@/components/SearchBar";
 
 export default {
   name: "Navbar",
+  components: {SearchBar},
   methods: {
     changeRoute(newRoute) {
       this.$router.push({path: newRoute.toString()})

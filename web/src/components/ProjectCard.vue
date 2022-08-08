@@ -1,22 +1,54 @@
 <template>
-  <div
-      style="border-bottom: 1px solid rgba(0,0,0,1); margin: 30px;"
-      class="d-flex flex-column"
+  <v-card
+      style="text-align: start; margin: 30px;"
       v-on:click="handleClick">
-    <p>name = {{project.name}}</p>
-    <p>description = {{project.description}}</p>
-    <p>createdDate = {{project.createdDate}}</p>
-    <p>creator = {{project.creator.username}}</p>
-    <button
-        class="btn btn-sm btn-primary btn-block"
-        v-on:click="projectDetails"
-    >Project Details</button>
-    <button
-        v-if="this.$store.getters.isRoleProjectManagerOrHigher"
-        class="btn btn-sm btn-danger btn-block"
-        v-on:click="deleteProject"
-    >Delete Project</button>
-  </div>
+
+    <v-card-title class="mx-4 mb-1">
+      <strong>{{project.name}}</strong>
+    </v-card-title>
+    <v-card-subtitle class="mx-4 mb-1 d-flex justify-content-between">
+      <strong>{{project.creator.username}}</strong>
+      <strong>{{project.createdDate}}</strong>
+    </v-card-subtitle>
+
+    <v-card-text class="mx-4 mb-1 d-flex flex-column">
+      <div>
+      {{project.description}}
+      </div>
+    </v-card-text>
+    <v-divider class="mx-6 mb-1" color="black"></v-divider>
+    <v-card-title class="mx-4 mb-1">Task States</v-card-title>
+    <div class="px-4 mx-4 mb-1">
+      <v-chip-group v-model="selection">
+        <v-chip
+            v-for="(item,index) in project.taskStatus"
+            v-bind:key="index"
+            :color="item.color"
+            class="px-5"
+        >
+          {{item.status}}
+        </v-chip>
+      </v-chip-group>
+    </div>
+    <v-divider class="mx-6 mb-1" color="black"></v-divider>
+    <v-card-actions class="flex justify-content-end mx-4 mb-1">
+      <v-btn
+          color="primary dark lighten-2"
+          text
+          @click="projectDetails"
+      >
+        Project Details
+      </v-btn>
+      <v-btn
+          v-if="this.$store.getters.isRoleProjectManagerOrHigher"
+          color="error dark lighten-2"
+          text
+          @click="deleteProject"
+      >
+        Delete Project
+      </v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>

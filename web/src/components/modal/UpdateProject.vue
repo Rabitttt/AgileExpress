@@ -39,30 +39,30 @@
               <div class="form-element" v-if="this.projectManager !== null">
                 <label class="required fs-5 fw-bold mb-2">Project Manager</label>
                 <div class="d-flex">
-                  <ShowUserInProject
+                  <ShowUserInProjectUpdate
                       :user="this.projectManager"
                       @handleDelete="deleteUserFromProject"
-                  ></ShowUserInProject>
+                  ></ShowUserInProjectUpdate>
                 </div>
               </div>
               <div class="form-element" v-if="this.teamLeader !== null">
                 <label class="required fs-5 fw-bold mb-2">Team Leader</label>
                 <div class="d-flex">
-                  <ShowUserInProject
+                  <ShowUserInProjectUpdate
                       :user="this.teamLeader"
                       @handleDelete="deleteUserFromProject"
-                  ></ShowUserInProject>
+                  ></ShowUserInProjectUpdate>
                 </div>
               </div>
               <div class="form-element" v-if="this.teamMembers !== []">
                 <label class="required fs-5 fw-bold mb-2">Team Members</label>
                 <div class="d-flex">
-                  <ShowUserInProject
+                  <ShowUserInProjectUpdate
                       v-for="(user,index) in this.teamMembers"
                       :key="index"
                       :user="user"
                       @handleDelete="deleteUserFromProject"
-                  ></ShowUserInProject>
+                  ></ShowUserInProjectUpdate>
                 </div>
               </div>
             </form>
@@ -110,14 +110,14 @@
 <script>
 import TextField from "@/components/form/TextField";
 import TextArea from "@/components/form/TextArea";
-import ShowUserInProject from "@/components/ShowUserInProject";
+import ShowUserInProjectUpdate from "@/components/ShowUserInProjectUpdate";
 import AddUserToProject from "@/components/AddUserToProject";
 import axios from "axios";
 import jwtService from "@/helpers/JwtService";
 
 export default {
   name: "UpdateProject",
-  components: {AddUserToProject, ShowUserInProject, TextField, TextArea},
+  components: {AddUserToProject, ShowUserInProjectUpdate, TextField, TextArea},
   props: {
     project: Object,
   },

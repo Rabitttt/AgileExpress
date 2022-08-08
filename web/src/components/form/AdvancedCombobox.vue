@@ -15,7 +15,7 @@
       <v-list-item>
         <span class="subheading">Create</span>
         <v-chip
-            :color="`${colors[nonce - 1]} lighten-3`"
+            :color="`${colors[nonce - 1]}`"
             label
             small
         >
@@ -83,7 +83,7 @@ export default {
     componentFormTitle: null,
   },
   data: () => ({
-    colors: ['green', 'purple', 'indigo', 'cyan', 'teal', 'orange'],
+    colors: ['blue lighten-3', 'pink lighten-3', 'green lighten-3', 'orange lighten-3', 'indigo lighten-3', 'lime lighten-3'],
     editing: null,
     editingIndex: -1,
     items: [],

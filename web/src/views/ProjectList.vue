@@ -1,12 +1,12 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-8">
+      <div class="col-1"></div>
+      <div class="col-7">
         <div>
-          <SearchBar></SearchBar>
-        </div>
-        <div>
+          <!--
         <h5><strong>Projects</strong></h5>
+          -->
         <project-card
             v-for="(project,index) in data"
             v-bind:key="index"
@@ -30,12 +30,11 @@
 import axios from "axios"
 import jwtService from "@/helpers/JwtService.js";
 import ProjectCard from "@/components/ProjectCard";
-import SearchBar from "@/components/SearchBar";
 import UserCard from "@/components/UserCard";
 
   export default {
     name: 'ProjectList',
-    components: {UserCard, SearchBar, ProjectCard},
+    components: {UserCard, ProjectCard},
     data: () => ({
       data: {},
       projectMembers: [],

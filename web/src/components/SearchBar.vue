@@ -2,9 +2,8 @@
   <div class="search-bar d-flex flex-row">
     <div>
       <input v-model="searchText" class="form-control" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success" v-on:click="search">Search</button>
     </div>
-    <div class="search-results bg-white" v-if="searchResults.length !== 0">
+    <div class="search-results" v-if="searchResults.length !== 0">
       <ul class="list-group" v-if="searchResults.users.length !== 0">
         <li class="list-group-item" v-for="item in searchResults.users" v-bind:key="item">
           <p>{{ item }}</p>
@@ -75,9 +74,9 @@ export default {
   z-index: 9999;
   display: block;
   position: absolute;
-  height: 250px;
-  width: 250px;
+  width: 400px;
   color: black;
   margin-top: 45px;
+  margin-left: -100px;
 }
 </style>
