@@ -1,4 +1,4 @@
-package com.obss.AgileExpress.service;
+package com.obss.AgileExpress.security.AuthenticationWithLdap;
 
 import com.obss.AgileExpress.documents.LdapUser;
 import com.obss.AgileExpress.documents.User;

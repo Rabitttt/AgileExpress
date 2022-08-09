@@ -337,16 +337,4 @@ public class ProjectService {
         List<Project> projects = mongoTemplate.find(query,Project.class);
         return projects;
     }
-
-    public Project getProjectByTaskId(String taskId) {
-        Task requestTask = taskService.getTaskById(taskId);
-
-        List<Project> allProjects = projectRepository.findAll();
-
-        //find if allProjects have backlog as requestTask
-
-
-        allProjects.stream().findFirst().filter(item -> item.getBacklogTasks().stream().findFirst().filter(task -> task.getId().equals(requestTask.getId())) );
-        return projects;
-    }
 }
