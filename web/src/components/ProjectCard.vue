@@ -75,9 +75,26 @@ export default {
       this.changeOpenState();
     },
     projectDetails() {
-      this.$router.push("project/management/" + this.project.id);
+        this.$router.push("project/management/" + this.project.id);
     },
     async deleteProject() {
+// eslint-disable-next-line no-debugger
+      debugger;
+      if(!this.haveUserAccessToDeleteProject()) {
+        this.$toast.error("Don't have permission.", {
+          timeout: 3000,
+          closeOnClick: true,
+          pauseOnFocusLoss: true,
+          pauseOnHover: true,
+          draggable: true,
+          draggablePercent: 0.6,
+          showCloseButtonOnHover: false,
+          hideProgressBar: true,
+          icon: true,
+          rtl: false
+        });
+        return;
+      }
 
       if(confirm(`Do you really want to delete Project '${this.project.name}' ?`)){
         await axios.post("http://localhost:9000/project/delete", {},
@@ -95,7 +112,7 @@ export default {
             .then( response => {
 
                   if(response.status === 200) {
-                    this.$toast.error("Project deleted successfully.", {
+                    this.$toast.success("Project deleted successfully.", {
                       timeout: 3000,
                       closeOnClick: true,
                       pauseOnFocusLoss: true,
@@ -132,6 +149,23 @@ export default {
     },
     changeOpenState() {
       this.isOpen = !this.isOpen;
+    },
+    //this is necessary when looking other people's projects
+    haveUserAccessToDeleteProject () {
+      // eslint-disable-next-line no-debugger
+      debugger;
+      let users = [];
+      users.push(this.project.projectManager)
+      users.push(this.project.creator)
+      for (let user in users) {
+        if(user.id === this.$store.state.userId) {
+          return true;
+        }
+      }
+      if(this.$store.state.userRole === "ROLE_Admin") {
+        return true;
+      }
+      return false;
     }
   },
   computed: {

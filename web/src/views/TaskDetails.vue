@@ -92,10 +92,12 @@ export default {
     return {
       task: {},
       project: {},
+      haveAccessTask: false,
     }
   },
   created() {
     this.getTaskData();
+    this.haveAccessTask = this.haveUserAccessToDeleteProject();
   },
   methods: {
     async getTaskData() {
@@ -130,6 +132,21 @@ export default {
       this.task = task;
     },
     onDeleteTask() {
+      if(!this.haveUserAccessToDeleteProject()) {
+        this.$toast.error("Don't have permission.", {
+          timeout: 3000,
+          closeOnClick: true,
+          pauseOnFocusLoss: true,
+          pauseOnHover: true,
+          draggable: true,
+          draggablePercent: 0.6,
+          showCloseButtonOnHover: false,
+          hideProgressBar: true,
+          icon: true,
+          rtl: false
+        });
+        return;
+      }
       if(confirm(`Do you really want to delete Task '${this.task.taskName}' ?`)) {
           axios.post("http://localhost:9000/task/delete", {},
             {
@@ -261,6 +278,23 @@ export default {
           });
         }
       });
+    },
+    haveUserAccessToDeleteProject () {
+      // eslint-disable-next-line no-debugger
+      debugger;
+      let users = [];
+      users.push(this.project.projectManager)
+      users.push(this.project.creator)
+      users.push(this.project.teamLeader)
+      for (let index in users) {
+        if(users[index].id === this.$store.state.userId) {
+          return true;
+        }
+      }
+      if(this.$store.state.userRole === "ROLE_Admin") {
+        return true;
+      }
+      return false;
     }
   },
   computed: {

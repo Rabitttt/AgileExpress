@@ -7,6 +7,7 @@ import com.obss.AgileExpress.repository.TaskLogRepository;
 import com.obss.AgileExpress.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -76,5 +77,20 @@ public class TaskLogService {
         query.addCriteria(new Criteria().orOperator(criteria.toArray(new Criteria[criteria.size()])));
         List<TaskLog> taskLogs = mongoTemplate.find(query,TaskLog.class);
         return taskLogs;
+    }
+
+    public Task getTaskByTaskLogId(String taskLogId) {
+        TaskLog taskLog = taskLogRepository.findById(taskLogId).get();
+        Query query = new Query();
+
+        query.addCriteria(Criteria.where("taskLogs").is(new ObjectId(taskLog.getId())));
+
+        Task task = mongoTemplate.findOne(query,Task.class);
+        return task;
+    }
+
+    public boolean haveUserAccessToTaskLog(String taskLogId) {
+        Task task = getTaskByTaskLogId(taskLogId);
+        return taskService.haveUserAccessToTask(task.getId());
     }
 }

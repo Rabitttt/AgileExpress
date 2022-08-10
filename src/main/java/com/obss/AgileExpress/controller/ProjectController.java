@@ -34,6 +34,10 @@ public class ProjectController {
     @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')" + "|| hasRole('TeamMember')")
     @GetMapping("/getProject/{projectId}")
     public Project getProjectById(@PathVariable(value = "projectId") String projectId) {
+        if(!projectService.haveUserAccessTheProject(projectId)) {
+            System.out.println("Principal dont have permission to project.");
+            return null;
+        }
         return projectService.getProjectById(projectId);
     }
     @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')" + "|| hasRole('TeamMember')")
@@ -62,6 +66,10 @@ public class ProjectController {
     public void deleteProject(
             @RequestParam String projectId
     ) {
+        if(!projectService.haveUserAccessTheProject(projectId)) {
+            System.out.println("Principal dont have permission to project.");
+            return;
+        }
         projectService.deleteProjectById(projectId);
     }
 

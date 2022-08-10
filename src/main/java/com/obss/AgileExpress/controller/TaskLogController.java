@@ -3,6 +3,7 @@ package com.obss.AgileExpress.controller;
 import com.obss.AgileExpress.documents.Task;
 import com.obss.AgileExpress.documents.TaskLog;
 import com.obss.AgileExpress.service.TaskLogService;
+import com.obss.AgileExpress.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,8 @@ import java.util.List;
 public class TaskLogController {
 
     private final TaskLogService taskLogService;
+    private final TaskService taskService;
+
 
     @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')" + "|| hasRole('TeamMember')")
     @PostMapping("/create/{taskId}")
@@ -24,6 +27,9 @@ public class TaskLogController {
             @RequestBody TaskLog taskLog,
             @RequestParam String userId
     ) {
+        if(!taskService.haveUserAccessToTask(taskId)) {
+            return null;
+        }
         return taskLogService.createTaskLog(taskId,taskLog,userId);
     }
 
@@ -42,6 +48,9 @@ public class TaskLogController {
             @RequestBody TaskLog taskLog,
             @RequestParam String taskLogId
     ) {
+        if(!taskLogService.haveUserAccessToTaskLog(taskLogId)) {
+            return null;
+        }
         return taskLogService.updateTaskLog(taskLog,taskLogId);
     }
 

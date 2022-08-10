@@ -28,7 +28,7 @@
           text
           @click="deleteTaskLog"
       >
-        Update Task
+        Delete Log
       </v-btn>
       <UpdateTaskLog
           :task-log="item"
@@ -64,10 +64,10 @@ export default {
         this.taskId = response.data.id;
       });
     },
-    deleteTaskLog() {
-      this.getTaskByTaskLogId();
+    async deleteTaskLog() {
+      await this.getTaskByTaskLogId();
       if(confirm("Do you really want to delete Log ?")) {
-        axios.post("http://localhost:9000/taskLog/deleteTaskLog/",{},
+        await axios.post("http://localhost:9000/taskLog/deleteTaskLog/",{},
             {
               params: {
                 taskId: this.taskId,

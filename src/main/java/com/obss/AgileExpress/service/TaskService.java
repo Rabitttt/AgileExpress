@@ -244,4 +244,9 @@ public class TaskService {
         Task task = mongoTemplate.findOne(query,Task.class);
         return task;
     }
+
+    public boolean haveUserAccessToTask (String taskId) {
+        Project project = projectService.getProjectByTaskId(taskId);
+        return projectService.haveUserAccessTheProject(project.getId());
+    }
 }

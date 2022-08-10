@@ -19,6 +19,9 @@ public class TaskController {
     @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')" + "|| hasRole('TeamMember')")
     @GetMapping("/getTask/{taskId}")
     public Task getTask(@PathVariable(value = "taskId") String taskId) {
+        if(!taskService.haveUserAccessToTask(taskId)) {
+            return null;
+        }
         return taskService.getTaskById(taskId);
     }
 
@@ -61,6 +64,9 @@ public class TaskController {
     public Task updateTask(
             @RequestBody TaskDao task,
             @RequestParam String taskId) {
+        if(!taskService.haveUserAccessToTask(taskId)) {
+            return null;
+        }
         return taskService.updateTask(task,taskId);
     }
 
@@ -71,6 +77,9 @@ public class TaskController {
             @RequestParam String projectId,
             @RequestParam String sprintId
     ) {
+        if(!taskService.haveUserAccessToTask(taskId)) {
+            return;
+        }
         taskService.deleteTask(taskId,projectId,sprintId);
     }
 

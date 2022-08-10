@@ -111,6 +111,8 @@ public class ProjectService {
 
     public void deleteProjectById(String projectId) {
         Project project = projectRepository.findById(projectId).orElseThrow();
+        User user = authHelper.getUserPrincipal();
+
         //DELETE sprints
         for (Sprint sprint : project.getSprints()) {
             sprintService.deleteSprint(sprint.getId(),project.getId(),true);
@@ -373,5 +375,33 @@ public class ProjectService {
             Project project = mongoTemplate.findOne(findProjectQuery,Project.class);
             return project;
         }
+    }
+
+    public Boolean haveUserAccessTheProject(String projectId) {
+        User user = authHelper.getUserPrincipal();
+        Project project = projectRepository.findById(projectId).get();
+        if (project.getProjectManager().getId() != null) {
+            if(project.getProjectManager().getId().equals(user.getId())) {
+            return true;
+            }
+        }
+        if(project.getTeamLeader().getId() != null) {
+            if(project.getTeamLeader().getId().equals(user.getId())) {
+                return true;
+            }
+        }
+        for(User member : project.getMembers()) {
+            if(member.getId().equals(user.getId())) {
+                return true;
+            }
+        }
+        if(user.getRoles().contains(UserRoles.Admin.name())){
+            return true;
+        }
+        if(project.getCreator().getId().equals(user.getId())) {
+            return true;
+        }
+
+        return false;
     }
 }

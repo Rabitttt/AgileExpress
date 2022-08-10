@@ -138,7 +138,7 @@ export default {
   },
   computed: {
     noAvailableText() {
-      return `There are no available ${this.items[this.tab]} you created.`
+      return `There are no available ${this.items[this.tab]} for ${this.userData.username}.`
     }
   }
 }
