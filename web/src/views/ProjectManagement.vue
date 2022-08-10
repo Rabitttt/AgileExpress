@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row style="min-height: 90vh">
+    <v-row style="height: 90vh">
       <!-- BACKLOGS -->
       <v-col
           class="col-3">
@@ -26,7 +26,7 @@
           >
           </CreateBacklog>
         </div>
-        <div class="drop-zone"
+        <div class="drop-zone backlog-drop-zone"
              style="height: 80vh; overflow-y: auto"
              @drop="onDrop($event, 'backlog')"
              @dragover.prevent
@@ -40,7 +40,7 @@
               @dragstart="startDrag($event, item,'backlog')"
           >
             <span v-if="item.status === 'backlog'">
-              <TaskCard :task="item"></TaskCard>
+              <TaskCard :is-disabled="false" :task="item"></TaskCard>
             </span>
           </div>
         </div>
@@ -48,7 +48,7 @@
       <!-- Task Management -->
       <v-col
           class="col-6 d-flex flex-row"
-          style="overflow-x: auto"
+          style="overflow-x: auto; height: 93vh;"
       >
         <div
             style="min-width: 300px; height: 89vh; border: 1px solid lightgrey"
@@ -73,7 +73,7 @@
                   v-if="taskStatus.status === task.status"
               >
                 <span v-if="taskStatus.status === task.status">
-                  <TaskCard :task="task"></TaskCard>
+                  <TaskCard :is-disabled="isCardDisabled" :task="task"></TaskCard>
                 </span>
               </div>
             </span>
@@ -164,7 +164,22 @@ export default {
       evt.dataTransfer.setData('taskAssigneeId',item.assignee.id)
     },
     async onDrop(evt, taskStatus) {
-
+      if(this.selectedProject.sprints[this.sprintIndex].sprintState === 'completed' && taskStatus!=="backlog") {
+        //Sprint is Completed
+        this.$toast.warning("Sprint is Completed.", {
+          timeout: 3000,
+          closeOnClick: true,
+          pauseOnFocusLoss: true,
+          pauseOnHover: true,
+          draggable: true,
+          draggablePercent: 0.6,
+          showCloseButtonOnHover: false,
+          hideProgressBar: true,
+          icon: true,
+          rtl: false
+        });
+        return null;
+      }
       const itemID = evt.dataTransfer.getData('itemID')
       const itemFrom = evt.dataTransfer.getData('itemFrom')
       const taskAssigneeId = evt.dataTransfer.getData('taskAssigneeId')
@@ -304,6 +319,9 @@ export default {
       let state = this.items[this.tab];
       return  this.selectedProject.sprints.filter((item) => item.sprintState === state);
     },
+    isCardDisabled() {
+      return this.selectedProject.sprints[this.sprintIndex].sprintState === 'completed'
+    }
   }
 }
 </script>
@@ -323,5 +341,11 @@ export default {
 }
 h5 {
   margin: 0;
+}
+.col-3 {
+  height: 85vh;
+}
+.backlog-drop-zone {
+  height: 70vh !important;
 }
 </style>

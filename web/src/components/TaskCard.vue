@@ -1,5 +1,7 @@
 <template>
-  <v-card>
+  <v-card
+    :disabled="isDisabled"
+  >
     <v-card-title class="py-2 d-flex flex-row justify-content-between">
       {{task.taskName}}
       <div style="font-size: small">
@@ -35,6 +37,7 @@ export default {
   name: "",
   props: {
     task: {},
+    isDisabled: Boolean,
   },
   methods: {
     handleProjectDetails() {
