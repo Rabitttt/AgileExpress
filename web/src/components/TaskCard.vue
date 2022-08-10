@@ -3,7 +3,7 @@
     <v-card-title class="py-2 d-flex flex-row justify-content-between">
       {{task.taskName}}
       <div style="font-size: small">
-        {{task.assignee.username}}
+        <router-link style="text-decoration: none" :to="`/user/profile/${task.assignee.id}`"> {{task.assignee.username}}</router-link>
       </div>
     </v-card-title>
     <v-card-subtitle class="d-flex flex-row justify-content-between">

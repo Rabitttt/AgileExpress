@@ -136,8 +136,6 @@ export default {
   },
   computed: {
     isOpenIcon() {
-      // eslint-disable-next-line no-debugger
-      debugger;
       return this.isOpen ? "fa-solid fa-angle-up" : "fa-solid fa-angle-down";
     }
   }

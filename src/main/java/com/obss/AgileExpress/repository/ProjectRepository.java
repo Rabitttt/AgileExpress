@@ -11,4 +11,8 @@ public interface ProjectRepository extends MongoRepository<Project,String> {
 
     @Query("'$search: {autocomplete: { query: \"first\",path: \"name\"}}'")
     Project searchProjectByName(String name);
+
+    @Query("db.AgileExpress.aggregate([{$match: {'project.backlogTasks.ObjectId': $taskId}},{_id: 0, backlogTasks: {$elemMatch: {ObjectId: $taskId}}}])")
+    Project getProjectByTaskId(String taskId);
+
 }

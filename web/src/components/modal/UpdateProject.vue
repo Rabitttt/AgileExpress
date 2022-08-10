@@ -35,7 +35,7 @@
                     componentFormTitle="description"></TextArea>
               </div>
 
-              <div class="form-element" v-if="this.projectManager !== null">
+              <div class="form-element" v-if="this.projectManager.id !== null">
                 <label class="required fs-5 fw-bold mb-2">Project Manager</label>
                 <div class="d-flex">
                   <ShowUserInProjectUpdate
@@ -44,7 +44,7 @@
                   ></ShowUserInProjectUpdate>
                 </div>
               </div>
-              <div class="form-element" v-if="this.teamLeader !== null">
+              <div class="form-element" v-if="this.teamLeader.id !== null">
                 <label class="required fs-5 fw-bold mb-2">Team Leader</label>
                 <div class="d-flex">
                   <ShowUserInProjectUpdate
@@ -136,6 +136,8 @@ export default {
     },
   }),
   created() {
+    // eslint-disable-next-line no-debugger
+    debugger;
     axios.get("http://localhost:9000/user/getAll",{
       headers: {
         Authorization: "Bearer "+ jwtService.getToken(),
@@ -152,9 +154,18 @@ export default {
       this.form[componentFormTitle] = model
     },
     updateProject() {
-
-      this.form.teamLeader = this.teamLeader.id;
-      this.form.projectManager = this.projectManager.id;
+      if(this.teamLeader.id !==null) {
+        this.form.teamLeader = this.teamLeader.id;
+      }
+      else {
+        this.form.teamLeader = null;
+      }
+      if(this.projectManager.id !==null) {
+        this.form.projectManager = this.projectManager.id;
+      }
+      else {
+        this.form.projectManager = null;
+      }
       this.teamMembers.forEach(user => {
         this.form.members.push(user.id);
       });
@@ -203,7 +214,7 @@ export default {
     },
     addUserToProject (user) {
       if(user.roles[0] === "ProjectManager") {
-        if(this.projectManager !== null) {
+        if(this.projectManager.id !== null) {
           this.$toast.error("Only one Project Manager allowed.", {
             timeout: 3000,
             closeOnClick: true,
@@ -222,7 +233,7 @@ export default {
         this.projectManager = user;
       }
       if(user.roles[0] === "TeamLeader") {
-        if(this.teamLeader !== null) {
+        if(this.teamLeader.id !== null) {
           this.$toast.error("Only one Team Leader allowed.", {
             timeout: 3000,
             closeOnClick: true,
@@ -251,6 +262,8 @@ export default {
       }
     },
     setInitialProjectMembers() {
+      // eslint-disable-next-line no-debugger
+      debugger;
       this.projectManager = this.$props.project.projectManager;
       this.teamLeader = this.$props.project.teamLeader;
       this.$props.project.members.forEach(member => {
@@ -260,11 +273,15 @@ export default {
     deleteUserFromProject(user) {
       if(user.roles[0] === "ProjectManager") {
         this.form.projectManager = "";
-        this.projectManager = null;
+        this.projectManager = {
+          id: null,
+        };
       }
       if(user.roles[0] === "TeamLeader") {
         this.form.teamLeader = "";
-        this.teamLeader = null;
+        this.teamLeader = {
+          id: null,
+        };
       }
       if(user.roles[0] === "TeamMember") {
         //delete from array

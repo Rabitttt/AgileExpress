@@ -11,6 +11,7 @@ import com.obss.AgileExpress.repository.ProjectRepository;
 import com.obss.AgileExpress.repository.SprintRepository;
 import lombok.extern.slf4j.Slf4j;
 
+import org.bson.types.ObjectId;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -278,8 +279,18 @@ public class ProjectService {
 
         project.setName(projectDao.getName());
         project.setDescription(projectDao.getDescription());
-        project.setProjectManager(userService.getUserById(projectDao.getProjectManager()));
-        project.setProjectManager(userService.getUserById(projectDao.getTeamLeader()));
+        if(projectDao.getProjectManager() != null) {
+            project.setProjectManager(userService.getUserById(projectDao.getProjectManager()));
+        }
+        else {
+            project.setProjectManager(null);
+        }
+        if(projectDao.getTeamLeader() != null) {
+            project.setTeamLeader(userService.getUserById(projectDao.getTeamLeader()));
+        }
+        else {
+            project.setTeamLeader(null);
+        }
         project.setMembers(updatedProjectMembers);
         projectRepository.save(project);
         //ES UPDATE
@@ -336,5 +347,31 @@ public class ProjectService {
         query.addCriteria(new Criteria().orOperator(criteria.toArray(new Criteria[criteria.size()])));
         List<Project> projects = mongoTemplate.find(query,Project.class);
         return projects;
+    }
+
+    public Project getProjectByTaskId(String taskId) {
+        Task task = taskService.getTaskById(taskId);
+        if(task.getStatus().equals("backlog")) {
+
+            Query query = new Query();
+
+            query.addCriteria(Criteria.where("backlogTasks").is(new ObjectId(task.getId())));
+
+            Project project = mongoTemplate.findOne(query,Project.class);
+            return project;
+        }
+        else {
+            Query findSprintQuery = new Query();
+
+            findSprintQuery.addCriteria(Criteria.where("tasks").is(new ObjectId(task.getId())));
+
+            Sprint sprint = mongoTemplate.findOne(findSprintQuery,Sprint.class);
+
+            Query findProjectQuery = new Query();
+            findProjectQuery.addCriteria(Criteria.where("sprints").is(new ObjectId(sprint.getId())));
+
+            Project project = mongoTemplate.findOne(findProjectQuery,Project.class);
+            return project;
+        }
     }
 }

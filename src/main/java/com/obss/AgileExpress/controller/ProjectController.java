@@ -73,4 +73,9 @@ public class ProjectController {
     ) {
        return projectService.updateProject(projectId,projectDao);
     }
+    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')" + "|| hasRole('TeamMember')")
+    @GetMapping("/getProjectByTaskId/{taskId}")
+    public Project getProjectByTaskId(@PathVariable(value = "taskId")String taskId) {
+        return projectService.getProjectByTaskId(taskId);
+    }
 }

@@ -38,7 +38,6 @@
                 <UserCard :user="data"/>
               </div>
             </v-tab-item>
-
           </v-tabs-items>
 
       </div>
@@ -84,7 +83,8 @@ import UserCard from "@/components/UserCard";
             Authorization: "Bearer "+ jwtService.getToken(),
           }
         }).then(response => {
-
+          // eslint-disable-next-line no-debugger
+          debugger;
           this.data = response.data;
           //set first project data to initial data for users
           this.projectManager = this.data[0].projectManager;
@@ -93,6 +93,8 @@ import UserCard from "@/components/UserCard";
         });
       },
       setProjectUser(projectMembers,teamLeader,projectManager) {
+        // eslint-disable-next-line no-debugger
+        debugger;
         this.projectMembers = projectMembers;
         this.projectTeamLeader = teamLeader;
         this.projectManager = projectManager;
@@ -106,7 +108,10 @@ import UserCard from "@/components/UserCard";
           return array;
         }
         if(this.tab === 1) {
+          // eslint-disable-next-line no-debugger
+          debugger;
           array.push(this.projectTeamLeader)
+          return array;
         }
         if(this.tab===2) {
           return this.projectMembers;

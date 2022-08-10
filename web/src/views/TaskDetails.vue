@@ -21,6 +21,10 @@
             <i class="far fa-gem mt-1"></i>
             {{task.storyPoint}}
           </div>
+          <div style="text-align: start">
+            <strong> Project: </strong>
+            <router-link style="text-decoration: none" :to="'/project/management/'+project.id">{{project.name}}</router-link>
+          </div>
         </v-card-subtitle>
         <v-card-text style="text-align: start">
           <strong> Description:</strong> {{task.description}}
@@ -88,6 +92,7 @@ export default {
   data () {
     return {
       task: {},
+      project: {},
     }
   },
   created() {
@@ -102,6 +107,17 @@ export default {
       }).then(response => {
 
         this.task = response.data;
+        this.getProjectByTaskId();
+      });
+    },
+    async getProjectByTaskId() {
+      await axios.get("http://localhost:9000/project/getProjectByTaskId/" + this.$route.params.id,{
+        headers: {
+          Authorization: "Bearer "+ jwtService.getToken(),
+        }
+      }).then(response => {
+
+        this.project = response.data;
       });
     },
     taskLogAdded(task) {

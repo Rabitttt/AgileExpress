@@ -13,7 +13,11 @@
           <strong> {{item.startClock}} </strong> <i class="fa-solid fa-arrow-right"></i> <strong> {{item.endClock}} </strong>
         </div>
         <div>
-          <strong> {{item.creator.username}} </strong>
+          <router-link style="text-decoration: none" :to="`/user/profile/${item.creator.id}`">
+            <strong>
+              {{item.creator.username}}
+            </strong>
+          </router-link>
         </div>
       </div>
     </v-card-title>
