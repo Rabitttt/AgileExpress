@@ -39,9 +39,6 @@ export default {
   },
   methods: {
     async login() {
-
-
-
       await axios.post("http://localhost:9000/login", {}, {
         params: {
           username: this.username,
@@ -55,6 +52,8 @@ export default {
         }
       })
       .then( response => {
+        // eslint-disable-next-line no-debugger
+        debugger;
             jwtService.destroyToken();
             this.token = response.data.access_token;
             jwtService.saveToken(this.token);
@@ -77,7 +76,20 @@ export default {
           },
       )
       .catch(c => {
-        console.log(c)
+        if(c.status !== 401) {
+          this.$toast.error(`Username or Password mismatch.`, {
+            timeout: 3000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            icon: true,
+            rtl: false
+          });
+        }
       });
       await axios.get("http://localhost:9000/user/getUserDetails/" + this.$store.state.username , {}, {
         headers: {
@@ -85,7 +97,8 @@ export default {
         }
       })
           .then( response => {
-
+            // eslint-disable-next-line no-debugger
+            debugger;
                 this.$store.commit("setUserId",response.data.id);
                 this.$router.push({ path: '/' })
               },
