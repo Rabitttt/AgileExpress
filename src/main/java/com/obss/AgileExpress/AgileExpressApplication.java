@@ -71,7 +71,7 @@ public class AgileExpressApplication {
 		return args -> {
 			userService.saveUser(new User(null,"john","john@gmail.com","benspassword",new ArrayList<>(List.of(UserRoles.Admin.name()))));
 			userService.saveUser(new User(null,"will","will@gmail.com","benspassword",new ArrayList<>(List.of(UserRoles.TeamMember.name()))));
-			userService.saveUser(new User(null,"great","great@gmail.com","benspassword",(List.of(UserRoles.TeamMember.name()))));
+			userService.saveUser(new User(null,"gatsby","gatsby@gmail.com","benspassword",(List.of(UserRoles.TeamMember.name()))));
 			userService.saveUser(new User(null,"manga","manga@gmail.com","benspassword",(List.of(UserRoles.TeamMember.name()))));
 			userService.saveUser(new User(null,"jim","jim@gmail.com","benspassword",new ArrayList<>(List.of(UserRoles.TeamLeader.name()))));
 			userService.saveUser(new User(null,"lionel","lionel@gmail.com","benspassword",(List.of(UserRoles.TeamLeader.name()))));

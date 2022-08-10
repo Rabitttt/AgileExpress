@@ -31,7 +31,6 @@
         Update Task
       </v-btn>
       <UpdateTaskLog
-          :task-id="taskId"
           :task-log="item"
           @taskLogUpdateHandler="updateTaskLog"
       ></UpdateTaskLog>
@@ -49,10 +48,24 @@ export default {
   components: {UpdateTaskLog},
   props: {
    item: Object,
-   taskId: String,
+  },
+  data() {
+    return {
+      taskId:"",
+    }
   },
   methods: {
+    async getTaskByTaskLogId() {
+      await axios.get("http://localhost:9000/task/getTaskByTaskLogId/" + this.item.id,{
+        headers: {
+          Authorization: "Bearer "+ jwtService.getToken(),
+        }
+      }).then(response => {
+        this.taskId = response.data.id;
+      });
+    },
     deleteTaskLog() {
+      this.getTaskByTaskLogId();
       if(confirm("Do you really want to delete Log ?")) {
         axios.post("http://localhost:9000/taskLog/deleteTaskLog/",{},
             {

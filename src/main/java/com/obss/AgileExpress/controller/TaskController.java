@@ -93,4 +93,13 @@ public class TaskController {
     ) {
         return taskService.getTasksByUserId(userId);
     }
+
+    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')" + "|| hasRole('TeamMember')")
+    @GetMapping("/getTaskByTaskLogId/{taskLogId}")
+    public Task getTaskByTaskLogId(
+            @PathVariable(value = "taskLogId") String taskLogId
+    ) {
+        return taskService.getTaskByTaskLogId(taskLogId);
+    }
+
 }

@@ -16,6 +16,7 @@ import com.obss.AgileExpress.repository.TaskLogRepository;
 import com.obss.AgileExpress.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -232,5 +233,15 @@ public class TaskService {
         query.addCriteria(new Criteria().orOperator(criteria.toArray(new Criteria[criteria.size()])));
         List<Task> tasks = mongoTemplate.find(query,Task.class);
         return tasks;
+    }
+
+    public Task getTaskByTaskLogId(String taskLogId) {
+        TaskLog tasklog = taskLogRepository.findById(taskLogId).get();
+        Query query = new Query();
+
+        query.addCriteria(Criteria.where("taskLogs").is(new ObjectId(tasklog.getId())));
+
+        Task task = mongoTemplate.findOne(query,Task.class);
+        return task;
     }
 }

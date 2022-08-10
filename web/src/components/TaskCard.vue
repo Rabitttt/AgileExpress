@@ -34,7 +34,7 @@
 
 <script>
 export default {
-  name: "",
+  name: "TaskCard",
   props: {
     task: {},
     isDisabled: Boolean,

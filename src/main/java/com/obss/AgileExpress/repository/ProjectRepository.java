@@ -9,10 +9,4 @@ import org.springframework.stereotype.Repository;
 public interface ProjectRepository extends MongoRepository<Project,String> {
     void deleteById(String id);
 
-    @Query("'$search: {autocomplete: { query: \"first\",path: \"name\"}}'")
-    Project searchProjectByName(String name);
-
-    @Query("db.AgileExpress.aggregate([{$match: {'project.backlogTasks.ObjectId': $taskId}},{_id: 0, backlogTasks: {$elemMatch: {ObjectId: $taskId}}}])")
-    Project getProjectByTaskId(String taskId);
-
 }

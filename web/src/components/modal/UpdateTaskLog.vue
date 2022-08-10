@@ -68,7 +68,6 @@ export default {
   name: "UpdateTaskLog",
   components: {TimeRangePicker, TextArea},
   props: {
-    taskId: String,
     taskLog: Object,
   },
   data: () => ({

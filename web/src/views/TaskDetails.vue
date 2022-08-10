@@ -70,7 +70,6 @@
       <div v-for="(item,index) in task.taskLogs" v-bind:key="index">
         <TaskLogCard
             :item="item"
-            :task-id="task.id"
             @handleDeletedItem="onTaskLogDeleted"
         ></TaskLogCard>
       </div>
