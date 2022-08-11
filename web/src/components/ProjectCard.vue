@@ -34,14 +34,20 @@
         </v-chip-group>
       </div>
       <v-divider class="mx-6 mb-1" color="black"></v-divider>
-      <v-card-actions class="flex justify-content-end mx-4 mb-1">
-      <v-btn
-          color="primary dark lighten-2"
-          text
-          @click="projectDetails"
-      >
-        Project Details
-      </v-btn>
+      <v-card-actions class="flex justify-content-between mx-4 mb-1">
+      <span>
+        <UpdateProject
+            v-if="this.$store.getters.isRoleProjectManagerOrHigher"
+            :project="this.project"
+        ></UpdateProject>
+          <v-btn
+            color="primary dark lighten-2"
+            text
+            @click="projectDetails"
+        >
+          Project Details
+        </v-btn>
+      </span>
       <v-btn
           v-if="this.$store.getters.isRoleProjectManagerOrHigher"
           color="error dark lighten-2"
@@ -58,9 +64,11 @@
 <script>
 import axios from "axios";
 import jwtService from "@/helpers/JwtService";
+import UpdateProject from "@/components/modal/UpdateProject";
 
 export default {
   name: "ProjectCard",
+  components: {UpdateProject},
   props: {
     project: {},
   },

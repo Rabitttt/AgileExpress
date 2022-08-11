@@ -52,11 +52,11 @@ export default {
       debugger;
       if( this.$store.state.userId === this.task.assignee.id){
         if(this.task.status === "backlog") {
-          return "border: 2px solid #001a00"
+          return "border: 1px solid #001a00"
         }
         for (let index in this.$store.state.selectedProject.taskStatus) {
           if(this.$store.state.selectedProject.taskStatus[index].status === this.task.status) {
-            return "border: 2px solid " + this.$store.state.selectedProject.taskStatus[index].color.split(' ')[0];
+            return "border: 1px solid " + this.$store.state.selectedProject.taskStatus[index].color.split(' ')[0];
           }
         }
       }

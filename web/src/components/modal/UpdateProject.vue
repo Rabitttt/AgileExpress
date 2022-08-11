@@ -4,15 +4,16 @@
       max-width="900px"
   >
     <template v-slot:activator="{ on, attrs }">
-      <button
-          class="btn btn-primary btn-sm btn-block"
+      <v-btn
+          color="primary"
+          text
           v-bind="attrs"
           v-on="on"
       >
         Update Project
-      </button>
+      </v-btn>
     </template>
-    <v-card>
+    <v-card v-if="haveUserAccessToUpdateProject">
       <v-card-title class="justify-center">
         <h4 class="text-h5">Update Project</h4>
       </v-card-title>
@@ -182,7 +183,7 @@ export default {
       }).then(response => {
         if(response.data !== "") {
           this.dialog = false;
-          this.$emit("updateProject", response.data);
+          //this.$emit("updateProject", response.data);
           this.$toast.success("Project successfully updated.", {
             timeout: 3000,
             closeOnClick: true,
@@ -311,6 +312,24 @@ export default {
       return allUsers;
     },
   },
+  computed: {
+    haveUserAccessToUpdateProject () {
+      // eslint-disable-next-line no-debugger
+      debugger;
+      let users = [];
+      users.push(this.project.projectManager)
+      users.push(this.project.creator)
+      for (let user in users) {
+        if(user.id === this.$store.state.userId) {
+          return true;
+        }
+      }
+      if(this.$store.state.userRole === "ROLE_Admin") {
+        return true;
+      }
+      return false;
+    }
+  }
 }
 </script>
 

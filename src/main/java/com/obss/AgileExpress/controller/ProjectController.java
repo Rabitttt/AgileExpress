@@ -79,6 +79,10 @@ public class ProjectController {
             @RequestParam String projectId,
             @RequestBody ProjectDao projectDao
     ) {
+        if(!projectService.haveUserAccessTheProject(projectId)) {
+            System.out.println("Principal dont have permission to project.");
+            return null;
+        }
        return projectService.updateProject(projectId,projectDao);
     }
     @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')" + "|| hasRole('TeamMember')")

@@ -4,18 +4,7 @@
       <!-- BACKLOGS -->
       <v-col
           class="col-3">
-        <v-card class="mx-4">
-          <v-card-title style="background-color: rgb(250,250,250)">
-            {{this.$store.state.selectedProject.name}}
-          </v-card-title>
-          <v-card-subtitle>
-            {{this.$store.state.selectedProject.description}}
-          </v-card-subtitle>
-          <UpdateProject
-              v-if="this.$store.getters.isRoleProjectManagerOrHigher"
-              :project="this.$store.state.selectedProject"
-          ></UpdateProject>
-        </v-card>
+        <span style="display: none">{{this.$store.state.selectedProject}}</span>
         <div class="d-flex flex-row justify-content-between px-6 mt-5">
           <div class="d-flex justify-content-center align-center">
             <h5><strong>Backlogs</strong></h5>
@@ -82,46 +71,45 @@
       </v-col>
       <!-- Sprints -->
 
-      <v-col
-          class="col-3 sprint-list"
-      >
-        <div class="d-flex flex-row justify-content-between px-6">
-          <div class="d-flex flex-column justify-content-center align-center">
-            <h5><strong>Sprints</strong></h5>
-          </div>
-          <CreateSprint v-if="this.$store.getters.isRoleProjectManagerOrHigher">
-          </CreateSprint>
-        </div>
-        <v-tabs
-            v-model="tab"
-            background-color="transparent"
-            grow
-        >
-          <v-tab
-              v-for="item in items"
-              :key="item"
-          >
-            {{ item }}
-          </v-tab>
-        </v-tabs>
-        <v-tabs-items v-model="tab">
-          <v-tab-item
-              v-for="item in items"
-              :key="item"
-          >
-            <div
-                style="background-color: Rgb(250,250,250)"
-                v-for="(item,index) in activeSprints"
-                v-bind:key="index"
-            >
-              <SprintCard :sprint="item"
-                          @handleClick="onSprintChanged"
-                          style="margin: 30px;">
-              </SprintCard>
+      <v-col class="col-3 d-flex flex-column justify-content-between" style="height: 93vh;">
+        <div>
+          <div class="d-flex flex-row justify-content-between px-6">
+            <div class="d-flex flex-column justify-content-center align-center">
+              <h5><strong>Sprints</strong></h5>
             </div>
-          </v-tab-item>
-        </v-tabs-items>
-
+            <CreateSprint v-if="this.$store.getters.isRoleProjectManagerOrHigher">
+            </CreateSprint>
+          </div>
+          <v-tabs
+              v-model="tab"
+              background-color="transparent"
+              grow
+          >
+            <v-tab
+                v-for="item in items"
+                :key="item"
+            >
+              {{ item }}
+            </v-tab>
+          </v-tabs>
+          <v-tabs-items v-model="tab">
+            <v-tab-item
+                v-for="item in items"
+                :key="item"
+            >
+              <div
+                  style="background-color: Rgb(250,250,250)"
+                  v-for="(item,index) in activeSprints"
+                  v-bind:key="index"
+              >
+                <SprintCard :sprint="item"
+                            @handleClick="onSprintChanged"
+                            style="margin: 30px;">
+                </SprintCard>
+              </div>
+            </v-tab-item>
+          </v-tabs-items>
+        </div>
       </v-col>
 
     </v-row>
@@ -135,11 +123,9 @@ import axios from "axios";
 import jwtService from "@/helpers/JwtService";
 import SprintCard from "@/components/SprintCard";
 import TaskCard from "@/components/TaskCard";
-import UpdateProject from "@/components/modal/UpdateProject";
-
 export default {
   name: "ProjectManagement",
-  components: {UpdateProject, TaskCard, SprintCard, CreateBacklog,CreateSprint},
+  components: {TaskCard, SprintCard, CreateBacklog,CreateSprint},
   data () {
     return {
       //memberUsernames: [],
