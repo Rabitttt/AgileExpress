@@ -23,7 +23,7 @@
         <v-card-text>
           <form>
             <div class="form-element">
-              <label class="required fs-5 fw-bold mb-2">Project Name</label>
+              <label class="required fs-5 fw-bold mb-2">Task Name</label>
               <TextField @handleFormChange="onFormChanged" componentFormTitle="taskName"></TextField>
             </div>
             <div class="form-element">

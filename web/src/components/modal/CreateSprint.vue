@@ -22,7 +22,7 @@
         <v-card-text>
           <form>
             <div class="form-element">
-              <label class="required fs-5 fw-bold mb-2">Project Name</label>
+              <label class="required fs-5 fw-bold mb-2">Sprint Name</label>
               <TextField @handleFormChange="onFormChanged" componentFormTitle="name"></TextField>
             </div>
             <div class="form-element">

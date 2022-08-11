@@ -17,7 +17,7 @@
       </template>
       <v-card>
         <v-card-title>
-          <span class="text-h5">Create New Task</span>
+          <span class="text-h5">Make Active Sprint</span>
         </v-card-title>
         <v-card-text>
           <form>

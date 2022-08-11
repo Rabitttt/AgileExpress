@@ -6,7 +6,7 @@
     <v-card-title class="py-2 d-flex flex-row justify-content-between task-card-title">
       {{task.taskName}}
       <div style="font-size: small">
-        <router-link style="text-decoration: none" :to="`/user/profile/${task.assignee.id}`"> {{task.assignee.username}}</router-link>
+        <router-link style="text-decoration: none" :to="`/user/profile/${taskAssigneeId}`"> {{taskAssigneeName}}</router-link>
       </div>
     </v-card-title>
     <v-card-subtitle class="d-flex flex-row justify-content-between">
@@ -50,17 +50,31 @@ export default {
     usersOwnTask() {
       // eslint-disable-next-line no-debugger
       debugger;
-      if( this.$store.state.userId === this.task.assignee.id){
-        if(this.task.status === "backlog") {
-          return "border: 1px solid #001a00"
-        }
-        for (let index in this.$store.state.selectedProject.taskStatus) {
-          if(this.$store.state.selectedProject.taskStatus[index].status === this.task.status) {
-            return "border: 1px solid " + this.$store.state.selectedProject.taskStatus[index].color.split(' ')[0];
+      if(this.task.assignee !== null) {
+        if( this.$store.state.userId === this.task.assignee.id){
+          if(this.task.status === "backlog") {
+            return "border: 1px solid #001a00"
+          }
+          for (let index in this.$store.state.selectedProject.taskStatus) {
+            if(this.$store.state.selectedProject.taskStatus[index].status === this.task.status) {
+              return "border: 1px solid " + this.$store.state.selectedProject.taskStatus[index].color.split(' ')[0];
+            }
           }
         }
       }
-      else "";
+        else  { return  "";}
+      },
+    taskAssigneeName() {
+      if(this.task.assignee !== null){
+        return this.task.assignee.username
+      }
+      else return "";
+    },
+    taskAssigneeId() {
+      if(this.task.assignee !== null){
+        return this.task.assignee.id
+      }
+      else return "";
     }
   }
 }
