@@ -18,7 +18,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')" + "|| hasRole('TeamLeader')" + "|| hasRole('TeamMember')")
+    @PreAuthorize("hasRole('Admin')" + "|| hasRole('ProjectManager')")
     @GetMapping("/getAll")
     public List<User> getAllUsers() {
         List<User> users=  userService.getAllUsers();

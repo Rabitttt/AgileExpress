@@ -65,7 +65,8 @@ public class AgileExpressApplication {
 
 
 
-	/*
+
+/*
 	@Bean
 	CommandLineRunner runner(UserService userService) {
 		return args -> {
@@ -77,11 +78,8 @@ public class AgileExpressApplication {
 			userService.saveUser(new User(null,"lionel","lionel@gmail.com","benspassword",(List.of(UserRoles.TeamLeader.name()))));
 			userService.saveUser(new User(null,"arnold","arnold@gmail.com","benspassword",(List.of(UserRoles.ProjectManager.name()))));
 			userService.saveUser(new User(null,"vito","vito@gmail.com","benspassword",(List.of(UserRoles.ProjectManager.name()))));
-
+			userService.saveUser(new User(null,"Burak","burakkaragol60@gmail.com","benspassword",(List.of(UserRoles.Admin.name()))));
 		};
 	}
-
-	 */
-
-
+ */
 }

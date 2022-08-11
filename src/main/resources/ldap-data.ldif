@@ -121,7 +121,7 @@ cn: gatsby
 sn: Great
 uid: gatsby
 userPassword: $2a$10$c6bSeWPhg06xB1lvmaWNNe4NROmZiSpYhlocU/98HNr2MhIOiSt36
-mail: great@gmail.com
+mail: gatsby@gmail.com
 
 dn: uid=vito,ou=people,dc=springframework,dc=org
 objectclass: top
