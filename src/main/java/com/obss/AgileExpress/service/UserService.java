@@ -27,6 +27,24 @@ public class UserService {
     private final AuthHelper authHelper;
 
 
+    public void processOAuthPostLogin(String username) {
+        User existUser = userRepository.findByUsername(username);
+
+        /*
+        if (existUser == null) {
+            User newUser = new User();
+            newUser.setUsername(username);
+            newUser.setProvider(Provider.GOOGLE);
+            newUser.setEnabled(true);
+
+            repo.save(newUser);
+        }
+         */
+
+    }
+
+
+
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }

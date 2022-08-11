@@ -25,6 +25,9 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        if(request.getRequestURI().equals("/")) {
+            System.out.println("this is google auth .......");
+        }
         if(request.getServletPath().equals("/login")) {
             filterChain.doFilter(request,response);
         } else {

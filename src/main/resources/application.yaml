@@ -4,9 +4,9 @@ spring:
       client:
         registration:
           google:
-            client-id: 948966529463-t79u00fn881hpvl8vqmfqmbl1mmfv7u6.apps.googleusercontent.com
-            client-secret: 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
-            client-name: AgileExpress
+            client-id: 948966529463-4jbvu49cnqvrqs1h5uoqksluagmki5s3.apps.googleusercontent.com
+            client-secret: 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
+            client-name: Web Client 1
             redirect-uri: http://localhost:9000/login/oauth2/code/google
 
   data:

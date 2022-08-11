@@ -1,6 +1,8 @@
 package com.obss.AgileExpress.controller;
 
 import com.obss.AgileExpress.documents.LdapUser;
+import com.obss.AgileExpress.documents.User;
+import com.obss.AgileExpress.helper.AuthHelper;
 import com.obss.AgileExpress.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,10 +20,10 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AuthController {
 
+    private final AuthHelper authHelper;
     @GetMapping("hiGoogle")
-    public Map<String,Object> currentUser(OAuth2AuthenticationToken oAuth2AuthenticationToken) {
-        Map<String,Object>  attr= oAuth2AuthenticationToken.getPrincipal().getAttributes();
-        return attr;
+    public User currentUser() {
+        return authHelper.getUserPrincipal();
     }
 
 

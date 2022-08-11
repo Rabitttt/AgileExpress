@@ -144,3 +144,14 @@ sn: Manga
 uid: manga
 userPassword: $2a$10$c6bSeWPhg06xB1lvmaWNNe4NROmZiSpYhlocU/98HNr2MhIOiSt36
 mail: manga@gmail.com
+
+dn: uid=Burak,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Burak
+sn: Manga
+uid: Burak
+userPassword: $2a$10$c6bSeWPhg06xB1lvmaWNNe4NROmZiSpYhlocU/98HNr2MhIOiSt36
+mail: burakkaragol60@gmail.com

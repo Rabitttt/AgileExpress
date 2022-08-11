@@ -43,11 +43,13 @@ export default new Vuex.Store({
         window.localStorage.setItem("user_id", userId);
     },
     setAuthUserStatus (state,status) {
-
+        // eslint-disable-next-line no-debugger
+        debugger;
       state.isAuthenticated = status;
     },
     setPayload (state,payload) {
-
+// eslint-disable-next-line no-debugger
+        debugger;
       state.username = payload.sub;
       state.userRole = payload.roles[0];
     },
