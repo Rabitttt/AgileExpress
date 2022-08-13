@@ -153,7 +153,7 @@ export default {
     async fakeGoogleLogin() {
       // eslint-disable-next-line no-debugger
       debugger;
-      let fakeToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJCdXJhayIsInJvbGVzIjpbIlJPTEVfQWRtaW4iXSwiaXNzIjoiL2xvZ2luL29hdXRoMi9jb2RlL2dvb2dsZSIsImV4cCI6MTY2MDI0NDkzOH0.7DtcrrXgIJFYAvAX27FJy80wiKiQbyL8_Sxl3nGUw3Y"
+      let fakeToken = ""
       jwtService.destroyToken();
       this.token = fakeToken;
       jwtService.saveToken(this.token);
