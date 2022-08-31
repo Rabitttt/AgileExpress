@@ -76,8 +76,8 @@ npm run serve
 > Remember this is only an educational purpose application.
 The application doesn't have Sign up functionality because of the role management system. There are only 8 users available to test the project.
 
-Roles: UserRoles in the below image are valid.
-Username: The user names below are usable.
-Password (default): benspassword 
+>> * Roles: UserRoles in the below image are valid.
+>> * Username: The user names below are usable.
+>> * Password (default): benspassword 
 
 ![image](https://user-images.githubusercontent.com/42180909/187694444-1b4530cd-913a-4f94-badc-945abd9ab938.png)
