@@ -32,7 +32,7 @@
 #### Download
 > Clone This Project (Make Sure You Have Git Installed)
 ```
-git clone https://github.com/Rabitttt/MovieCollection.git
+git clone https://github.com/Rabitttt/AgileExpress.git
 ```
 
 #### Dependencies
